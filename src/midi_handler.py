@@ -45,11 +45,11 @@ def midi_to_song(path):
     if mid.type != 2:
         print("Duración:", mid.length / 60, "minutos")
     print("Hay", len(mid.tracks), "tracks")
-    for i in range(len(mid.tracks)):
-        print("Track", i, ":", len(mid.tracks[i]), "Messages")
     return mid
 
 s = midi_to_song(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
+
+#C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid
 
 # Recibe un MidiTrack y devuelve un Track (python)
 class MIDIHandler:
