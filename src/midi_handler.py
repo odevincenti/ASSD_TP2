@@ -53,26 +53,62 @@ s = midi_to_song(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoA
 
 # Recibe un MidiTrack y devuelve un Track (python)
 class MIDIHandler:
-    def __init__(self, track):
+    def __init__(self, track, ticks_per_beat):
         self.midi_track = track
+        self.ticks_per_beat = ticks_per_beat
         self.notes = []
         self.aux_notes = []
 
         for message in track:
-            self.midi_message_switch.get(message.type)(message)
+            self.midi_message_switch.get(message.type, self.other)(message)
+        return
+
+    def find_note(self, note):
+        r = None
+        for idn, n in enumerate(self.notes):
+            if n.note != note.note:
+                pass
+            elif n.velocity != note.velocity:
+                pass
+            else:
+                r = idn
+                break
+        return r
 
     # note_off(channel, note, velocity)
-    def note_off(self, mido_message):
+    def note_off(self, msg):
         print("Note OFF")
+        r = True
+        idn = self.find_note(msg)
+        if idn is not None:
+            self.aux_notes[idn].end_time = msg.time
+            self.aux_notes[idn].duration = self.aux_notes[idn].end_time - self.aux_notes[idn].start_time
+            self.notes.append(self.aux_notes[idn])
+            del self.aux_notes[idn]
+        else:
+            r = False
+        return r
 
     # note_on(channel, note, velocity)
     def note_on(self, msg):
         print("Note ON")
         self.aux_notes.append(Note(msg.note, msg.time, 0, 0, msg.velocity))
+        return True
 
+    def set_tempo(self, msg):
+        print("Set Tempo")
 
-    # polytouch(channel, note, value)
-    def polytouch(self, mido_message):
+    def time_signature(self, msg):
+        print("Time Signature")
+
+    def end_of_track(self, msg):
+        print("End of track")
+
+    def other(self, msg):
+        return
+
+    '''# polytouch(channel, note, value)
+    def polytouch(self, msg):
         print("Polyphonic Aftertouch")
 
     # control_change(controller, control, value)
@@ -89,15 +125,13 @@ class MIDIHandler:
 
     # pitchwheel(channel, pitch)
     def pitchwheel(self, mido_message):
-        print("Pitch Wheel")
+        print("Pitch Wheel")'''
 
     # todo: Completar lista: https://mido.readthedocs.io/en/latest/message_types.html
     midi_message_switch = {
         0: note_off,
         1: note_on,
-        2: polytouch,
-        3: control_change,
-        4: program_change,
-        5: aftertouch,
-        6: pitchwheel
+        2: set_tempo,
+        3: time_signature,
+        4: end_of_track,
     }
