@@ -10,3 +10,4 @@ class Note:
 
     def set_note_signal(self, note_signal):
         self.note_signal = note_signal
+
