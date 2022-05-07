@@ -51,6 +51,9 @@ def midi_to_song(path):
 
 s = midi_to_song(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
 
+def get_time(dic):
+    return dic['time']
+
 # Recibe un MidiTrack y devuelve un Track (python)
 class MIDIHandler:
     def __init__(self, track, ticks_per_beat):
@@ -58,9 +61,21 @@ class MIDIHandler:
         self.ticks_per_beat = ticks_per_beat
         self.notes = []
         self.aux_notes = []
+        self.tempo = []
 
         for message in track:
             self.midi_message_switch.get(message.type, self.other)(message)
+
+        self.tempo.sort(key=get_time)
+        time_idx = 0
+        for note in self.notes:
+            if note.start_time < self.tempo[time_idx]['time']:
+                note.start_time = note.start_time * self.tempo[time_idx - 1]['tempo'] / self.ticks_per_beat
+                note.end_time = note.start_time * self.tempo[time_idx - 1]['tempo'] / self.ticks_per_beat
+                note.duration = note.end_time - note.start_time
+            else:
+                time_idx = time_idx + 1
+
         return
 
     def find_note(self, note):
@@ -97,6 +112,8 @@ class MIDIHandler:
 
     def set_tempo(self, msg):
         print("Set Tempo")
+        self.tempo.append({'tempo': msg.tempo, 'time': msg.time})
+        return
 
     def time_signature(self, msg):
         print("Time Signature")
@@ -135,3 +152,4 @@ class MIDIHandler:
         3: time_signature,
         4: end_of_track,
     }
+
