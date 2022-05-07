@@ -1,4 +1,6 @@
 from mido import MidiFile
+from NoteClass import Note
+
 # from SongClass import Song
 
 ########################################################################################################################
@@ -33,16 +35,69 @@ from mido import MidiFile
 midi_to_song: Función que extrae la información de un archivo MIDI y la carga en un objeto Song
 YA SE QUE TODAVÍA NO LO HACE, ESTOY PROBANDO LA CLASE
 '''
+
+
 def midi_to_song(path):
     midi_types = ["Single Track", "Synchronous", "Asynchronous"]
     mid = MidiFile(path, clip=True)
     print("Archivo:", path.split('\\')[-1])
     print("Tipo:", midi_types[mid.type])
     if mid.type != 2:
-        print("Duración:", mid.length/60, "minutos")
+        print("Duración:", mid.length / 60, "minutos")
     print("Hay", len(mid.tracks), "tracks")
     for i in range(len(mid.tracks)):
         print("Track", i, ":", len(mid.tracks[i]), "Messages")
     return mid
 
 s = midi_to_song(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
+
+# Recibe un MidiTrack y devuelve un Track (python)
+class MIDIHandler:
+    def __init__(self, track):
+        self.midi_track = track
+        self.notes = []
+        self.aux_notes = []
+
+        for message in track:
+            self.midi_message_switch.get(message.type)(message)
+
+    # note_off(channel, note, velocity)
+    def note_off(self, mido_message):
+        print("Note OFF")
+
+    # note_on(channel, note, velocity)
+    def note_on(self, msg):
+        print("Note ON")
+        self.aux_notes.append(Note(msg.note, msg.time, 0, 0, msg.velocity))
+
+
+    # polytouch(channel, note, value)
+    def polytouch(self, mido_message):
+        print("Polyphonic Aftertouch")
+
+    # control_change(controller, control, value)
+    def control_change(self, mido_message):
+        print("Control Change")
+
+    # program_change(channel, program)
+    def program_change(self, mido_message):
+        print("Program Change")
+
+    # aftertouch(channel, value)
+    def aftertouch(self, mido_message):
+        print("Channel Aftertouch")
+
+    # pitchwheel(channel, pitch)
+    def pitchwheel(self, mido_message):
+        print("Pitch Wheel")
+
+    # todo: Completar lista: https://mido.readthedocs.io/en/latest/message_types.html
+    midi_message_switch = {
+        0: note_off,
+        1: note_on,
+        2: polytouch,
+        3: control_change,
+        4: program_change,
+        5: aftertouch,
+        6: pitchwheel
+    }
