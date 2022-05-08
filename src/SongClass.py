@@ -1,5 +1,6 @@
 from mido import MidiFile
 from midi_handler import midi_message_switch
+import numpy as np
 
 class Song:
     def __init__(self):
@@ -19,5 +20,8 @@ class Song:
             name = track.name
             for message in track:
                 note = midi_message_switch.get(message.type)()
+
+    def set_base_tiempo(self):
+        self.time_base = np.linspace(0, self.duration, self.fs*self.duration)
 
 
