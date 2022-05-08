@@ -3,7 +3,9 @@ import numpy as np
 from SongClass import Song
 from midi_handler import midi_to_song
 import pyaudio
-import sounddevice as sd
+import sounddevice as sa
+
+from scipy.io import wavfile
 
 
 
@@ -16,13 +18,6 @@ class backend():
     def __init__(self):
         self.song= Song()
         #self.additive = Additive()
-
-    # una vez que desde el front se modifico la clase Song , llamando a track.update si es el mismo path anterior
-    # para sintetizar la cancion
-    def update(self, path):
-        if(self.song.midi != path)
-            self.song = midi_to_song(path)
-        self.syntethize_song()
 
     def synthesize_song(self):
         self.song.output_signal=[]
@@ -48,17 +43,54 @@ class backend():
 
 
     def synthesize_note(self, note, instrument):
-        ## llama a additive o el sintetizador a usar
+        # llama a additive o el sintetizador a usar
     # Suma las señales de track tomando en cuenta el tiempo que dura cada uno y formando la cancion entera
-    def output_signal_song(self)
+    def output_signal_song(self):
+        print("xddd")
 
-    def start_playing_signal(self, signal):
 
+    def play_signal(self, signal):
         signal *= 32767 / np.max(np.abs(signal))
+        signal = signal.astype(np.int16)
+        self.play = sa.play_buffer(signal, 1, 2, self.song.fs)
+    ### Interfaz con el back
 
-        tape = tape.astype(np.int16)
+    # una vez que desde el front se modifico la clase Song , llamando a track.update si es el mismo path anterior
+    # para sintetizar la cancion
+    def update_path(self, path):
+        if(self.song.midi != path)
+            self.song = midi_to_song(path)
 
-        play = sa.play_buffer(tape, 1, 2, smpl_rate)
+    def process_song(self):
+        if (self.song != None)
+            self.syntethize_song()
+    def update_track(self, number_track, instrument, activate, velocity):
+        if (number_track < len(self.song.tracks))
+            self.song.tracks[number_track].instrument = instrument
+            self.song.tracks[number_track].activate = activate
+            self.song.tracks[number_track].velocity = velocity
+            return True
+        else:
+            return False
+
+
+    def play_song(self):
+        if (self.song.output_signal != None)
+            self.play_signal(self.song.output_signal)
+
+    def play_track(self, n_track):
+        if ( self.song != None)
+            if(n_track < len(self.song.tracks))
+                self.synthesize_track(self.song.tracks[n_track])
+                self.play_signal(self.song.tracks[n_track].signal_out)
+            else
+                return -1
+        return -1
+
+
+    def pause_reproduction(self):
+        if ( (self.play.isplaying()) and (self.play!= None))
+            self.play.stop
 
 
     def assign_intrument_to_track(self, track_number, instrument, volume, activate):
@@ -66,3 +98,8 @@ class backend():
             self.song.tracks[track_number].instrument = instrument
             self.song.tracks[track_number].velocity = volume
             self.song.tracks[track_number].activate = activate
+
+    def save_wav_file(self, filename):
+        signal = self.song.output_signal(32767 / np.max(np.abs(signal)))
+        signal = signal.astype(np.int16)
+        wavfile.write(filename, self.song.fs,signal)
