@@ -1,5 +1,6 @@
 from mido import MidiFile
 from NoteClass import Note
+from TrackClass import Track
 
 # from SongClass import Song
 
@@ -31,56 +32,43 @@ from NoteClass import Note
 #               - Pitch Wheel
 ########################################################################################################################
 
-'''
-midi_to_song: Función que extrae la información de un archivo MIDI y la carga en un objeto Song
-YA SE QUE TODAVÍA NO LO HACE, ESTOY PROBANDO LA CLASE
-'''
-
-
-def midi_to_song(path):
-    midi_types = ["Single Track", "Synchronous", "Asynchronous"]
-    mid = MidiFile(path, clip=True)
-    print("Archivo:", path.split('\\')[-1])
-    print("Tipo:", midi_types[mid.type])
-    if mid.type != 2:
-        print("Duración:", mid.length / 60, "minutos")
-    print("Hay", len(mid.tracks), "tracks")
-    for i in range(len(mid.tracks)):
-        print("Track", i, ":", len(mid.tracks[i]), "Messages")
-    return mid
-
-s = midi_to_song(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
-
 def get_time(dic):
     return dic['time']
 
+def get_start_time(note):
+    return note.start_time
+
 # Recibe un MidiTrack y devuelve un Track (python)
 class MIDIHandler:
-    def __init__(self, track, ticks_per_beat):
-        self.midi_track = track
-        self.ticks_per_beat = ticks_per_beat
-        self.notes = []
-        self.aux_notes = []
+    def __init__(self, midi):
+        self.midi = midi
+        self.duration = self.midi.length
+        self.ticks_per_beat = midi.ticks_per_beat
+        self.tracks = []
         self.tempo = []
 
-        for message in track:
-            self.midi_message_switch.get(message.type, self.other)(message)
+        self.notes = []
+        self.aux_notes = []
 
-        self.tempo.sort(key=get_time)
-        time_idx = 0
-        for note in self.notes:
-            if note.start_time < self.tempo[time_idx]['time']:
-                note.start_time = note.start_time * self.tempo[time_idx - 1]['tempo'] / self.ticks_per_beat
-                note.end_time = note.start_time * self.tempo[time_idx - 1]['tempo'] / self.ticks_per_beat
-                note.duration = note.end_time - note.start_time
-            else:
-                time_idx = time_idx + 1
+        for track in midi.tracks:
+            self.time = 0
+            self.meta_time = 0
+            if self.tempo:
+                self.tempo_idx = 0
+                self.tempo.append({'tempo': 0, 'time': self.duration * 1E6})
+            for message in track:
+                self.midi_message_switch.get(message.type, self.other)(self, message)
+                if not message.is_meta:
+                    self.time = self.time + message.time
+                else:
+                    self.meta_time = self.meta_time + message.time
+            if self.notes: self.tracks.append(Track(self.notes))
 
         return
 
     def find_note(self, note):
         r = None
-        for idn, n in enumerate(self.notes):
+        for idn, n in enumerate(self.aux_notes):
             if n.note != note.note:
                 pass
             elif n.velocity != note.velocity:
@@ -96,32 +84,42 @@ class MIDIHandler:
         r = True
         idn = self.find_note(msg)
         if idn is not None:
-            self.aux_notes[idn].end_time = msg.time
-            self.aux_notes[idn].duration = self.aux_notes[idn].end_time - self.aux_notes[idn].start_time
-            self.notes.append(self.aux_notes[idn])
-            del self.aux_notes[idn]
+            while self.notes[idn].end_time == 0:
+                if self.tempo[self.tempo_idx]['time'] <= self.notes[idn].start_time < self.tempo[self.tempo_idx + 1]['time']:
+                    self.notes[idn].start_time = self.notes[idn].start_time * self.tempo[self.tempo_idx]['tempo'] / self.ticks_per_beat
+                    self.notes[idn].end_time = (self.time + msg.time) * self.tempo[self.tempo_idx]['tempo'] / self.ticks_per_beat
+                elif self.tempo[self.tempo_idx + 1]['time'] <= self.notes[idn].start_time:
+                    self.tempo_idx = self.tempo_idx + 1
+                else:
+                    self.tempo_idx = self.tempo_idx - 1
+            self.notes[idn].duration = self.notes[idn].end_time - self.notes[idn].start_time
+            self.aux_notes[idn].note = -1
         else:
             r = False
+
         return r
 
     # note_on(channel, note, velocity)
     def note_on(self, msg):
         print("Note ON")
-        self.aux_notes.append(Note(msg.note, msg.time, 0, 0, msg.velocity))
+        self.notes.append(Note(msg.note, self.time + msg.time, 0, 0, msg.velocity))
+        self.aux_notes.append(Note(msg.note, self.time + msg.time, 0, 0, msg.velocity))
         return True
 
     def set_tempo(self, msg):
         print("Set Tempo")
-        self.tempo.append({'tempo': msg.tempo, 'time': msg.time})
+        self.tempo.append({'tempo': msg.tempo, 'time': self.meta_time + msg.time})
         return
 
     def time_signature(self, msg):
-        print("Time Signature")
+        #print("Time Signature")
+        return
 
     def end_of_track(self, msg):
         print("End of track")
+        return
 
-    def other(self, msg):
+    def other(self, msg, msg2):
         return
 
     '''# polytouch(channel, note, value)
@@ -146,10 +144,32 @@ class MIDIHandler:
 
     # todo: Completar lista: https://mido.readthedocs.io/en/latest/message_types.html
     midi_message_switch = {
-        0: note_off,
-        1: note_on,
-        2: set_tempo,
-        3: time_signature,
-        4: end_of_track,
+        'note_off': note_off,
+        'note_on': note_on,
+        'set_tempo': set_tempo,
+        'time_signature': time_signature,
+        'end_of_track': end_of_track,
     }
+
+
+'''
+midi_to_song: Función que extrae la información de un archivo MIDI y la carga en un objeto Song
+YA SE QUE TODAVÍA NO LO HACE, ESTOY PROBANDO LA CLASE
+'''
+
+def print_midi(path):
+    midi_types = ["Single Track", "Synchronous", "Asynchronous"]
+    mid = MidiFile(path, clip=True)
+    print("Archivo:", path.split('\\')[-1])
+    print("Tipo:", midi_types[mid.type])
+    if mid.type != 2:
+        print("Duración:", mid.length / 60, "minutos")
+    print("Hay", len(mid.tracks), "tracks")
+    for i in range(len(mid.tracks)):
+        print("Track", i, ":", len(mid.tracks[i]), "Messages")
+    return mid
+
+# s = print_midi(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
+
+
 
