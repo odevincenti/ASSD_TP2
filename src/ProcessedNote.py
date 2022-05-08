@@ -7,7 +7,6 @@ class Partial(Note):
         super().__init__(freq, start_time, duration, end_time, velocity)
         #self.ADSR = ADSR   #Vector con componentes [attack_time , decay_time , sustain_time , release_time ]
 
-
 class ProcessedNote:
     def __init__(self):
         self.frecuencia = None
