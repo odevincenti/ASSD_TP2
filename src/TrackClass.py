@@ -3,7 +3,7 @@ class Track:
         self.notes = notes
         self.velocity = velocity
         self.activate = True
-        self.instrument = instrument      # 0 = guitarra , 1 = violín, 2 = piano, 3 = lo que quieran agregar
+        self.instrument = instrument      # CHAR 'F' = flauta (additive)  || 'P' = piano
         self.signal_out = []
         self.change = False      # Si esta en True es pq en el update se modificaron las notas/velocidad/instrument
 
