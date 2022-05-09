@@ -22,32 +22,32 @@ class backend():
     def synthesize_song(self):
         self.song.output_signal=[]
         for i in range(len(self.song.tracks)):
-            if(self.song.tracks[i].activate)
-                self.song.tracks[i].signal_out = self.synthesize_track(self.song.tracks[i])
+            if self.song.tracks[i].activate :
+                self.synthesize_track(self.song.tracks[i])
             else:
                 self.song.tracks[i].signal_out = []
             self.song.output_signal += self.song.tracks[i].signal_out
 
     def synthesize_track(self, track ):
-        if(track.change == 1)
+        if track.change == 1:
             self.track.signal_out=[]
             for i in range(len(self.track.notes)):
-                self.track.notes[i].note_signal=self.synthesize_note(self.track.notes[i], self.track.instrument)
-                if ( self.track.notes[i].start_time != 0)
+                self.synthesize_note(self.track.notes[i], self.track.instrument)
+                if  self.track.notes[i].start_time != 0:
                     diference = self.track.notes[i].start_time*self.track.notes[i].fs
                     self.track.notes[i].note_signal = np.concatenate(np.zeros(diference),self.track.notes[i].note_signal)
-                if ( self.track.notes[i].end_time != self.song.duration)
+                if  self.track.notes[i].end_time != self.song.duration:
                     diferencef = (self.song.duration-self.track.notes[i].end_time)*self.song.fs
                     self.track.notes[i].note_signal = np.concatenate(self.track.notes[i].note_signal, np.zeros(diferencef))
                 self.track.signal_out += self.track.notes[i].note_signal
 
-
     def synthesize_note(self, note, instrument):
+        print("xd")
         # llama a additive o el sintetizador a usar
     # Suma las señales de track tomando en cuenta el tiempo que dura cada uno y formando la cancion entera
+
     def output_signal_song(self):
         print("xddd")
-
 
     def play_signal(self, signal):
         signal *= 32767 / np.max(np.abs(signal))
@@ -57,15 +57,17 @@ class backend():
 
     # una vez que desde el front se modifico la clase Song , llamando a track.update si es el mismo path anterior
     # para sintetizar la cancion
+
     def update_path(self, path):
-        if(self.song.midi != path)
+        if self.song.midi != path:
             self.song = midi_to_song(path)
 
     def process_song(self):
-        if (self.song != None)
+        if self.song is not None:
             self.syntethize_song()
+
     def update_track(self, number_track, instrument, activate, velocity):
-        if (number_track < len(self.song.tracks))
+        if number_track < len(self.song.tracks):
             self.song.tracks[number_track].instrument = instrument
             self.song.tracks[number_track].activate = activate
             self.song.tracks[number_track].velocity = velocity
@@ -73,28 +75,27 @@ class backend():
         else:
             return False
 
-
     def play_song(self):
-        if (self.song.output_signal != None)
+        if self.song.output_signal is not None:
             self.play_signal(self.song.output_signal)
 
     def play_track(self, n_track):
-        if ( self.song != None)
-            if(n_track < len(self.song.tracks))
+        if self.song is not None:
+            if n_track < len(self.song.tracks):
                 self.synthesize_track(self.song.tracks[n_track])
                 self.play_signal(self.song.tracks[n_track].signal_out)
-            else
+            else:
                 return -1
         return -1
 
-
     def pause_reproduction(self):
-        if ( (self.play.isplaying()) and (self.play!= None))
+        if (self.play.isplaying()) and (self.play is not None):
             self.play.stop
-
+        else:
+            return -1
 
     def assign_intrument_to_track(self, track_number, instrument, volume, activate):
-        if(track_number < len(self.song.tracks)):
+        if track_number < len(self.song.tracks):
             self.song.tracks[track_number].instrument = instrument
             self.song.tracks[track_number].velocity = volume
             self.song.tracks[track_number].activate = activate
