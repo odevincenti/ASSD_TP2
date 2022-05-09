@@ -1,5 +1,9 @@
 import numpy as np
-from PyQt5.QtWidgets import QWidget
+import sys
+from src.backend import backend
+from PyQt5.QtGui import QPixmap
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import *
 from Frontend.scr.ui.menu import Ui_Form
 
 class MenuWindow (QWidget, Ui_Form):
@@ -7,6 +11,11 @@ class MenuWindow (QWidget, Ui_Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
+
+        self.back = backend()
+
+        notes = QPixmap("notes50x50.png")
+        self.label_3.setPixmap(notes)
 
         self.label_track0.hide()
         self.pushButton_instrument_track0.hide()
@@ -28,6 +37,9 @@ class MenuWindow (QWidget, Ui_Form):
 
     def get_mid_file(self):
         print("upload")
+        filename = QFileDialog.getOpenFileNames()
+        self.path = filename[0][0]
+        print(self.path)
 
     def save_file(self):
         print("save")
