@@ -1,7 +1,7 @@
 from mido import MidiFile
 import numpy as np
-from midi_handler import MIDIHandler
-from TrackClass import Track
+from src.midi_handler import MIDIHandler
+#from TrackClass import Track
 
 class Song:
     def __init__(self, fs=float(100E3)):

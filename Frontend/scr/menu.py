@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-from src.backend import backend
+from src.backend import *
 from PyQt5.QtGui import QPixmap
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
