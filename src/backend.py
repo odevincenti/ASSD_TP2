@@ -22,21 +22,21 @@ class backend():
     def synthesize_song(self):
         self.song.output_signal=[]
         for i in range(len(self.song.tracks)):
-            if(self.song.tracks[i].activate)
+            if(self.song.tracks[i].activate):
                 self.song.tracks[i].signal_out = self.synthesize_track(self.song.tracks[i])
             else:
                 self.song.tracks[i].signal_out = []
             self.song.output_signal += self.song.tracks[i].signal_out
 
     def synthesize_track(self, track ):
-        if(track.change == 1)
+        if(track.change == 1):
             self.track.signal_out=[]
             for i in range(len(self.track.notes)):
                 self.track.notes[i].note_signal=self.synthesize_note(self.track.notes[i], self.track.instrument)
-                if ( self.track.notes[i].start_time != 0)
+                if ( self.track.notes[i].start_time != 0):
                     diference = self.track.notes[i].start_time*self.track.notes[i].fs
                     self.track.notes[i].note_signal = np.concatenate(np.zeros(diference),self.track.notes[i].note_signal)
-                if ( self.track.notes[i].end_time != self.song.duration)
+                if ( self.track.notes[i].end_time != self.song.duration):
                     diferencef = (self.song.duration-self.track.notes[i].end_time)*self.song.fs
                     self.track.notes[i].note_signal = np.concatenate(self.track.notes[i].note_signal, np.zeros(diferencef))
                 self.track.signal_out += self.track.notes[i].note_signal
@@ -58,14 +58,14 @@ class backend():
     # una vez que desde el front se modifico la clase Song , llamando a track.update si es el mismo path anterior
     # para sintetizar la cancion
     def update_path(self, path):
-        if(self.song.midi != path)
+        if(self.song.midi != path):
             self.song = midi_to_song(path)
 
     def process_song(self):
-        if (self.song != None)
+        if (self.song != None):
             self.syntethize_song()
     def update_track(self, number_track, instrument, activate, velocity):
-        if (number_track < len(self.song.tracks))
+        if (number_track < len(self.song.tracks)):
             self.song.tracks[number_track].instrument = instrument
             self.song.tracks[number_track].activate = activate
             self.song.tracks[number_track].velocity = velocity
@@ -75,12 +75,12 @@ class backend():
 
 
     def play_song(self):
-        if (self.song.output_signal != None)
+        if (self.song.output_signal != None):
             self.play_signal(self.song.output_signal)
 
     def play_track(self, n_track):
-        if ( self.song != None)
-            if(n_track < len(self.song.tracks))
+        if ( self.song != None):
+            if(n_track < len(self.song.tracks)):
                 self.synthesize_track(self.song.tracks[n_track])
                 self.play_signal(self.song.tracks[n_track].signal_out)
             else
@@ -89,7 +89,7 @@ class backend():
 
 
     def pause_reproduction(self):
-        if ( (self.play.isplaying()) and (self.play!= None))
+        if ( (self.play.isplaying()) and (self.play!= None)):
             self.play.stop
 
 
