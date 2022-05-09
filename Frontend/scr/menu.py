@@ -47,11 +47,11 @@ class MenuWindow (QWidget, Ui_Form):
         print("cantidad de tracks:")
         print(self.ammount_of_tracks)
 
-        for i in range(1, self.ammount_of_tracks + 1):
-            self.aux_track = TrackWidget()
-            self.aux_track.label_track.setText("Track " + str(i))
-            self.track_array.append(self.aux_track)
-            self.Track_Widget.layout().addWidget(self.aux_track)
+        #for i in range(1, self.ammount_of_tracks + 1):
+        self.aux_track = TrackWidget()
+        self.aux_track.label_track.setText("Track " + str(1))
+        self.track_array.append(self.aux_track)
+        self.Track_Widget.layout().addWidget(self.aux_track)
 
 
     def save_file(self):
