@@ -2,8 +2,6 @@ from mido import MidiFile
 from NoteClass import Note
 from TrackClass import Track
 
-# from SongClass import Song
-
 ########################################################################################################################
 # ESTRUCTURA DE UN ARCHIVO MIDI
 # - type (int):
@@ -38,7 +36,9 @@ def get_time(dic):
 def get_start_time(note):
     return note.start_time
 
-# Recibe un MidiTrack y devuelve un Track (python)
+########################################################################################################################
+# Recibe un archivo MIDI y lo parsea para extraer los datos de cada track y convertirlos a sus objetos de Python
+# ----------------------------------------------------------------------------------------------------------------------
 class MIDIHandler:
     def __init__(self, midi):
         self.midi = midi
@@ -53,9 +53,9 @@ class MIDIHandler:
         for track in midi.tracks:
             self.time = 0
             self.meta_time = 0
+            self.tempo.append({'tempo': 0, 'time': self.duration * 1E6})
             if self.tempo:
                 self.tempo_idx = 0
-                self.tempo.append({'tempo': 0, 'time': self.duration * 1E6})
             for message in track:
                 self.midi_message_switch.get(message.type, self.other)(self, message)
                 if not message.is_meta:
@@ -63,6 +63,7 @@ class MIDIHandler:
                 else:
                     self.meta_time = self.meta_time + message.time
             if self.notes: self.tracks.append(Track(self.notes))
+            self.tempo.remove({'tempo': 0, 'time': self.duration * 1E6})
 
         return
 
@@ -142,7 +143,6 @@ class MIDIHandler:
     def pitchwheel(self, mido_message):
         print("Pitch Wheel")'''
 
-    # todo: Completar lista: https://mido.readthedocs.io/en/latest/message_types.html
     midi_message_switch = {
         'note_off': note_off,
         'note_on': note_on,
@@ -150,13 +150,11 @@ class MIDIHandler:
         'time_signature': time_signature,
         'end_of_track': end_of_track,
     }
-
+########################################################################################################################
 
 '''
-midi_to_song: Función que extrae la información de un archivo MIDI y la carga en un objeto Song
-YA SE QUE TODAVÍA NO LO HACE, ESTOY PROBANDO LA CLASE
+print_midi: Función para ver el formato de un MIDI
 '''
-
 def print_midi(path):
     midi_types = ["Single Track", "Synchronous", "Asynchronous"]
     mid = MidiFile(path, clip=True)
@@ -168,8 +166,3 @@ def print_midi(path):
     for i in range(len(mid.tracks)):
         print("Track", i, ":", len(mid.tracks[i]), "Messages")
     return mid
-
-# s = print_midi(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
-
-
-
