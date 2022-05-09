@@ -16,7 +16,7 @@ def note2freq(note):
 class backend():
 
     def __init__(self):
-        self.song= Song()
+        self.song = Song()
         #self.additive = Additive()
 
     def synthesize_song(self):
@@ -63,6 +63,9 @@ class backend():
     # una vez que desde el front se modifico la clase Song , llamando a track.update si es el mismo path anterior
     # para sintetizar la cancion
 
+    def quantity_of_tracks(self):
+        return len(self.song.tracks)
+
     def update_path(self, path):
         if self.song.midi != path:
             self.song.set_midi(path)
@@ -96,12 +99,6 @@ class backend():
             self.play.stop()
         else:
             return -1
-
-    def assign_intrument_to_track(self, track_number, instrument, volume, activate):
-        if track_number < len(self.song.tracks):
-            self.song.tracks[track_number].instrument = instrument
-            self.song.tracks[track_number].velocity = volume
-            self.song.tracks[track_number].activate = activate
 
     def save_wav_file(self, filename):
         signal = self.song.output_signal(32767 / np.max(np.abs(self.song.output_signal)))
