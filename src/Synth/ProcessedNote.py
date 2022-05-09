@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from Partial import PartialNote
+from src.Partials import PartialNote
 
 
 class ProcessedNote:
