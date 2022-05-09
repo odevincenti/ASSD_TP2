@@ -1,12 +1,13 @@
 from mido import MidiFile
-from midi_handler import midi_message_switch
 import numpy as np
+from midi_handler import MIDIHandler
+from TrackClass import Track
 
 class Song:
-    def __init__(self):
+    def __init__(self, fs=float(100E3)):
         self.midi = None
-        self.tracks = None
-        self.fs = 0.0
+        self.tracks = []
+        self.fs = fs
         self.duration = 0.0
         self.time_base = 0.0
         self.output_signal = None
@@ -16,12 +17,14 @@ class Song:
 
     def set_midi(self, path):
         self.midi = MidiFile(path, clip=True)
-        for track in self.midi.tracks:
-            name = track.name
-            for message in track:
-                note = midi_message_switch.get(message.type)()
+        self.duration = self.midi.length
+        self.time_base = np.linspace(0, self.duration, int(self.fs * self.duration))
+        self.tracks = MIDIHandler(self.midi).tracks
+        return
 
     def set_base_tiempo(self):
-        self.time_base = np.linspace(0, self.duration, self.fs*self.duration)
+        self.time_base = np.linspace(0, self.duration, int(self.fs*self.duration))
 
-
+s = Song()
+s.set_midi(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
+print(s.tracks)
