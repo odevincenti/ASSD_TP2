@@ -13,7 +13,7 @@ class PartialNote:
 
 
     ########################    INIT    ########################
-    def __init__(self, freq, phase, start_time, D_time, D_amp, S_time, S_amp, R_time, R_amp, off_time):
+    def __init__(self, amplitud, freq, phase, start_time, D_time, D_amp, S_time, S_amp, R_time, R_amp, off_time):
 
         # A la funcion __init__ se la para configurar cada uno de los parciales correspondientes a la nota
 
@@ -49,6 +49,7 @@ class PartialNote:
 
         self.freq = freq
         self.phase = phase
+        self.ampli = amplitud
 
         #Todos los tiempos son medidos desde el inicio
         # Tiempo de inicio
@@ -87,6 +88,9 @@ class PartialNote:
 
     def get_freq(self):
         return self.freq
+
+    def get_ampli(self):
+        return self.ampli
 
     def get_final_ASDR_time(self, note):
 
