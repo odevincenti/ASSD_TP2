@@ -1,7 +1,7 @@
 import numpy as np
 
 from SongClass import Song
-from midi_handler import midi_to_song
+
 import pyaudio
 import sounddevice as sa
 
@@ -20,7 +20,7 @@ class backend():
         #self.additive = Additive()
 
     def synthesize_song(self):
-        self.song.output_signal=[]
+        self.song.output_signal = []
         for i in range(len(self.song.tracks)):
             if self.song.tracks[i].activate:
                 self.synthesize_track(self.song.tracks[i])
@@ -33,10 +33,10 @@ class backend():
             track.signal_out=[]
             for i in range(len(track.notes)):
                 self.synthesize_note(track.notes[i], self.track.instrument)
-                if  self.track.notes[i].start_time != 0:
+                if  track.notes[i].start_time != 0:
                     diference = track.notes[i].start_time*track.notes[i].fs
-                    track.notes[i].note_signal = np.concatenate(np.zeros(diference),self.track.notes[i].note_signal)
-                if  strack.notes[i].end_time != self.song.duration:
+                    track.notes[i].note_signal = np.concatenate(np.zeros(diference), self.track.notes[i].note_signal)
+                if  track.notes[i].end_time != self.song.duration:
                     diferencef = (self.song.duration-track.notes[i].end_time)*self.song.fs
                     track.notes[i].note_signal = np.concatenate(track.notes[i].note_signal, np.zeros(diferencef))
                 track.signal_out += track.notes[i].note_signal
@@ -60,7 +60,7 @@ class backend():
 
     def update_path(self, path):
         if self.song.midi != path:
-            self.song = midi_to_song(path)
+            self.song.set_midi(path)
 
     def process_song(self):
         if self.song is not None:
@@ -68,9 +68,7 @@ class backend():
 
     def update_track(self, number_track, instrument, activate, velocity):
         if number_track < len(self.song.tracks):
-            self.song.tracks[number_track].instrument = instrument
-            self.song.tracks[number_track].activate = activate
-            self.song.tracks[number_track].velocity = velocity
+            self.song.tracks[number_track].update(velocity, activate, instrument)
             return True
         else:
             return False
