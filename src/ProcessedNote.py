@@ -17,7 +17,7 @@ class ProcessedNote:
         self.nota = None
         self.PartialNote = []  #Arreglo de las parciales individuales (forma de notas)
 
-    #def create_note(self, note, insturment)
+    def create_note(self, note, insturment):
         # En objeto note tengo que llenar self.node_signal solo el eje y.
         # Para el tiempo usas self.time_base. Previamente llamar a funcion de la clase create_time_base(self)
         # El instrumento te define el metodo pq hicimos un instrumento por metodo
