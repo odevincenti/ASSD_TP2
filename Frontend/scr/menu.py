@@ -40,6 +40,9 @@ class MenuWindow (QWidget, Ui_Form):
         filename = QFileDialog.getOpenFileNames()
         self.path = filename[0][0]
         print(self.path)
+        self.back.update_path(self.path)
+        self.ammount_of_tracks = self.back.quantity_of_tracks()
+        print(self.ammount_of_tracks)
 
     def save_file(self):
         print("save")
