@@ -87,15 +87,19 @@ class Ui_Form(object):
         self.horizontalLayout_31.setObjectName("horizontalLayout_31")
         self.verticalLayout_9 = QtWidgets.QVBoxLayout()
         self.verticalLayout_9.setObjectName("verticalLayout_9")
+        self.widget = QtWidgets.QWidget(self.Track_Widget)
+        self.widget.setObjectName("widget")
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout(self.widget)
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
         self.track0 = QtWidgets.QHBoxLayout()
         self.track0.setObjectName("track0")
-        self.label_track0 = QtWidgets.QLabel(self.Track_Widget)
+        self.label_track0 = QtWidgets.QLabel(self.widget)
         self.label_track0.setStyleSheet("color:white;")
         self.label_track0.setObjectName("label_track0")
         self.track0.addWidget(self.label_track0)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.track0.addItem(spacerItem1)
-        self.pushButton_instrument_track0 = QtWidgets.QPushButton(self.Track_Widget)
+        self.pushButton_instrument_track0 = QtWidgets.QPushButton(self.widget)
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
@@ -110,7 +114,7 @@ class Ui_Form(object):
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout_10.addItem(spacerItem3)
-        self.horizontalSlider_track0 = QtWidgets.QSlider(self.Track_Widget)
+        self.horizontalSlider_track0 = QtWidgets.QSlider(self.widget)
         self.horizontalSlider_track0.setMaximumSize(QtCore.QSize(103, 22))
         self.horizontalSlider_track0.setStyleSheet("QSlider::groove:horizontal{\n"
 "    border: 1px solid black;\n"
@@ -138,7 +142,7 @@ class Ui_Form(object):
         self.track0.addLayout(self.verticalLayout_10)
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.track0.addItem(spacerItem5)
-        self.pushButton_mute_track0 = QtWidgets.QPushButton(self.Track_Widget)
+        self.pushButton_mute_track0 = QtWidgets.QPushButton(self.widget)
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
@@ -149,7 +153,8 @@ class Ui_Form(object):
         self.track0.addWidget(self.pushButton_mute_track0)
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.track0.addItem(spacerItem6)
-        self.verticalLayout_9.addLayout(self.track0)
+        self.horizontalLayout_11.addLayout(self.track0)
+        self.verticalLayout_9.addWidget(self.widget)
         spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout_9.addItem(spacerItem7)
         spacerItem8 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -763,7 +768,7 @@ class Ui_Form(object):
         self.verticalLayout_7.addLayout(self.verticalLayout)
 
         self.retranslateUi(Form)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.verticalSlider_Reverb_Retraso.valueChanged['int'].connect(self.lcdNumber_Reverb_Retraso.display) # type: ignore
         self.verticalSlider_Reverb_Ganancia.valueChanged['int'].connect(self.lcdNumber_Reverb_Ganancia.display) # type: ignore
         self.verticalSlider_Echo_Retraso.valueChanged['int'].connect(self.lcdNumber_Echo_Retraso.display) # type: ignore

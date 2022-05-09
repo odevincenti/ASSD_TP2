@@ -60,7 +60,11 @@ class MenuWindow (QWidget, Ui_Form):
 
     def sintetizar(self):
         print("sintetizar")
-        self.back.synthesize_song()
+        self.aux_track = TrackWidget()
+        self.aux_track.label_track.setText("Track " + str(1))
+        self.track_array.append(self.aux_track)
+        self.Track_Widget.layout().addWidget(self.aux_track)
+        #self.back.synthesize_song()
 
     def graficar_espectrograma(self):
         print("graficar espectrograma")
