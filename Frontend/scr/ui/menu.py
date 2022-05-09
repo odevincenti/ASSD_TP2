@@ -756,6 +756,7 @@ class Ui_Form(object):
         self.verticalSlider_Flanger_Ganancia.valueChanged['int'].connect(self.lcdNumber_Flanger_Ganancia.display) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Form)
 
+
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
@@ -782,7 +783,7 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", "Duración"))
         self.pushButton_graficar.setText(_translate("Form", "GRAFICAR"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Form", "Espectograma"))
-import music_rc
+#import music_rc
 
 
 if __name__ == "__main__":
