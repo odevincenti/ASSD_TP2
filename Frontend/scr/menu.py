@@ -16,9 +16,6 @@ class MenuWindow (QWidget, Ui_Form):
         self.back = backend()
         self.track_array = []
 
-        notes = QPixmap("notes50x50.png")
-        self.label_3.setPixmap(notes)
-
         self.label_track0.hide()
         self.pushButton_instrument_track0.hide()
         self.horizontalSlider_track0.hide()
@@ -56,11 +53,11 @@ class MenuWindow (QWidget, Ui_Form):
 
     def save_file(self):
         print("save")
-        self.back.save_wav_file(self.path)
+        #self.back.save_wav_file(self.path)
 
     def sintetizar(self):
         print("sintetizar")
-        self.back.synthesize_song()
+        #self.back.synthesize_song()
 
     def graficar_espectrograma(self):
         print("graficar espectrograma")
@@ -68,12 +65,12 @@ class MenuWindow (QWidget, Ui_Form):
 
     def play_song(self):
         print("pone play maestro")
-        self.back.play_song()
+        #self.back.play_song()
 
 
     def pause_song(self):
         print("para la motoneta rey")
-        self.back.pause_reproduction()
+        #self.back.pause_reproduction()
 
 
     def reset_song(self):
