@@ -43,7 +43,12 @@ class backend():
 
     def synthesize_note(self, note, instrument):
         print("xd")
-        # llama a additive o el sintetizador a usar
+        # llamar a create_note(self, note, instrument)
+            # metodo: A - Additive
+            #         K - Karpulus Strong
+            # En un futuro no muy lejano create_note recibe un parámetro metodo que diga cual metodo de sintetizar usa
+
+
     # Suma las señales de track tomando en cuenta el tiempo que dura cada uno y formando la cancion entera
 
     def output_signal_song(self):

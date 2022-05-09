@@ -7,6 +7,7 @@ class Partial(Note):
         super().__init__(freq, start_time, duration, end_time, velocity)
         #self.ADSR = ADSR   #Vector con componentes [attack_time , decay_time , sustain_time , release_time ]
 
+
 class ProcessedNote:
     def __init__(self):
         self.frecuencia = None
@@ -15,6 +16,25 @@ class ProcessedNote:
         self.instrumento = None
         self.nota = None
         self.PartialNote = []  #Arreglo de las parciales individuales (forma de notas)
+
+    #def create_note(self, note, insturment)
+        # En objeto note tengo que llenar self.node_signal solo el eje y.
+        # Para el tiempo usas self.time_base. Previamente llamar a funcion de la clase create_time_base(self)
+        # El instrumento te define el metodo pq hicimos un instrumento por metodo
+        # note: Clase note
+        #          self.note = note
+        #          self.freq = self.note2freq(note)
+        #          self.start_time = start_time  # Tiempo en microsegundos
+        #          self.duration = duration  # Tiempo de microsegundos
+        #          self.end_time = end_time  # Tiempo de microsegundos
+        #          self.velocity = velocity
+        #          self.note_signal = None
+        #          self.fs = fs
+        #          self.time_base = []
+        #
+        # instrument: F: flauta --> Additive
+        #             P: piano  --> Karpulus
+        ################################################################################################################
 
     def create_partial(self, path_a_data, instrumento, frecuencia):
         #Funcion que lee el txt con la tabla de informacion de los partials de una nota de un instrumento
