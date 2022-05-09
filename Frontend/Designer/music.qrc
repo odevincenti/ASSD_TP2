@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="play1">
+    <file>play.png</file>
+  </qresource>
+  <qresource prefix="rec">
+    <file>stop.png</file>
+  </qresource>
+  <qresource prefix="nota">
+    <file>notes50x50.png</file>
+  </qresource>
+  <qresource prefix="pause">
+    <file>pause.png</file>
+  </qresource>
+</RCC>
