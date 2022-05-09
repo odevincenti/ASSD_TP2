@@ -1,6 +1,6 @@
 from Frontend.scr.menu import MenuWindow
 from PyQt5.QtWidgets import QApplication
-from src.backend import backend
+
 
 if __name__ == '__main__':
 

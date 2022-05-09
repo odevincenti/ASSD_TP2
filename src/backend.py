@@ -1,8 +1,8 @@
 import numpy as np
 
-from SongClass import Song
+from src.SongClass import *
 
-import pyaudio
+#import pyaudio
 import sounddevice as sa
 
 from scipy.io import wavfile
@@ -103,4 +103,4 @@ class backend():
     def save_wav_file(self, filename):
         signal = self.song.output_signal(32767 / np.max(np.abs(self.song.output_signal)))
         signal = signal.astype(np.int16)
-        wavfile.write(filename, self.song.fs,signal)
+        wavfile.write(filename, self.song.fs, signal)

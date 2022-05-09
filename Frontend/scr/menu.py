@@ -1,6 +1,7 @@
 import numpy as np
 import sys
-from src.backend import backend
+from Frontend.scr.track import TrackWidget
+from src.backend import *
 from PyQt5.QtGui import QPixmap
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
@@ -13,6 +14,7 @@ class MenuWindow (QWidget, Ui_Form):
         self.setupUi(self)
 
         self.back = backend()
+        self.track_array = []
 
         notes = QPixmap("notes50x50.png")
         self.label_3.setPixmap(notes)
@@ -24,7 +26,7 @@ class MenuWindow (QWidget, Ui_Form):
 
         self.pushButton_Upload.clicked.connect(self.get_mid_file)
         self.pushButton_Save.clicked.connect(self.save_file)
-        self.pushButton_Sintetizar.clicked.connect(self.sintetizar_exe)
+        self.pushButton_Sintetizar.clicked.connect(self.sintetizar)
         self.pushButton_graficar.clicked.connect(self.graficar_espectrograma)
 
         self.pushButton_play.clicked.connect(self.play_song)
@@ -40,12 +42,25 @@ class MenuWindow (QWidget, Ui_Form):
         filename = QFileDialog.getOpenFileNames()
         self.path = filename[0][0]
         print(self.path)
+        self.back.update_path(self.path)
+        self.ammount_of_tracks = self.back.quantity_of_tracks()
+        print("cantidad de tracks:")
+        print(self.ammount_of_tracks)
+
+        for i in range(1, self.ammount_of_tracks + 1):
+            self.aux_track = TrackWidget()
+            self.aux_track.label_track.setText("Track " + str(i))
+            self.track_array.append(self.aux_track)
+            self.Track_Widget.layout().addWidget(self.aux_track)
+
 
     def save_file(self):
         print("save")
+        self.back.save_wav_file(self.path)
 
-    def sintetizar_exe(self):
+    def sintetizar(self):
         print("sintetizar")
+        self.back.synthesize_song()
 
     def graficar_espectrograma(self):
         print("graficar espectrograma")
@@ -53,10 +68,12 @@ class MenuWindow (QWidget, Ui_Form):
 
     def play_song(self):
         print("pone play maestro")
+        self.back.play_song()
 
 
     def pause_song(self):
         print("para la motoneta rey")
+        self.back.pause_reproduction()
 
 
     def reset_song(self):
