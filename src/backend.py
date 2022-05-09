@@ -22,24 +22,24 @@ class backend():
     def synthesize_song(self):
         self.song.output_signal=[]
         for i in range(len(self.song.tracks)):
-            if self.song.tracks[i].activate :
+            if self.song.tracks[i].activate:
                 self.synthesize_track(self.song.tracks[i])
             else:
                 self.song.tracks[i].signal_out = []
             self.song.output_signal += self.song.tracks[i].signal_out
 
-    def synthesize_track(self, track ):
+    def synthesize_track(self, track):
         if track.change == 1:
-            self.track.signal_out=[]
-            for i in range(len(self.track.notes)):
-                self.synthesize_note(self.track.notes[i], self.track.instrument)
+            track.signal_out=[]
+            for i in range(len(track.notes)):
+                self.synthesize_note(track.notes[i], self.track.instrument)
                 if  self.track.notes[i].start_time != 0:
-                    diference = self.track.notes[i].start_time*self.track.notes[i].fs
-                    self.track.notes[i].note_signal = np.concatenate(np.zeros(diference),self.track.notes[i].note_signal)
-                if  self.track.notes[i].end_time != self.song.duration:
-                    diferencef = (self.song.duration-self.track.notes[i].end_time)*self.song.fs
-                    self.track.notes[i].note_signal = np.concatenate(self.track.notes[i].note_signal, np.zeros(diferencef))
-                self.track.signal_out += self.track.notes[i].note_signal
+                    diference = track.notes[i].start_time*track.notes[i].fs
+                    track.notes[i].note_signal = np.concatenate(np.zeros(diference),self.track.notes[i].note_signal)
+                if  strack.notes[i].end_time != self.song.duration:
+                    diferencef = (self.song.duration-track.notes[i].end_time)*self.song.fs
+                    track.notes[i].note_signal = np.concatenate(track.notes[i].note_signal, np.zeros(diferencef))
+                track.signal_out += track.notes[i].note_signal
 
     def synthesize_note(self, note, instrument):
         print("xd")
@@ -90,7 +90,7 @@ class backend():
 
     def pause_reproduction(self):
         if (self.play.isplaying()) and (self.play is not None):
-            self.play.stop
+            self.play.stop()
         else:
             return -1
 
@@ -101,6 +101,6 @@ class backend():
             self.song.tracks[track_number].activate = activate
 
     def save_wav_file(self, filename):
-        signal = self.song.output_signal(32767 / np.max(np.abs(signal)))
+        signal = self.song.output_signal(32767 / np.max(np.abs(self.song.output_signal)))
         signal = signal.astype(np.int16)
         wavfile.write(filename, self.song.fs,signal)
