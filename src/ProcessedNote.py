@@ -11,7 +11,6 @@ class ProcessedNote:
         self.nota = None
         self.PartialNotes = []  #Arreglo de las parciales individuales (forma de notas)
 
-
     def create_note(self, note, instrument):
         # En objeto note tengo que llenar self.node_signal solo el eje y.
         # Para el tiempo usas self.time_base. Previamente llamar a funcion de la clase create_time_base(self)
@@ -43,6 +42,7 @@ class ProcessedNote:
 
                 freq = self.PartialNotes[i].get_freq()
                 phase = self.PartialNotes[i].get_phase()
+                ampli_partial = self.PartialNotes[i].get_ampli()
 
                 # Obtengo el ADSR del parcial
                 self.PartialNotes[i].get_amplitude_array(note)
@@ -51,7 +51,7 @@ class ProcessedNote:
                 time_vals = np.linspace(0, self.PartialNotes[i].final_ASDR_time, int(note.fs * self.PartialNotes[i].final_ASDR_time))
 
                 #Multiplico la ADSR con el seno de cada parcial
-                output_sine = self.PartialNotes[i].output_signal * np.sin(freq * 2 * np.pi * time_vals - 180 * phase / np.pi)
+                output_sine = ampli_partial * self.PartialNotes[i].output_signal * np.sin(freq * 2 * np.pi * time_vals - 180 * phase / np.pi)
 
                 self.PartialNotes[i].output_signal = None  # Libero la memoria
 
@@ -100,7 +100,7 @@ class ProcessedNote:
         frecuencia_samples_ix = column.idxmax()
         frecuencia_samples = note_partials_file["Frecuencia"][frecuencia_samples_ix]   #Obtengo la frecuencia principal de la muestra
 
-        for k in range(0,len(note_partials_file)):
+        for k in range(0,len(note_partials_file)-1):
             multiplier = frecuencia/frecuencia_samples   #Multiplicador para pasar la nota a diferentes octavas
             frec =          note_partials_file["Frecuencia"][k] * multiplier
             ampli =         note_partials_file["Amplitud"][k]
@@ -115,7 +115,7 @@ class ProcessedNote:
             off_time =      note_partials_file["Off_time"][k]
 
             #Con toda esta info creamos la informacion de cada parcial que compone a una nota
-            partial_aux = PartialNote(frec,fase,start_time,D_time,D_amp,S_time,S_amp,R_time,R_amp,off_time)
+            partial_aux = PartialNote(ampli,frec,fase,start_time,D_time,D_amp,S_time,S_amp,R_time,R_amp,off_time)
             self.PartialNotes.append(partial_aux)
 
 
