@@ -36,7 +36,7 @@ class ProcessedNote:
 
         #ADDITIVE SYNTHESIS#######################################################################################
         if instrument == 'F':
-            self.create_partial(note.note,"flauta",note.freq)
+            self.create_partial(self, note.note,"flauta",note.freq)
 
             # Para cada parcial...
             for i in range(0, len(self.PartialNotes)):
@@ -71,8 +71,6 @@ class ProcessedNote:
                         amplitude_array += output_sine
             note.output_signal = amplitude_array
 
-
-
         #KARPUTULS STRONG############################################################################################
         elif instrument == 'P':
             print("En un futuro tendremos karpulus yo lo se")
@@ -84,8 +82,7 @@ class ProcessedNote:
     # string instrumento:  indice que indica el insturmento (por ahora solo flauta)
     # string frecuencia:   frecuencia de la nota que queremos sintetizar
     ##############################################################################################################
-        #NOTA = convert_midinote(midi_note)
-        NOTA = "DO"
+        NOTA = self.convert_midinote(midi_note)
         #########################
         #      IMPORTANTE!      # ======> # LA VARIABLE NOTA TIENE QUE IR EN MAYUSCULA Y ES UN STRING!
         #      IMPORTANTE!      # ======> # la variable instrumento va en minuscula y es un string
@@ -119,6 +116,11 @@ class ProcessedNote:
 
             #Con toda esta info creamos la informacion de cada parcial que compone a una nota
             partial_aux = PartialNote(frec,fase,start_time,D_time,D_amp,S_time,S_amp,R_time,R_amp,off_time)
-            self.PartialNote.append(partial_aux)
+            self.PartialNotes.append(partial_aux)
 
 
+    def convert_midinote(self , midi_note):
+        note_str = ['DO', 'DO', 'RE', 'RE', 'MI', 'FA', 'FA', 'SOL', 'SOL', 'LA', 'LA', 'SI']
+        note_id = midi_note % 12
+
+        return note_str[note_id]
