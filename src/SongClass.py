@@ -8,7 +8,7 @@ class Song:
         self.midi = None
         self.tracks = []
         self.fs = fs
-        self.duration = 0.0
+        self.duration = 0.0                 # Duración de la canción en segundos
         self.time_base = 0.0
         self.output_signal = None
 

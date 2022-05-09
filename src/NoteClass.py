@@ -4,9 +4,9 @@ class Note:
     def __init__(self, note, start_time, duration, end_time, velocity, fs=0):
         self.note = note
         self.freq = self.note2freq(note)
-        self.start_time = start_time
-        self.duration = duration
-        self.end_time = end_time
+        self.start_time = start_time            # Tiempo en microsegundos
+        self.duration = duration                # Tiempo de microsegundos
+        self.end_time = end_time                # Tiempo de microsegundos
         self.velocity = velocity
         self.note_signal = None
         self.fs = fs
