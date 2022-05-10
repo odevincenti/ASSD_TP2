@@ -45,13 +45,15 @@ class PartialNote:
         #  0    1  2       3   4
         #     A   D    S      R
 
+#        Start_time	D_time	  D_amp	    S_time	  S_amp	   R_time	 R_amp	     Off_time
+#        0	         0.2  	1.106516	 0.31	0.980918	0.97	0.980918	  1.11767
 
 
         self.freq = freq
         self.phase = phase
         self.ampli = amplitud
 
-        #Todos los tiempos son medidos desde el inicio
+        #Todos los tiempos son medidos desde el inicio (el inicio del ADSR estandar que es cero)
         # Tiempo de inicio
         self.start_time = start_time
 
@@ -72,10 +74,11 @@ class PartialNote:
 
 
        # Preparo las pendientes
-        self.release_time = self.R_time
-        self.A_pendiente = self.D_amp / self.D_time                                 # Pendiente de la etapa de attack.
+        self.release_time = self.R_time      # QUE ES ESTO??
+
+        self.A_pendiente = self.D_amp / self.D_time                # Pendiente de la etapa de attack.
         self.D_pendiente = (self.S_amp - self.D_amp) / (self.S_time - self.D_time)  # Pendiente de la etapa de decay.
-        self.S_pendiente = (self.R_amp - self.S_amp) / (self.R_time - self.S_time)  # Pendiente de la etapa de sustain.
+        self.S_pendiente = (self.R_amp - self.S_amp) / (self.R_time - self.S_time)  # Pendiente de la etapa de sustain. --> VA A SER CERO!!!!! en nuestro ADSR trucho xd
         self.R_pendiente = (- self.R_amp) / (self.off_time - self.R_time)           # Pendiente de la etapa de release.
 
         self.output_signal = np.array([])  # ADSR del parcial pedido
@@ -92,38 +95,10 @@ class PartialNote:
     def get_ampli(self):
         return self.ampli
 
-    def get_final_ASDR_time(self, note):
-
-        # Si se completan las etapas de attack y decay
-        if (note.duration >= self.S_time):
-
-            # Si la pendiente de sustain es positiva o la duracion es menor que el tiempo en que la etapa S se haria 0.
-            # ==> El tiempo maximo es cuando la etapa R se hace 0.
-            if ((self.S_pendiente >= 0) or note.duration <= self.S_time - self.S_amp / self.S_pendiente):
-                return note.duration - ((note.duration - self.S_time) * self.S_pendiente + self.S_amp) / self.R_pendiente
-
-            # Si no se llega a la etapa R antes de que se anule S
-            # ==> El timepo maximo es cuando se anula S
-            else:
-                return self.S_time - self.S_amp / self.S_pendiente
-
-
-        # Si no se completan todas las etapas
-        else:
-
-            # Si no se completan todas las etapas y no hay etapa D
-            if note.duration <= self.D_time:
-                return note.duration - ((note.duration) * self.A_pendiente) / self.R_pendiente
-
-            # Si no se completan todas las etapas y no hay etapa S
-            elif note.duration <= self.S_time:
-                return note.duration - ((note.duration - self.D_time) * self.D_pendiente + self.D_amp) / self.R_pendiente
-
     def get_amplitude_array(self, note):
-
         # Se obtiene la ADSR del parcial y lo guarda en self.output_signal
 
-        final_ASDR_time = self.get_final_ASDR_time(note) * 1E-6 # Guardo el tiempo en el cual la ADSR del parcial se hará 0.
+        final_ASDR_time = self.get_final_ASDR_time(note) * 1E-6  # Guardo el tiempo en el cual la ADSR del parcial se hará 0.
         self.final_ASDR_time = final_ASDR_time
 
         data = self.get_adsr(note, final_ASDR_time)
@@ -162,16 +137,16 @@ class PartialNote:
             t_tot_ADSRn = self.off_time  # Offtime tiene el tiempo donde finaliza
 
             #TIEMPO DE CADA ETAPA float
-            stageA_tiempo = int(self.D_time / t_tot_ADSRn * note_dur_seg)  # stageA% * duracion total
-            stageD_tiempo = int((self.S_time - self.D_time) / t_tot_ADSRn * note_dur_seg)  # same
-            stageS_tiempo = int((self.R_time - self.S_time) / t_tot_ADSRn * note_dur_seg)  # same
-            stageR_tiempo = int((t_tot_ADSRn - self.R_time) / t_tot_ADSRn * note_dur_seg)  # same
+            stageA_tiempo = int(self.D_time / t_tot_ADSRn * note_dur_seg) *1E-6 # stageA% * duracion total
+            stageD_tiempo = int((self.S_time - self.D_time) / t_tot_ADSRn * note_dur_seg) *1E-6 # same
+            stageS_tiempo = int((self.R_time - self.S_time) / t_tot_ADSRn * note_dur_seg) *1E-6 # same
+            stageR_tiempo = int((t_tot_ADSRn - self.R_time) / t_tot_ADSRn * note_dur_seg) *1E-6 # same
 
             #LINSPACE DE CADA ETAPA
-            stageA_x = np.linspace(0,stageA_tiempo, int(note.fs * note.duration*1E-6*stageA_tiempo))
-            stageD_x = np.linspace(stageA_tiempo, stageD_tiempo, int(note.fs * note.duration*1E-6*stageD_tiempo))
-            stageS_x = np.linspace(stageD_tiempo, stageR_tiempo,int(note.fs * note.duration * 1E-6 * stageS_tiempo))
-            stageR_x = np.linspace(stageR_tiempo, note_dur_seg, int(note.fs * note.duration * 1E-6 * stageS_tiempo))
+            stageA_x = np.linspace(0 , stageA_tiempo, int(note.fs * note.duration * 1E-6 * stageA_tiempo))
+            stageD_x = np.linspace(stageA_tiempo, stageA_tiempo + stageD_tiempo, int(note.fs * note.duration*1E-6*stageD_tiempo))
+            stageS_x = np.linspace(stageA_tiempo + stageD_tiempo, stageA_tiempo + stageD_tiempo + stageS_tiempo , int(note.fs * note.duration * 1E-6 * stageS_tiempo))
+            stageR_x = np.linspace(stageA_tiempo + stageD_tiempo + stageS_tiempo + stageR_tiempo, stageA_tiempo + stageD_tiempo + stageS_tiempo + stageR_tiempo + stageR_tiempo , int(note.fs * note.duration * 1E-6 * stageS_tiempo))
 
             # Se calculan las etapas de la ADSR --> Son las rectas que hacen al envelope
             stageA = (stageA_x) * self.A_pendiente
@@ -183,10 +158,10 @@ class PartialNote:
 
             # IMPORTANTE ! ! !
             # CHECK SIZE LINSPACE DE ADSR MATCHING EL LINSPACE DE NOTA note.timebase
-            difference = np.size(note.timebase) - np.size(ADSR_data)  # Chequea diferencias de longitudes para poder sumar
+            difference = np.size(note.time_base) - np.size(ADSR_data)  # Chequea diferencias de longitudes para poder sumar
             zeros = np.zeros(abs(difference))  # Crea un arreglo de ceros que permita igualar las longitudes
             print("\n.................... CHECKING SIZE I...........................")
-            print("\nTIME BASE SIZE = " , np.size(note.timebase) )
+            print("\nTIME BASE SIZE = " , np.size(note.time_base) )
             print("\nADSR SIZE = " , np.size(ADSR_data))
             print("\n diferencia = " , difference)
 
@@ -194,14 +169,45 @@ class PartialNote:
                 ADSR_data += np.concatenate([ADSR_data, zeros])  # Se concatena y se suma
 
             elif (difference < 0):  # Si el ADSR envelope es mas grande que el timebase [D:] le sacamos a la etapa de sustain la diferencia
-                ADSR_data = ADSR_data[:-difference]
+                ADSR_data = ADSR_data[:difference]
+
+            difference = np.size(note.time_base) - np.size(ADSR_data)
 
             print("\n..................... CHECKING SIZE II ...........................")
-            print("\nTIME BASE SIZE = " , np.size(note.timebase) )
+            print("\nTIME BASE SIZE = " , np.size(note.time_base) )
             print("\nADSR SIZE = " , np.size(ADSR_data))
             print("\n diferencia = " , difference)
 
         return ADSR_data
+
+
+    def get_final_ASDR_time(self, note):
+
+        # Si se completan las etapas de attack y decay
+        if (note.duration >= self.S_time ):
+
+            # Si la pendiente de sustain es positiva o la duracion es menor que el tiempo en que la etapa S se haria 0.
+            # ==> El tiempo maximo es cuando la etapa R se hace 0.
+            if ((self.S_pendiente >= 0) or note.duration <= self.S_time - self.S_amp / self.S_pendiente):
+                return note.duration - ((note.duration - self.S_time) * self.S_pendiente + self.S_amp) / self.R_pendiente
+
+            # Si no se llega a la etapa R antes de que se anule S
+            # ==> El timepo maximo es cuando se anula S
+            else:
+                return self.S_time - self.S_amp / self.S_pendiente
+
+        # Si no se completan todas las etapas
+        else:
+
+            # Si no se completan todas las etapas y no hay etapa D
+            if note.duration <= self.D_time:
+                return note.duration - ((note.duration) * self.A_pendiente) / self.R_pendiente
+
+            # Si no se completan todas las etapas y no hay etapa S
+            elif note.duration <= self.S_time:
+                return note.duration - ((note.duration - self.D_time) * self.D_pendiente + self.D_amp) / self.R_pendiente
+
+
 
 
 '''
