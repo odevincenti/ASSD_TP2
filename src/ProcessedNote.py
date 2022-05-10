@@ -33,7 +33,7 @@ class ProcessedNote:
         ################################################################################################################
         # Crear la señal de salida (self.note_signal) del objeto nota que ingrese como parametro
         amplitude_array = None
-        note.create_time_base()
+     #   note.create_time_base()
 
         #ADDITIVE SYNTHESIS#######################################################################################
         if instrument == 'F':
@@ -92,18 +92,18 @@ class ProcessedNote:
         #########################
 
         #Primero preparo el path de la nota segun el instrumento
-        # path_a_data: Path al txt ( Ejemplo: "./MATLAB/Parciales_txts/Flauta/Parciales_DO.txt" )
+        # path_a_data: Path al txt ( Ejemplo: "../MATLAB/Parciales_txts/Flauta/Parciales_DO.txt" )
 
-        path_a_data = "c:/00 - Ignacio/PROYECTOS PYTHON/ASSD_TP2/MATLAB/" + instrument + "/Parciales_" + NOTA + ".txt"
-
+        path_a_data = "../MATLAB/Parciales_txts/" + instrument + "/Parciales_" + NOTA + ".txt"
+      #  path_a_data = "../MATLAB/Parciales_txts/Flauta/Parciales_DO.txt"
         note_partials_file = pd.read_csv(path_a_data, sep='\t')  #Archivo con los componentes parciales de una nota
-        #print(note_partials_file)
+        print(note_partials_file)
 
         column = note_partials_file["Amplitud"]
         frecuencia_samples_ix = column.idxmax()
         frecuencia_samples = note_partials_file["Frecuencia"][frecuencia_samples_ix]   #Obtengo la frecuencia principal de la muestra
 
-        for k in range(0,len(note_partials_file)-1):
+        for k in range(0,len(note_partials_file)):
             multiplier = frecuencia/frecuencia_samples   #Multiplicador para pasar la nota a diferentes octavas
             frec =          note_partials_file["Frecuencia"][k] * multiplier
             ampli =         note_partials_file["Amplitud"][k]
