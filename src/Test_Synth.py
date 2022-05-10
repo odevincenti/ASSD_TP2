@@ -16,7 +16,7 @@ import matplotlib.pyplot as plot
 #  SI  - 35 * k
 #########################################################
 
-note = 12  #DO
+note = 59
 start_time = 4133521.625
 end_time = 5454544.0
 duration = 1321022.375

@@ -143,16 +143,11 @@ class PartialNote:
             stageS_x = np.linspace(self.S_time, self.R_time, stageS_elements)
             stageR_x = np.linspace(self.R_time, self.off_time , stageR_elements)
 
-#            stageA_x = np.linspace(0 , stageA_tiempo, int(note.fs * note.duration * 1E-6 * stageA_tiempo))
-#            stageD_x = np.linspace(stageA_tiempo, stageA_tiempo + stageD_tiempo, int(note.fs * note.duration*1E-6*stageD_tiempo))
-#            stageS_x = np.linspace(stageA_tiempo + stageD_tiempo, stageA_tiempo + stageD_tiempo + stageS_tiempo , int(note.fs * note.duration * 1E-6 * stageS_tiempo))
-#            stageR_x = np.linspace(stageA_tiempo + stageD_tiempo + stageS_tiempo + stageR_tiempo, stageA_tiempo + stageD_tiempo + stageS_tiempo + stageR_tiempo + stageR_tiempo , int(note.fs * note.duration * 1E-6 * stageS_tiempo))
-
             # Se calculan las etapas de la ADSR --> Son las rectas que hacen al envelope
-            stageA = (stageA_x) * self.A_pendiente
-            stageD = (stageD_x - self.D_time) * self.D_pendiente + self.D_amp
-            stageS = (stageS_x - self.S_time) * self.S_pendiente + self.S_amp
-            stageR = (stageR_x - note_dur_seg) * self.R_pendiente + ( note_dur_seg - self.S_time) * self.S_pendiente + self.S_amp
+            stageA = stageA_x * self.A_pendiente
+            stageD = (stageD_x - self.D_time)  * self.D_pendiente + self.D_amp
+            stageS = (stageS_x - self.S_time)* self.S_pendiente + self.S_amp
+            stageR = (stageR_x - self.R_time) * self.R_pendiente + self.R_amp
 
             ADSR_data = np.concatenate([stageA, stageD, stageS, stageR])  # Se concatenan las etapas
 
