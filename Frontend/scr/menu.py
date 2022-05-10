@@ -1,9 +1,7 @@
 import numpy as np
 import sys
 from Frontend.scr.track import TrackWidget
-from src.backend import *
-from PyQt5.QtGui import QPixmap
-from PyQt5 import QtWidgets
+#from src.backend import *
 from PyQt5.QtWidgets import *
 from Frontend.scr.ui.menu import Ui_Form
 
@@ -13,7 +11,7 @@ class MenuWindow (QWidget, Ui_Form):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
 
-        self.back = backend()
+        #self.back = backend()
         self.track_array = []
 
         self.label_track0.hide()
@@ -39,7 +37,7 @@ class MenuWindow (QWidget, Ui_Form):
         filename = QFileDialog.getOpenFileNames()
         self.path = filename[0][0]
         print(self.path)
-        self.back.update_path(self.path)
+        """self.back.update_path(self.path)
         self.ammount_of_tracks = self.back.quantity_of_tracks()
         print("cantidad de tracks:")
         print(self.ammount_of_tracks)
@@ -48,7 +46,7 @@ class MenuWindow (QWidget, Ui_Form):
             self.aux_track = TrackWidget()
             self.aux_track.label_track.setText("Track " + str(i))
             self.track_array.append(self.aux_track)
-            self.Track_Widget.layout().addWidget(self.aux_track)
+            self.Track_Widget.layout().addWidget(self.aux_track)"""
 
 
     def save_file(self):
