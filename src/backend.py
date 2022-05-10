@@ -7,7 +7,7 @@ import sounddevice as sa
 
 from scipy.io import wavfile
 
-
+from Eco.py import effect
 
 
 
@@ -17,6 +17,7 @@ class backend():
 
     def __init__(self):
         self.song = Song()
+        self.effect = effect()
         #self.additive = Additive()
 
     def synthesize_song(self):
@@ -31,20 +32,37 @@ class backend():
 
     def synthesize_track(self, track):
         if track.change == 1:
-            track.signal_out=[]
+            track.signal_out= np.zeros(int(self.song.fs*self.song.duration))
             print("sintetiza track")
-            for i in range(len(track.notes)):
-                self.synthesize_note(track.notes[i], self.track.instrument)
-                if  track.notes[i].start_time != 0:
-                    diference = track.notes[i].start_time*track.notes[i].fs
-                    track.notes[i].note_signal = np.concatenate(np.zeros(diference), self.track.notes[i].note_signal)
-                if  track.notes[i].end_time != self.song.duration:
-                    diferencef = (self.song.duration-track.notes[i].end_time)*self.song.fs
-                    track.notes[i].note_signal = np.concatenate(track.notes[i].note_signal, np.zeros(diferencef))
-                track.signal_out += track.notes[i].note_signal
+            print(self.song.duration)
 
+            for i, note in enumerate(track.notes):
+                self.synthesize_note(note, track.instrument)
+                z=0
+                print(int(note.end_time))
+                print(int(note.end_time*1E-6*self.song.fs)-1)
+                for y in range(int(note.start_time*1E-6*self.song.fs), int(note.end_time*1E-6*self.song.fs)-1, 1):
+                    if y == 55078318-1:
+                        print(i)
+                    track.signal_out[y] = track.signal_out[y] + note.note_signal[z]
+                    z= z+1
+                    #print("en el for pa ")
+                '''
+                if  track.notes[i].start_time != 0:
+                    diference = int(track.notes[i].start_time*track.notes[i].fs*1E-6)
+                    track.notes[i].note_signal = np.concatenate( (np.zeros(diference), track.notes[i].note_signal) )
+                if  track.notes[i].end_time != self.song.duration:
+                    #diferencef = int((self.song.duration-track.notes[i].end_time*1E-6)*self.song.fs)
+                    diferencef = len(track.signal_out) - len(track.notes[i].note_signal)
+                    print(len(np.zeros(diferencef)))
+                    #print(len(track.notes[i].note_signal))
+                    track.notes[i].note_signal = np.concatenate( (track.notes[i].note_signal, np.zeros(diferencef)) )
+                track.signal_out += track.notes[i].note_signal
+                '''
     def synthesize_note(self, note, instrument):
         print("xd")
+        note.note_signal = np.zeros(int(note.duration*note.fs*1E-6))
+
         # llamar a create_note(self, note, instrument)
             # metodo: A - Additive
             #         K - Karpulus Strong
@@ -76,6 +94,22 @@ class backend():
     def process_song(self):
         if self.song is not None:
             self.synthesize_song()
+
+    def echo_effect(self, g, delay):
+        if self.song.output_signal is not None:
+            effect.update_params(g, delay, self.song.output_signal, self.song.fs)
+            effect.filter_comb()
+            self.song.output_signal = effect.get_output_signal()
+        else:
+            return -1
+
+    def all_pass_effect(self, g, delay):
+        if self.song.output_signal is not None:
+            effect.update_params(g, delay, self.song.output_signal, self.song.fs)
+            effect.all_pass_filter()
+            self.song.output_signal = effect.get_output_signal()
+        else:
+            return -1
 
     def update_track(self, number_track, instrument, activate, velocity):
         if number_track < len(self.song.tracks):
@@ -112,4 +146,4 @@ class backend():
 
 test = backend()
 test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\RodrigoAdagio.mid")
-#test.process_song()
+test.process_song()
