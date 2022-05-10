@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 from Frontend.scr.track import TrackWidget
-#from src.backend import *
+from src.backend import *
 from PyQt5.QtWidgets import *
 from Frontend.scr.ui.menu import Ui_Form
 
@@ -11,7 +11,7 @@ class MenuWindow (QWidget, Ui_Form):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
 
-        #self.back = backend()
+        self.back = backend()
         self.track_array = []
 
         self.label_track0.hide()
@@ -37,7 +37,7 @@ class MenuWindow (QWidget, Ui_Form):
         filename = QFileDialog.getOpenFileNames()
         self.path = filename[0][0]
         print(self.path)
-        """self.back.update_path(self.path)
+        self.back.update_path(self.path)
         self.ammount_of_tracks = self.back.quantity_of_tracks()
         print("cantidad de tracks:")
         print(self.ammount_of_tracks)
@@ -46,16 +46,16 @@ class MenuWindow (QWidget, Ui_Form):
             self.aux_track = TrackWidget()
             self.aux_track.label_track.setText("Track " + str(i))
             self.track_array.append(self.aux_track)
-            self.Track_Widget.layout().addWidget(self.aux_track)"""
+            self.Track_Widget.layout().addWidget(self.aux_track)
 
 
     def save_file(self):
         print("save")
-        #self.back.save_wav_file(self.path)
+        self.back.save_wav_file(self.path)
 
     def sintetizar(self):
         print("sintetizar")
-        #self.back.synthesize_song()
+        self.back.process_song()
 
     def graficar_espectrograma(self):
         print("graficar espectrograma")
@@ -63,12 +63,12 @@ class MenuWindow (QWidget, Ui_Form):
 
     def play_song(self):
         print("pone play maestro")
-        #self.back.play_song()
+        self.back.play_song()
 
 
     def pause_song(self):
         print("para la motoneta rey")
-        #self.back.pause_reproduction()
+        self.back.pause_reproduction()
 
 
     def reset_song(self):
