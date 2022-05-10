@@ -113,21 +113,11 @@ class PartialNote:
         #  Un sonido que se reproduce está condicionado a sufrir alteraciones durante su evolución
         #  temporal a través del tiempo. La envolvente lo que hace es segmentar e intervenir en cada
         #  una de las partes durante la evolución temporal del sonido, desde su inicio hasta su final.
-
-        # Arreglo de valores (depende de final_ASDR_time)
-
-        # note_out = np.linspace(0, final_ASDR_time, int(final_ASDR_time * note.fs))
-
         # Paso la duracion de la nota que venia del objeto nota en microsegundos a segundos
-        note_dur_seg = note.duration
-
-        R_time_index = int(round(note_dur_seg * note.fs))
+        note_dur_seg = note.duration * 1E-6
 
         # Si la duracion de la nota es mas grande que el tiempo total de las 4 etadpas
         if (note_dur_seg >= self.S_time):
-
-            D_time_index = int(round((self.D_time) * note.fs))
-            S_time_index = int(round((self.S_time) * note.fs))
 
             #Se divide el arreglo en las etapas
             #  stageA, stageD, stageS, stageR = np.split(note_out, [D_time_index, S_time_index, R_time_index])
@@ -137,16 +127,26 @@ class PartialNote:
             t_tot_ADSRn = self.off_time  # Offtime tiene el tiempo donde finaliza
 
             #TIEMPO DE CADA ETAPA float
-            stageA_tiempo = int(self.D_time / t_tot_ADSRn * note_dur_seg) *1E-6 # stageA% * duracion total
-            stageD_tiempo = int((self.S_time - self.D_time) / t_tot_ADSRn * note_dur_seg) *1E-6 # same
-            stageS_tiempo = int((self.R_time - self.S_time) / t_tot_ADSRn * note_dur_seg) *1E-6 # same
-            stageR_tiempo = int((t_tot_ADSRn - self.R_time) / t_tot_ADSRn * note_dur_seg) *1E-6 # same
+            # Agarro la cantidad de elementos que tiene el time base de la nota y con la ADSR estandar y el porcentaje que
+            # correponde a cada etapa saco cuantos elementos tiene el time base de cada tapa. Es decir como se repaerte el time base
+            # en las diferentes etapas
+            ola = np.size(note.time_base)
+
+            stageA_elements = int((self.D_time / t_tot_ADSRn)                 * np.size(note.time_base))  # stageA% * time_base
+            stageD_elements = int(((self.S_time - self.D_time) / t_tot_ADSRn) * np.size(note.time_base))  # same
+            stageS_elements = int((self.R_time - self.S_time) / t_tot_ADSRn   * np.size(note.time_base))  # same
+            stageR_elements = int((t_tot_ADSRn - self.R_time) / t_tot_ADSRn   * np.size(note.time_base))  # same
 
             #LINSPACE DE CADA ETAPA
-            stageA_x = np.linspace(0 , stageA_tiempo, int(note.fs * note.duration * 1E-6 * stageA_tiempo))
-            stageD_x = np.linspace(stageA_tiempo, stageA_tiempo + stageD_tiempo, int(note.fs * note.duration*1E-6*stageD_tiempo))
-            stageS_x = np.linspace(stageA_tiempo + stageD_tiempo, stageA_tiempo + stageD_tiempo + stageS_tiempo , int(note.fs * note.duration * 1E-6 * stageS_tiempo))
-            stageR_x = np.linspace(stageA_tiempo + stageD_tiempo + stageS_tiempo + stageR_tiempo, stageA_tiempo + stageD_tiempo + stageS_tiempo + stageR_tiempo + stageR_tiempo , int(note.fs * note.duration * 1E-6 * stageS_tiempo))
+            stageA_x = np.linspace(0 , self.D_time, stageA_elements)
+            stageD_x = np.linspace(self.D_time, self.S_time, stageD_elements)
+            stageS_x = np.linspace(self.S_time, self.R_time, stageS_elements)
+            stageR_x = np.linspace(self.R_time, self.off_time , stageR_elements)
+
+#            stageA_x = np.linspace(0 , stageA_tiempo, int(note.fs * note.duration * 1E-6 * stageA_tiempo))
+#            stageD_x = np.linspace(stageA_tiempo, stageA_tiempo + stageD_tiempo, int(note.fs * note.duration*1E-6*stageD_tiempo))
+#            stageS_x = np.linspace(stageA_tiempo + stageD_tiempo, stageA_tiempo + stageD_tiempo + stageS_tiempo , int(note.fs * note.duration * 1E-6 * stageS_tiempo))
+#            stageR_x = np.linspace(stageA_tiempo + stageD_tiempo + stageS_tiempo + stageR_tiempo, stageA_tiempo + stageD_tiempo + stageS_tiempo + stageR_tiempo + stageR_tiempo , int(note.fs * note.duration * 1E-6 * stageS_tiempo))
 
             # Se calculan las etapas de la ADSR --> Son las rectas que hacen al envelope
             stageA = (stageA_x) * self.A_pendiente
@@ -166,10 +166,11 @@ class PartialNote:
             print("\n diferencia = " , difference)
 
             if (difference > 0):  # Si el timebase es mas grande que el ADSR envelope le agrego ceros :D
-                ADSR_data += np.concatenate([ADSR_data, zeros])  # Se concatena y se suma
+                ADSR_data = np.concatenate([ADSR_data, zeros])  # Se concatena y se suma
 
             elif (difference < 0):  # Si el ADSR envelope es mas grande que el timebase [D:] le sacamos a la etapa de sustain la diferencia
                 ADSR_data = ADSR_data[:difference]
+
 
             difference = np.size(note.time_base) - np.size(ADSR_data)
 
