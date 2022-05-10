@@ -25,6 +25,6 @@ class Song:
     def set_base_tiempo(self):
         self.time_base = np.linspace(0, self.duration, int(self.fs*self.duration))
 
-s = Song()
+'''s = Song()
 s.set_midi(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
-print(s.tracks)
+print(s.tracks)'''
