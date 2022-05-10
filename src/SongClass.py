@@ -1,6 +1,6 @@
 from mido import MidiFile
 import numpy as np
-from src.midi_handler import MIDIHandler
+from midi_handler import MIDIHandler
 #from TrackClass import Track
 
 class Song:
@@ -18,13 +18,13 @@ class Song:
     def set_midi(self, path):
         self.midi = MidiFile(path, clip=True)
         self.duration = self.midi.length
-        self.time_base = np.linspace(0, self.duration, int(self.fs * self.duration))
+        self.time_base = np.linspace(0, self.duration*10**-6, int(self.fs * self.duration))
         self.tracks = MIDIHandler(self.midi).tracks
         return
 
     def set_base_tiempo(self):
-        self.time_base = np.linspace(0, self.duration, int(self.fs*self.duration))
+        self.time_base = np.linspace(0, self.duration*10**-6, int(self.fs*self.duration))
 
-'''s = Song()
-s.set_midi(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
-print(s.tracks)'''
+#s = Song()
+#s.set_midi(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\RodrigoAdagio.mid")
+#print(s.tracks)

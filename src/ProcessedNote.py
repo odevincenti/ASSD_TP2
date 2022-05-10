@@ -69,7 +69,8 @@ class ProcessedNote:
 
                     else:
                         amplitude_array += output_sine
-            note.output_signal = amplitude_array
+
+            note.set_note_signal(amplitude_array)
 
         #KARPUTULS STRONG############################################################################################
         elif instrument == 'P':
