@@ -403,9 +403,9 @@ QSlider::add-page:horizontal{
                  <item>
                   <widget class="QLabel" name="label_3">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>50</horstretch>
+                     <verstretch>50</verstretch>
                     </sizepolicy>
                    </property>
                    <property name="maximumSize">
@@ -415,13 +415,13 @@ QSlider::add-page:horizontal{
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border-image: url(:/notes50x50/notes50x50.png);</string>
+                    <string notr="true">image: url(:/notes50x50/notes50x50.png);</string>
                    </property>
                    <property name="text">
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap resource="music.qrc">:/nota/notes50x50.png</pixmap>
+                    <pixmap>:/nota/notes50x50.png</pixmap>
                    </property>
                   </widget>
                  </item>
