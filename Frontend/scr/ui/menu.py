@@ -208,8 +208,13 @@ class Ui_Form(object):
         self.horizontalSlider_Track.setObjectName("horizontalSlider_Track")
         self.horizontalLayout.addWidget(self.horizontalSlider_Track)
         self.label_3 = QtWidgets.QLabel(self.tab)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(50)
+        sizePolicy.setVerticalStretch(50)
+        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
         self.label_3.setMaximumSize(QtCore.QSize(50, 50))
-        self.label_3.setStyleSheet("border-image: url(:/notes50x50/notes50x50.png);")
+        self.label_3.setStyleSheet("image: url(:/notes50x50/notes50x50.png);")
         self.label_3.setText("")
         self.label_3.setPixmap(QtGui.QPixmap(":/nota/notes50x50.png"))
         self.label_3.setObjectName("label_3")
@@ -821,11 +826,6 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", "Duración"))
         self.pushButton_graficar.setText(_translate("Form", "GRAFICAR"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Form", "Espectograma"))
-
-"""import nota
-import pause
-import play
-import stop"""
 
 
 if __name__ == "__main__":

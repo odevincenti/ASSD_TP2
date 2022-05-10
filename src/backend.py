@@ -1,6 +1,6 @@
 import numpy as np
 
-from SongClass import *
+from src.SongClass import *
 
 #import pyaudio
 import sounddevice as sa
