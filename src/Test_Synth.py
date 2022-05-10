@@ -4,7 +4,19 @@ import numpy as np
 import simpleaudio as sa
 import matplotlib.pyplot as plot
 
-note = 59  # SI
+
+#####################    NOTAS   ########################
+#          Sea k perteneciente a los numeros enteros
+#  DO  - 12 * k || 13 * k
+#  RE  - 14 * k || 15 * k
+#  MI  - 16 * k
+#  FA  - 17 * k || 18 * k
+#  SOL - 31 * k || 32 * k
+#  LA  - 33 * k || 34 * k
+#  SI  - 35 * k
+#########################################################
+
+note = 12  #
 start_time = 4133521.625
 end_time = 5454544.0
 duration = 1321022.375
