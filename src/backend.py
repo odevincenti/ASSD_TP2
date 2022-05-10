@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.SongClass import *
+from SongClass import *
 
 #import pyaudio
 import sounddevice as sa
@@ -9,8 +9,8 @@ from scipy.io import wavfile
 
 
 
-def note2freq(note):
-    return 8.1757989156 * (2 ** (note / 12))
+
+
 
 
 class backend():
@@ -24,6 +24,7 @@ class backend():
         for i in range(len(self.song.tracks)):
             if self.song.tracks[i].activate:
                 self.synthesize_track(self.song.tracks[i])
+                print("track esta activado")
             else:
                 self.song.tracks[i].signal_out = []
             self.song.output_signal += self.song.tracks[i].signal_out
@@ -31,6 +32,7 @@ class backend():
     def synthesize_track(self, track):
         if track.change == 1:
             track.signal_out=[]
+            print("sintetiza track")
             for i in range(len(track.notes)):
                 self.synthesize_note(track.notes[i], self.track.instrument)
                 if  track.notes[i].start_time != 0:
@@ -69,10 +71,11 @@ class backend():
     def update_path(self, path):
         if self.song.midi != path:
             self.song.set_midi(path)
+            print("path updateado")
 
     def process_song(self):
         if self.song is not None:
-            self.syntethize_song()
+            self.synthesize_song()
 
     def update_track(self, number_track, instrument, activate, velocity):
         if number_track < len(self.song.tracks):
@@ -104,3 +107,9 @@ class backend():
         signal = self.song.output_signal(32767 / np.max(np.abs(self.song.output_signal)))
         signal = signal.astype(np.int16)
         wavfile.write(filename, self.song.fs, signal)
+
+
+
+test = backend()
+test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\RodrigoAdagio.mid")
+#test.process_song()

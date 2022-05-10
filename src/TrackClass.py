@@ -5,7 +5,7 @@ class Track:
         self.activate = True
         self.instrument = instrument      # CHAR 'F' = flauta (additive)  || 'P' = piano
         self.signal_out = []
-        self.change = False      # Si esta en True es pq en el update se modificaron las notas/velocidad/instrument
+        self.change = True      # Si esta en True es pq en el update se modificaron las notas/velocidad/instrument
 
     def update(self, velocity, activate, instrument):
         if self.velocity != velocity or self.instrument != instrument:
