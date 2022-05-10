@@ -81,7 +81,7 @@ class MIDIHandler:
 
     # note_off(channel, note, velocity)
     def note_off(self, msg):
-        print("Note OFF")
+        # print("Note OFF")
         r = True
         idn = self.find_note(msg)
         if idn is not None:
@@ -102,22 +102,22 @@ class MIDIHandler:
 
     # note_on(channel, note, velocity)
     def note_on(self, msg):
-        print("Note ON")
+        # print("Note ON")
         self.notes.append(Note(msg.note, self.time + msg.time, 0, 0, msg.velocity))
         self.aux_notes.append(Note(msg.note, self.time + msg.time, 0, 0, msg.velocity))
         return True
 
     def set_tempo(self, msg):
-        print("Set Tempo")
+        # print("Set Tempo")
         self.tempo.append({'tempo': msg.tempo, 'time': self.meta_time + msg.time})
         return
 
     def time_signature(self, msg):
-        #print("Time Signature")
+        # print("Time Signature")
         return
 
     def end_of_track(self, msg):
-        print("End of track")
+        # print("End of track")
         return
 
     def other(self, msg, msg2):
