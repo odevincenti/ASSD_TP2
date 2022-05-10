@@ -10,7 +10,7 @@ class Note:
         self.velocity = velocity
         self.note_signal = None
         self.fs = fs
-        self.time_base = np.linspace(self.start_time, self.end_time, self.fs * self.duration)
+        self.time_base = np.linspace(self.start_time, self.end_time, int(self.fs * self.duration*1E-6))
 
     def set_note_signal(self, note_signal):
         self.note_signal = note_signal
