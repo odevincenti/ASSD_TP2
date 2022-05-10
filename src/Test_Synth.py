@@ -1,5 +1,7 @@
 from src.ProcessedNote import ProcessedNote
 from src.NoteClass import Note
+import numpy as np
+
 import matplotlib.pyplot as plot
 
 note = 59  # SI
@@ -15,6 +17,8 @@ Synth = ProcessedNote()
 
 Synth.create_note(nota, "F")
 
-time = nota.create_time_base()
+time = np.linspace(0,np.size(nota.note_signal),)
 
-plot.plot(time, nota.note_signal)
+print(np.size(time))
+print(np.size(nota.note_signal))
+#plot.plot(time, nota.note_signal)

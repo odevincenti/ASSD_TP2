@@ -50,10 +50,16 @@ class ProcessedNote:
                 self.PartialNotes[i].get_amplitude_array(note)
 
                 #Un arreglo que va de cero a el tiempo maximo del parcial
-                time_vals = np.linspace(0, self.PartialNotes[i].final_ASDR_time, int(note.fs * self.PartialNotes[i].final_ASDR_time))
+                ###
+                ### SE ROMPE ACA
+                ####
+                time_vals = note.time_base
+                print("\n TAMAÑO TIME BASE: ",np.size(time_vals),"\n")
+                print("\n TAMAÑO DE UN PARTIAL:" , np.size(self.PartialNotes[i].output_signal),"\n")
 
                 #Multiplico la ADSR con el seno de cada parcial
                 output_sine = ampli_partial * self.PartialNotes[i].output_signal * np.sin(freq * 2 * np.pi * time_vals - 180 * phase / np.pi)
+                print("\n TAMAÑO OUTPUT SINE: ", np.size(output_sine) ,"\n")
 
                 self.PartialNotes[i].output_signal = None  # Libero la memoria
 
@@ -73,6 +79,7 @@ class ProcessedNote:
                         amplitude_array += output_sine
 
             note.set_note_signal(amplitude_array)
+
 
         #KARPUTULS STRONG############################################################################################
         elif instrument == 'P':
@@ -95,7 +102,7 @@ class ProcessedNote:
         # path_a_data: Path al txt ( Ejemplo: "../MATLAB/Parciales_txts/Flauta/Parciales_DO.txt" )
 
         path_a_data = "../MATLAB/Parciales_txts/" + instrument + "/Parciales_" + NOTA + ".txt"
-      #  path_a_data = "../MATLAB/Parciales_txts/Flauta/Parciales_DO.txt"
+
         note_partials_file = pd.read_csv(path_a_data, sep='\t')  #Archivo con los componentes parciales de una nota
         print(note_partials_file)
 
