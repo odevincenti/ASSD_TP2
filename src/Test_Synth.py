@@ -2,7 +2,7 @@ from src.ProcessedNote import ProcessedNote
 from src.NoteClass import Note
 import matplotlib.pyplot as plot
 
-note = 59
+note = 59  # SI
 start_time = 4133521.625
 end_time = 5454544.0
 duration = 1321022.375
