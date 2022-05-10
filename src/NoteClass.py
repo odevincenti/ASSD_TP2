@@ -23,4 +23,15 @@ class Note:
         self.time_base = np.linspace(self.start_time * 1E-6, self.end_time * 1E-6, int(self.fs * self.duration* 1E-6))
 
     def note2freq(self, note):
-        return 8.1757989156 * (2 ** (note / 12))
+        #freq = 8.1757989156 * (2 ** (note / 12))
+        if note > 83:
+            note_aux = note % 12 + 72
+            freq = 8.1757989156 * (2 ** (note_aux / 12))
+
+        elif note < 36:
+            note_aux = note % 12 + 36
+            freq = 8.1757989156 * (2 ** (note_aux / 12))
+        else:
+            freq = 8.1757989156 * (2 ** (note / 12))
+
+        return freq
