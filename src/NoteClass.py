@@ -17,7 +17,7 @@ class Note:
 
     def update_fs(self, fs):
         self.fs = fs
-        self.time_base = np.linspace(self.start_time, self.end_time, self.fs * self.duration)
+        self.time_base = np.linspace(self.start_time, self.end_time, int(self.fs * self.duration))
 
     def create_time_base(self):
         self.time_base = np.linspace(self.start_time, self.end_time, self.fs * self.duration)

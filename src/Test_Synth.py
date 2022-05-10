@@ -6,7 +6,7 @@ note = 59
 start_time = 4133521.625
 end_time = 5454544.0
 duration = 1321022.375
-fs = 0
+fs = 1000
 freq = 245.94165062674196
 velocity = 95
 

@@ -142,10 +142,13 @@ class PartialNote:
         # Arreglo de valores (depende de final_ASDR_time)
         note_out = np.linspace(0, final_ASDR_time, int(final_ASDR_time * note.fs))
 
-        R_time_index = int(round(note.duration * note.fs))
+        # Paso la duracion de la nota que venia del objeto nota en microsegundos a segundos
+        note_dur_seg = note.duration * 1E-6
+
+        R_time_index = int(round(note_dur_seg * note.fs))
 
         # Si la duracion de la nota es mas grande que el tiempo total de las 4 etadpas
-        if (note.duration >= self.S_time):
+        if (note_dur_seg >= self.S_time):
 
             D_time_index = int(round((self.D_time) * note.fs))
             S_time_index = int(round((self.S_time) * note.fs))
@@ -157,17 +160,17 @@ class PartialNote:
             stageA = (stageA) * self.A_pendiente
             stageD = (stageD - self.D_time) * self.D_pendiente + self.D_amp
             stageS = (stageS - self.S_time) * self.S_pendiente + self.S_amp
-            stageR = (stageR - note.duration) * self.R_pendiente + ( note.duration - self.S_time) * self.S_pendiente + self.S_amp
+            stageR = (stageR - note_dur_seg) * self.R_pendiente + ( note_dur_seg - self.S_time) * self.S_pendiente + self.S_amp
 
             data = np.concatenate([stageA, stageD, stageS, stageR])  # Se concatenan las etapas
 
         # Si no se completan todas las etapas...
         else:
             # Etapas AR
-            if note.duration <= self.D_time:
+            if note_dur_seg <= self.D_time:
                 stageA, stageR = np.split(note_out, [R_time_index])
                 stageA = (stageA) * self.A_pendiente
-                stageR = (stageR - note.duration) * self.R_pendiente + note.duration * self.A_pendiente
+                stageR = (stageR - note_dur_seg) * self.R_pendiente + note_dur_seg * self.A_pendiente
                 data = np.concatenate([stageA, stageR])
 
 
@@ -177,7 +180,7 @@ class PartialNote:
                 stageA, stageD, stageR = np.split(note_out, [D_time_index, R_time_index])
                 stageA = (stageA) * self.A_pendiente
                 stageD = self.D_amp + self.D_pendiente * (stageD - self.D_time)
-                stageR = (stageR - note.duration) * self.R_pendiente + self.D_amp + ( note.duration - self.D_time) * self.D_pendiente
+                stageR = (stageR - note_dur_seg) * self.R_pendiente + self.D_amp + ( note_dur_seg - self.D_time) * self.D_pendiente
                 data = np.concatenate([stageA, stageD, stageR])  # Se concatenan las etapas
 
         return data
