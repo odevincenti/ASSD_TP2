@@ -1,7 +1,7 @@
 import numpy as np
 
 class Note:
-    def __init__(self, note, start_time, duration, end_time, velocity, fs=0):
+    def __init__(self, note, start_time, duration, end_time, velocity, fs=100E3):
         self.note = note
         self.freq = self.note2freq(note)
         self.start_time = start_time            # Tiempo en microsegundos
@@ -10,10 +10,14 @@ class Note:
         self.velocity = velocity
         self.note_signal = None
         self.fs = fs
-        self.time_base = []
+        self.time_base = np.linspace(self.start_time, self.end_time, self.fs * self.duration)
 
     def set_note_signal(self, note_signal):
         self.note_signal = note_signal
+
+    def update_fs(self, fs):
+        self.fs = fs
+        self.time_base = np.linspace(self.start_time, self.end_time, self.fs * self.duration)
 
     def create_time_base(self):
         self.time_base = np.linspace(self.start_time, self.end_time, self.fs * self.duration)
