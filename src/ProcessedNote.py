@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 from src.Partials import PartialNote
+import os
+
 
 class ProcessedNote:
     def __init__(self):
@@ -35,7 +37,7 @@ class ProcessedNote:
 
         #ADDITIVE SYNTHESIS#######################################################################################
         if instrument == 'F':
-            self.create_partial(self, note.note,"flauta",note.freq)
+            self.create_partial(note.note,"Flauta",note.freq)
 
             # Para cada parcial...
             for i in range(0, len(self.PartialNotes)):
@@ -92,7 +94,7 @@ class ProcessedNote:
         #Primero preparo el path de la nota segun el instrumento
         # path_a_data: Path al txt ( Ejemplo: "./MATLAB/Parciales_txts/Flauta/Parciales_DO.txt" )
 
-        path_a_data = "./MATLAB/Parciales_txts/" + instrument + "/Parciales_" + NOTA + ".txt"
+        path_a_data = "c:/00 - Ignacio/PROYECTOS PYTHON/ASSD_TP2/MATLAB/" + instrument + "/Parciales_" + NOTA + ".txt"
 
         note_partials_file = pd.read_csv(path_a_data, sep='\t')  #Archivo con los componentes parciales de una nota
         #print(note_partials_file)

@@ -17,10 +17,10 @@ class Note:
 
     def update_fs(self, fs):
         self.fs = fs
-        self.time_base = np.linspace(self.start_time, self.end_time, int(self.fs * self.duration))
+        self.time_base = np.linspace(self.start_time, self.end_time, int(self.fs * self.duration)* 1E-6)
 
     def create_time_base(self):
-        self.time_base = np.linspace(self.start_time, self.end_time, self.fs * self.duration)
+        self.time_base = np.linspace(self.start_time, self.end_time, int(self.fs * self.duration)* 1E-6)
 
     def note2freq(self, note):
         return 8.1757989156 * (2 ** (note / 12))
