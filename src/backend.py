@@ -111,6 +111,14 @@ class backend():
         else:
             return -1
 
+    def flanger_effect(self, g, delay, fd):
+        if self.song.output_signal is not None:
+            effect.update_params(g, delay, self.song.output_signal, self.song.fs, fd)
+            effect.flanger()
+            self.song.output_signal = effect.get_output_signal()
+        else:
+            return -1
+
     def update_track(self, number_track, instrument, activate, velocity):
         if number_track < len(self.song.tracks):
             self.song.tracks[number_track].update(velocity, activate, instrument)
@@ -143,7 +151,7 @@ class backend():
         wavfile.write(filename, self.song.fs, signal)
 
 test = backend()
-test.update_path(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\Undertale_-_Megalovania.mid")
+test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\Undertale_-_Megalovania.mid")
 
 test.process_song()
 print(np.max(np.abs(test.song.output_signal)))
