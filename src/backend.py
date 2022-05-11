@@ -145,7 +145,7 @@ class backend():
 
     def resume_song(self, time):
         if self.song.output_signal is not None:
-            self.play_signal(self.song.output_signal[:int(time*self.song.fs)])
+            self.play_signal(self.song.output_signal[int(time*self.song.fs):])
 
 
     def save_wav_file(self, filename):

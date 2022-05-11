@@ -30,7 +30,7 @@ nota = Note(note, start_time, duration, end_time, velocity, fs)
 
 Synth = ProcessedNote()
 
-Synth.create_note(nota, "P")
+Synth.create_note(nota, "X")
 
 
 print(np.size(nota.time_base))

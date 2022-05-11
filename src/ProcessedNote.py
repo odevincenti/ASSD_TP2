@@ -3,16 +3,14 @@ import numpy as np
 from src.Partials import PartialNote
 from pathlib import Path
 from src.KarplusStrong import KarplusStrong
+from src.SampleSynth import SampleSynth
 
 class ProcessedNote:
     def __init__(self):
-        self.frecuencia = None
-        self.fase = None
-        self.ADSR = None
-        self.instrumento = None
         self.nota = None
         self.PartialNotes = []  # Arreglo de las parciales individuales (forma de notas)
         self.ks = KarplusStrong()
+        self.ssythn = SampleSynth()
         self.track_id = 0
 
     def create_note(self, note, instrument):
@@ -40,12 +38,9 @@ class ProcessedNote:
 
         # ADDITIVE SYNTHESIS#######################################################################################
         if instrument == 'F' or instrument == 'P':
-
             print('Síntesis Aditiva')
-
             if instrument == 'F':
                 self.create_partial(note.note, "Flauta", note.freq)
-
             if instrument == 'P':
                 self.create_partial(note.note, "Piano", note.freq)
 
@@ -61,13 +56,8 @@ class ProcessedNote:
 
                 # Un arreglo que va de cero a el tiempo maximo del parcial
                 time_vals = note.time_base
-                # print("\n TAMAÑO TIME BASE: ",np.size(time_vals),"\n")
-                # print("\n TAMAÑO DE UN PARTIAL:" , np.size(self.PartialNotes[i].output_signal),"\n")
-
                 # Multiplico la ADSR con el seno de cada parcial
                 output_sine = ampli_partial * partial.output_signal * np.sin(freq * 2 * np.pi * time_vals - 180 * phase / np.pi)
-                # print("\n TAMAÑO OUTPUT SINE: ", np.size(output_sine) ,"\n")
-
                 partial.output_signal = None  # Libero la memoria
 
                 # Se suman las señales de cada parcial
@@ -81,10 +71,8 @@ class ProcessedNote:
 
                     elif difference < 0:
                         amplitude_array = np.add(np.concatenate([amplitude_array, zeros]), output_sine)
-
                     else:
                         amplitude_array = np.add(amplitude_array, output_sine)
-
             note.set_note_signal(amplitude_array)
 
 
@@ -103,6 +91,11 @@ class ProcessedNote:
             self.ks.gen_note(note, instrument)
             # note.note_signal = self.ks.instrument_switch.get(instrument, self.other)(self, note)
             # print("En un futuro tendremos karpulus yo lo se")
+
+        elif instrument == 'X':
+            print('Sintesis por Samples')
+            #self.ssythn.gen_note(note,instrument)
+
 
 
     def create_partial(self, midi_note , instrument, frecuencia):

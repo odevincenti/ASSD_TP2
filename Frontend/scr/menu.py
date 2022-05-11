@@ -2,7 +2,7 @@ from scr.track import TrackWidget
 from counter import Counter
 from src.backend import *
 from PyQt5.QtWidgets import *
-from ui.menu import Ui_Menu
+from scr.ui.menu import Ui_Menu
 from pathlib import Path
 
 
@@ -15,6 +15,8 @@ class MenuWindow (QWidget, Ui_Menu):
         self.back = backend()
         self.track_array = []
         self.first_time = 0
+        self.pausa = False
+        self.play = True
 
         #TRACK 0
         self.label_track0.hide()
@@ -78,28 +80,35 @@ class MenuWindow (QWidget, Ui_Menu):
     def play_song(self):
         print("PLAY")
         if self.first_time == 0:
+            self.pausa = False
             self.counter.start_thread()
             self.first_time = 1
-        if self.counter.play_second == 0:
+        if self.pausa == False:
             self.counter.pause_loop = False
             self.back.play_song()
         else:
-            self.counter.pause_loop = False
-            self.back.resume_song(self.counter.play_second)
-
-
+            if(self.play):
+                self.counter.pause_loop = False
+                self.back.resume_song(self.counter.play_seconds)
+                self.play = False
 
 
     def pause_song(self):
         print("PAUSA")
+        self.pausa = True
+        self.play = True
         self.counter.pause_loop = True
         self.back.pause_reproduction()
 
 
     def reset_song(self):
         print("RESET")
+        self.play = False
+        self.pausa = False
         self.counter.reset_loop = True
         self.counter.start()
+        self.back.pause_reproduction()
+        self.back.play_song()
 
 
     def Reverb_check_state(self, value):
