@@ -48,19 +48,10 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_instrument_track">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
+           <widget class="QComboBox" name="comboBox_track">
             <property name="styleSheet">
              <string notr="true">background:white;
 color:black;</string>
-            </property>
-            <property name="text">
-             <string>Instrument</string>
             </property>
            </widget>
           </item>

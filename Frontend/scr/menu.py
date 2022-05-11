@@ -67,11 +67,11 @@ class MenuWindow (QWidget, Ui_Form):
 
     def save_file(self):
         print("save")
-        #self.back.save_wav_file(self.path)
+        self.back.save_wav_file(self.path)
 
     def sintetizar(self):
         print("sintetizar")
-        #self.back.process_song()
+        self.back.process_song()
 
 
     def graficar_espectrograma(self):
