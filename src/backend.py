@@ -28,7 +28,8 @@ class backend():
         for i in range(len(self.song.tracks)):
             if self.song.tracks[i].activate:
                 self.synthesize_track(self.song.tracks[i])
-                print("track esta activado")
+                print("track numero", i)
+                #print("track esta activado")
             else:
                 self.song.tracks[i].signal_out = []
             self.song.output_signal += self.song.tracks[i].signal_out
@@ -37,7 +38,7 @@ class backend():
         if track.change == 1:
             track.signal_out= np.zeros(int(self.song.fs*self.song.duration))
             print("sintetiza track")
-            print(self.song.duration)
+            #print(self.song.duration)
 
             for i, note in enumerate(track.notes):
                 print("nota numero:", i, "\n")
@@ -66,9 +67,9 @@ class backend():
                 track.signal_out += track.notes[i].note_signal
                 '''
     def synthesize_note(self, note, instrument):
-        print("entre a synthesis")
+        #print("entre a synthesis")
         self.process_note.create_note(note, 'F')
-        print(note.note_signal)
+        #print(note.note_signal)
 
         # llamar a create_note(self, note, instrument)
             # En un futuro no muy lejano create_note recibe un parámetro metodo que diga cual metodo de sintetizar usa

@@ -98,6 +98,7 @@ class PartialNote:
     def get_amplitude_array(self, note):
         # Se obtiene la ADSR del parcial y lo guarda en self.output_signal
         if(note.duration == 0):
+
             print("error la duración es cero")
 
         data = self.get_adsr(note)

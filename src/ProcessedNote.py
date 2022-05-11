@@ -104,7 +104,7 @@ class ProcessedNote:
 
 
         note_partials_file = pd.read_csv(path_a_data, sep='\t')  #Archivo con los componentes parciales de una nota
-        print(note_partials_file)
+        #print(note_partials_file)
 
         column = note_partials_file["Amplitud"]
         frecuencia_samples_ix = column.idxmax()
