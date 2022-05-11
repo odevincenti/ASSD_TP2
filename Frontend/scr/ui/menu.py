@@ -31,6 +31,25 @@ class Ui_Menu(object):
 "color:black;\n"
 "")
         self.tabWidget.setObjectName("tabWidget")
+        self.tab_2 = QtWidgets.QWidget()
+        self.tab_2.setObjectName("tab_2")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.tab_2)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.label = QtWidgets.QLabel(self.tab_2)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI Symbol")
+        font.setPointSize(40)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label.setFont(font)
+        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.label.setStyleSheet("background:rgb(30,30,30);\n"
+"color:white;")
+        self.label.setTextFormat(QtCore.Qt.AutoText)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.verticalLayout_5.addWidget(self.label)
+        self.tabWidget.addTab(self.tab_2, "")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.tab)
@@ -707,30 +726,11 @@ class Ui_Menu(object):
         self.horizontalLayout_2.addLayout(self.verticalLayout_15)
         self.horizontalLayout_4.addLayout(self.horizontalLayout_2)
         self.tabWidget.addTab(self.tab, "")
-        self.tab_2 = QtWidgets.QWidget()
-        self.tab_2.setObjectName("tab_2")
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.tab_2)
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.label = QtWidgets.QLabel(self.tab_2)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
-        font.setPointSize(40)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label.setFont(font)
-        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.label.setStyleSheet("background:rgb(30,30,30);\n"
-"color:white;")
-        self.label.setTextFormat(QtCore.Qt.AutoText)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.verticalLayout_5.addWidget(self.label)
-        self.tabWidget.addTab(self.tab_2, "")
         self.verticalLayout.addWidget(self.tabWidget)
         self.verticalLayout_7.addLayout(self.verticalLayout)
 
         self.retranslateUi(Menu)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.verticalSlider_Flanger_Retraso.valueChanged['int'].connect(self.lcdNumber_Flanger_Retraso.display) # type: ignore
         self.verticalSlider_Reverb_Retraso.valueChanged['int'].connect(self.lcdNumber_Reverb_Retraso.display) # type: ignore
         self.verticalSlider_flanger_frecuencia_2.valueChanged['int'].connect(self.lcdNumber_Flanger_Frecuencia.display) # type: ignore
@@ -743,6 +743,8 @@ class Ui_Menu(object):
     def retranslateUi(self, Menu):
         _translate = QtCore.QCoreApplication.translate
         Menu.setWindowTitle(_translate("Menu", "Form"))
+        self.label.setText(_translate("Menu", "ASSD - TP2 - GRUPO 1"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Menu", "Presentación"))
         self.pushButton_Upload.setText(_translate("Menu", "UPLOAD"))
         self.pushButton_Save.setText(_translate("Menu", "SAVE"))
         self.label_track0.setText(_translate("Menu", "Track 0"))
@@ -763,8 +765,6 @@ class Ui_Menu(object):
         self.label_13.setText(_translate("Menu", "Frecuencia [Hz]"))
         self.label_14.setText(_translate("Menu", "Ganancia [%]"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Menu", "Sintetizador"))
-        self.label.setText(_translate("Menu", "ASSD - TP2 - GRUPO 1"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Menu", "Espectograma"))
 
 
 if __name__ == "__main__":
