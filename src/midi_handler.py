@@ -88,6 +88,8 @@ class MIDIHandler:
         r = True
         idn = self.find_note(msg)
         if idn is not None:
+            if idn == 712:
+                print('Ahora acá')
             while self.notes[idn].end_time == 0:
                 if self.notes[idn].start_time > self.duration * 1E6:
                     self.notes[idn].start_time = self.duration * 1E6 - 1
