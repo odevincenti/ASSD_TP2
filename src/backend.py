@@ -36,6 +36,8 @@ class backend():
 
             for i, note in enumerate(track.notes):
                 print("Track:", self.process_note.track_id, "Note:", i, "Instrument:", track.instrument, "\n")
+                if i == 712:
+                    print('Acá')
                 self.synthesize_note(note, track.instrument)
                 z = 0
                 # print(int(note.end_time))

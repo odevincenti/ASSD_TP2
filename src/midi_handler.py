@@ -46,19 +46,24 @@ class MIDIHandler:
         self.ticks_per_beat = midi.ticks_per_beat
         self.tracks = []
         self.tempo = []
+        self.time = 0
 
         self.notes = []
         self.aux_notes = []
 
-        for track in midi.tracks:
+        for idt, track in enumerate(midi.tracks):
+            print('Track:', idt)
+            self.notes = []
+            self.aux_notes = []
             self.time = 0
             self.meta_time = 0
             self.tempo.append({'tempo': 0, 'time': self.duration * 1E6})
             if self.tempo:
                 self.tempo_idx = 0
-            for message in track:
+            for idm, message in enumerate(track):
                 self.midi_message_switch.get(message.type, self.other)(self, message)
                 if not message.is_meta:
+                    print(idm)
                     self.time = self.time + message.time
                 else:
                     self.meta_time = self.meta_time + message.time
@@ -83,8 +88,13 @@ class MIDIHandler:
         r = True
         idn = self.find_note(msg)
         if idn is not None:
+            if idn == 712:
+                print('Ahora acá')
             while self.notes[idn].end_time == 0:
-                if self.tempo[self.tempo_idx]['time'] <= self.notes[idn].start_time < self.tempo[self.tempo_idx + 1]['time']:
+                if self.notes[idn].start_time > self.duration * 1E6:
+                    self.notes[idn].start_time = self.duration * 1E6 - 1
+                    self.notes[idn].end_time = self.duration * 1E6
+                elif self.tempo[self.tempo_idx]['time'] <= self.notes[idn].start_time < self.tempo[self.tempo_idx + 1]['time']:
                     self.notes[idn].start_time = self.notes[idn].start_time * self.tempo[self.tempo_idx]['tempo'] / self.ticks_per_beat
                     self.notes[idn].end_time = (self.time + msg.time) * self.tempo[self.tempo_idx]['tempo'] / self.ticks_per_beat
                 elif self.tempo[self.tempo_idx + 1]['time'] <= self.notes[idn].start_time:
@@ -107,7 +117,9 @@ class MIDIHandler:
 
     def set_tempo(self, msg):
         # print("Set Tempo")
+        self.tempo.remove({'tempo': 0, 'time': self.duration * 1E6})
         self.tempo.append({'tempo': msg.tempo, 'time': self.meta_time + msg.time})
+        self.tempo.append({'tempo': 0, 'time': self.duration * 1E6})
         return
 
     def time_signature(self, msg):
