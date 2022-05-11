@@ -9,7 +9,7 @@ class Track:
 
     def update(self, velocity, activate, instrument):
         if self.velocity != velocity or self.instrument != instrument:
-            self.velocity = velocity
+            self.set_velocity(velocity)
             self.instrument = instrument
             self.activate = activate
             self.signal_out = []
@@ -17,3 +17,7 @@ class Track:
         else:
             self.activate = activate
             self.change = False
+
+    def set_velocity(self, v):
+        self.velocity = v
+        return

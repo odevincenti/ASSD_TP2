@@ -17,7 +17,7 @@ class backend():
         self.song = Song()
         self.effect = effect()
         self.process_note = ProcessedNote()
-        #self.additive = Additive()
+        # self.additive = Additive()
 
     def synthesize_song(self):
         self.song.output_signal = np.zeros(int(self.song.fs*self.song.duration))
@@ -26,7 +26,7 @@ class backend():
                 self.process_note.track_id = i
                 self.synthesize_track(self.song.tracks[i])
                 # print("track numero", i)
-                self.song.output_signal += self.song.tracks[i].signal_out
+                self.song.output_signal += self.song.tracks[i].velocity * self.song.tracks[i].signal_out / 127
 
     def synthesize_track(self, track):
         if track.change == 1:
