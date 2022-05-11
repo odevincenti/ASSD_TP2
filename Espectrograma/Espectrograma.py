@@ -1,21 +1,17 @@
 from scipy import signal as sign
-import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
-from signal import signal
 
 
 def Espectro(x, nfft_, f_s, window_, n_per_seg, overlap):
 
-
     f, t, S = sign.spectrogram(x, fs=f_s, window=window_, nfft=nfft_,nperseg=n_per_seg, noverlap=overlap)
 
-    #plt.specgram(x, fs=f_s, window=window_, nperseg=n_per_seg, noverlap=overlap, cmap='jet_r')
-    plt.colorbar()
-    plt.pcolormesh(t, f, 10*np.log10(S))
+    plt.pcolormesh(t, f, S)
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [sec]')
     plt.title("Espectrograma")
+    plt.colorbar()
     plt.show()
 
 
