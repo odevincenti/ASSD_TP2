@@ -1,4 +1,4 @@
-from Frontend.scr.menu import MenuWindow
+from scr.menu import MenuWindow
 from PyQt5.QtWidgets import QApplication
 import scr.ui.nota
 import scr.ui.play

@@ -1,8 +1,8 @@
-from Frontend.scr.track import TrackWidget
-from Frontend.counter import Counter
+from scr.track import TrackWidget
+from counter import Counter
 from src.backend import *
 from PyQt5.QtWidgets import *
-from Frontend.scr.ui.menu import Ui_Menu
+from ui.menu import Ui_Menu
 from pathlib import Path
 
 
@@ -80,8 +80,14 @@ class MenuWindow (QWidget, Ui_Menu):
         if self.first_time == 0:
             self.counter.start_thread()
             self.first_time = 1
-        self.counter.pause_loop = False
-        self.back.play_song()
+        if self.counter.play_second == 0:
+            self.counter.pause_loop = False
+            self.back.play_song()
+        else:
+            self.counter.pause_loop = False
+            self.back.resume_song(self.counter.play_second)
+
+
 
 
     def pause_song(self):
