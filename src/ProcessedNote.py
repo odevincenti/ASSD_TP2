@@ -40,6 +40,9 @@ class ProcessedNote:
 
         # ADDITIVE SYNTHESIS#######################################################################################
         if instrument == 'F' or instrument == 'P':
+
+            print('Síntesis Aditiva')
+
             if instrument == 'F':
                 self.create_partial(note.note, "Flauta", note.freq)
 
@@ -86,7 +89,8 @@ class ProcessedNote:
 
 
         # KARPLUS STRONG############################################################################################
-        elif instrument == 'G':
+        elif instrument == 'G' or instrument == 'T':
+            print('Síntesis por Karplus-Strong')
             '''self.t_len = int(round(note.fs * note.duration * 1E-6))
             self.sample_len = np.int(note.fs / note.freq)
             self.wavetable = (2 * np.random.randint(0, 2, self.sample_len + 2) - 1).astype(np.float)
@@ -150,5 +154,5 @@ class ProcessedNote:
         note_str = ['DO', 'DO', 'RE', 'RE', 'MI', 'FA', 'FA', 'SOL', 'SOL', 'LA', 'LA', 'SI']
         note_id = midi_note % 12
 
-        print("\n CONVERT MIDI NOTE \nMidinote % 12 :" , note_str[note_id])
+        #print("\n CONVERT MIDI NOTE \nMidinote % 12 :" , note_str[note_id])
         return note_str[note_id]
