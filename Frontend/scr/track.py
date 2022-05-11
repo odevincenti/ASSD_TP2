@@ -10,7 +10,6 @@ class TrackWidget (QWidget, Ui_Form):
         self.setupUi(self)
         self.mute = 0
 
-        self.comboBox_track.clicked.connect(self.instrument_track)
         self.pushButton_mute_track.clicked.connect(self.mute_track)
 
     def instrument_track(self):

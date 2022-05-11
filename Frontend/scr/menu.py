@@ -1,6 +1,6 @@
 from Frontend.scr.track import TrackWidget
 from Frontend.counter import Counter
-from src.backend import *
+#from src.backend import *
 from PyQt5.QtWidgets import *
 from Frontend.scr.ui.menu import Ui_Menu
 from pathlib import Path
@@ -12,7 +12,7 @@ class MenuWindow (QWidget, Ui_Menu):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
 
-        self.back = backend()
+        #self.back = backend()
         self.track_array = []
         self.first_time = 0
 
@@ -49,7 +49,7 @@ class MenuWindow (QWidget, Ui_Menu):
         self.path = filename[0][0]
         self.path_name = Path(self.path)
 
-        self.back.update_path(self.path_name)
+        """self.back.update_path(self.path_name)
         self.ammount_of_tracks = self.back.quantity_of_tracks()
         print("cantidad de tracks:")
         print(self.ammount_of_tracks)
@@ -63,15 +63,20 @@ class MenuWindow (QWidget, Ui_Menu):
         self.counter = Counter(self, self.back.song.duration)
 
         self.horizontalSlider_Track.setMaximum(self.back.song.duration)
-        print(self.horizontalSlider_Track.value())
+        print(self.horizontalSlider_Track.value())"""
 
     def save_file(self):
         print("save")
-        self.back.save_wav_file(self.path)
+        #self.back.save_wav_file(self.path)
 
     def sintetizar(self):
         print("sintetizar")
-        self.back.process_song()
+        for i in range(1, 12):
+            self.aux_track = TrackWidget()
+            self.aux_track.label_track.setText("Track " + str(i))
+            self.track_array.append(self.aux_track)
+            self.Track_Widget.layout().addWidget(self.aux_track)
+        #self.back.process_song()
 
 
     def graficar_espectrograma(self):

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1141</width>
-    <height>704</height>
+    <width>1305</width>
+    <height>738</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@ color:black;
 </string>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
@@ -111,7 +111,7 @@ color:black;</string>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>700</width>
+                   <width>555</width>
                    <height>515</height>
                   </size>
                  </property>
@@ -123,13 +123,19 @@ color:black;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>497</width>
+                    <width>553</width>
                     <height>513</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_11">
                    <item>
                     <widget class="QWidget" name="Track_Widget" native="true">
+                     <property name="maximumSize">
+                      <size>
+                       <width>400</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
                      <property name="styleSheet">
                       <string notr="true">background:rgb(30,30,30);</string>
                      </property>
@@ -138,6 +144,12 @@ color:black;</string>
                        <layout class="QVBoxLayout" name="verticalLayout_9">
                         <item>
                          <widget class="QWidget" name="widget" native="true">
+                          <property name="maximumSize">
+                           <size>
+                            <width>400</width>
+                            <height>100</height>
+                           </size>
+                          </property>
                           <layout class="QVBoxLayout" name="verticalLayout_3">
                            <item>
                             <layout class="QHBoxLayout" name="track0">
@@ -170,6 +182,26 @@ color:black;</string>
                                 <string notr="true">background:white;
 color:black;</string>
                                </property>
+                               <item>
+                                <property name="text">
+                                 <string>Piano</string>
+                                </property>
+                               </item>
+                               <item>
+                                <property name="text">
+                                 <string>Flauta</string>
+                                </property>
+                               </item>
+                               <item>
+                                <property name="text">
+                                 <string>Guitarra Electrica</string>
+                                </property>
+                               </item>
+                               <item>
+                                <property name="text">
+                                 <string>Tambores</string>
+                                </property>
+                               </item>
                               </widget>
                              </item>
                              <item>
@@ -203,14 +235,14 @@ color:black;</string>
                                <item>
                                 <widget class="QSlider" name="horizontalSlider_track0">
                                  <property name="sizePolicy">
-                                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-                                   <horstretch>0</horstretch>
-                                   <verstretch>0</verstretch>
+                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                   <horstretch>80</horstretch>
+                                   <verstretch>22</verstretch>
                                   </sizepolicy>
                                  </property>
                                  <property name="maximumSize">
                                   <size>
-                                   <width>103</width>
+                                   <width>80</width>
                                    <height>22</height>
                                   </size>
                                  </property>
@@ -332,6 +364,19 @@ color:white;</string>
                       </item>
                      </layout>
                     </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_3">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </widget>
@@ -1574,7 +1619,6 @@ background:green;</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="music.qrc"/>
   <include location="stop.qrc"/>
   <include location="pause.qrc"/>
   <include location="play.qrc"/>
