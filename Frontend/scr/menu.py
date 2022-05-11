@@ -2,11 +2,11 @@ from Frontend.scr.track import TrackWidget
 from Frontend.counter import Counter
 from src.backend import *
 from PyQt5.QtWidgets import *
-from Frontend.scr.ui.menu import Ui_Form
+from Frontend.scr.ui.menu import Ui_Menu
 from pathlib import Path
 
 
-class MenuWindow (QWidget, Ui_Form):
+class MenuWindow (QWidget, Ui_Menu):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,7 +18,7 @@ class MenuWindow (QWidget, Ui_Form):
 
         #TRACK 0
         self.label_track0.hide()
-        self.pushButton_instrument_track0.hide()
+        self.comboBox_track0.hide()
         self.horizontalSlider_track0.hide()
         self.pushButton_mute_track0.hide()
 
