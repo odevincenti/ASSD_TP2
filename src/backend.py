@@ -149,9 +149,10 @@ class backend():
 
 
     def save_wav_file(self, filename):
-        signal = self.song.output_signal(32767 / np.max(np.abs(self.song.output_signal)))
+        print(np.max(np.abs(self.song.output_signal)))
+        signal = self.song.output_signal * (32767 / np.max(np.abs(self.song.output_signal)))
         signal = signal.astype(np.int16)
-        wavfile.write(filename, self.song.fs, signal)
+        wavfile.write(filename, int(self.song.fs), signal)
 
 # test = backend()
 # test.update_path(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\UndertaleMegalovania.mid")
