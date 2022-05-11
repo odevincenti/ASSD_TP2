@@ -5,7 +5,7 @@ from scipy.io import wavfile
 
 def Espectro(x, nfft_, f_s, window_, n_per_seg, overlap):
 
-    f, t, S = sign.spectrogram(x, fs=f_s, window=window_, nfft=nfft_,nperseg=n_per_seg, noverlap=overlap)
+    f, t, S = sign.spectrogram(x, fs=f_s, window=window_, nfft=nfft_, nperseg=n_per_seg, noverlap=overlap)
 
     plt.pcolormesh(t, f, S)
     plt.ylabel('Frequency [Hz]')
@@ -18,7 +18,7 @@ def Espectro(x, nfft_, f_s, window_, n_per_seg, overlap):
 if __name__ == "__main__":
     nfft = None
     f_s, x = wavfile.read('Sol_Mayor.wav')
-    window = 'bartlett'
+    window = 'blackmanharris'
     n_per_seg = None
     overlap = 50
 
