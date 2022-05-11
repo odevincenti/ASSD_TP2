@@ -11,18 +11,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(1141, 704)
-        Form.setStyleSheet("background:rgb(30,30,30);\n"
+class Ui_Menu(object):
+    def setupUi(self, Menu):
+        Menu.setObjectName("Menu")
+        Menu.resize(1141, 704)
+        Menu.setStyleSheet("background:rgb(30,30,30);\n"
 "color:white;\n"
 "")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(Form)
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(Menu)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.tabWidget = QtWidgets.QTabWidget(Form)
+        self.tabWidget = QtWidgets.QTabWidget(Menu)
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
@@ -99,15 +99,11 @@ class Ui_Form(object):
         self.track0.addWidget(self.label_track0)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.track0.addItem(spacerItem1)
-        self.pushButton_instrument_track0 = QtWidgets.QPushButton(self.widget)
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.pushButton_instrument_track0.setFont(font)
-        self.pushButton_instrument_track0.setStyleSheet("background:white;\n"
+        self.comboBox_track0 = QtWidgets.QComboBox(self.widget)
+        self.comboBox_track0.setStyleSheet("background:white;\n"
 "color:black;")
-        self.pushButton_instrument_track0.setObjectName("pushButton_instrument_track0")
-        self.track0.addWidget(self.pushButton_instrument_track0)
+        self.comboBox_track0.setObjectName("comboBox_track0")
+        self.track0.addWidget(self.comboBox_track0)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.track0.addItem(spacerItem2)
         self.verticalLayout_10 = QtWidgets.QVBoxLayout()
@@ -124,7 +120,7 @@ class Ui_Form(object):
         self.horizontalSlider_track0.setStyleSheet("QSlider::groove:horizontal{\n"
 "    border: 1px solid black;\n"
 "    height: 3px;\n"
-"    width: 65px;\n"
+"    width: 50px;\n"
 "    background: cyan;\n"
 "}\n"
 "\n"
@@ -800,7 +796,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.tabWidget)
         self.verticalLayout_7.addLayout(self.verticalLayout)
 
-        self.retranslateUi(Form)
+        self.retranslateUi(Menu)
         self.tabWidget.setCurrentIndex(1)
         self.verticalSlider_Reverb_Retraso.valueChanged['int'].connect(self.lcdNumber_Reverb_Retraso.display) # type: ignore
         self.verticalSlider_Reverb_Ganancia.valueChanged['int'].connect(self.lcdNumber_Reverb_Ganancia.display) # type: ignore
@@ -809,36 +805,33 @@ class Ui_Form(object):
         self.verticalSlider_Flanger_Retraso.valueChanged['int'].connect(self.lcdNumber_Flanger_Retraso.display) # type: ignore
         self.verticalSlider_flanger_frecuencia_2.valueChanged['int'].connect(self.lcdNumber_Flanger_Frecuencia.display) # type: ignore
         self.verticalSlider_Flanger_Ganancia.valueChanged['int'].connect(self.lcdNumber_Flanger_Ganancia.display) # type: ignore
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        QtCore.QMetaObject.connectSlotsByName(Menu)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, Menu):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton_Upload.setText(_translate("Form", "UPLOAD"))
-        self.pushButton_Save.setText(_translate("Form", "SAVE"))
-        self.label_track0.setText(_translate("Form", "Track 0"))
-        self.pushButton_instrument_track0.setText(_translate("Form", "Instrument"))
-        self.pushButton_mute_track0.setText(_translate("Form", "Mute"))
-        self.pushButton_Sintetizar.setText(_translate("Form", "SINTETIZAR"))
-        self.checkBox_Reverb.setText(_translate("Form", "Reverb"))
-        self.label_15.setText(_translate("Form", "Retraso [ms]"))
-        self.label_16.setText(_translate("Form", "Ganancia [%]"))
-        self.checkBox_Echo.setText(_translate("Form", "Echo"))
-        self.label_10.setText(_translate("Form", "Retraso [ms]"))
-        self.label_11.setText(_translate("Form", "Ganancia [%]"))
-        self.checkBox_Flanger.setText(_translate("Form", "Flanger"))
-        self.label_12.setText(_translate("Form", "Retraso [ms]"))
-        self.label_13.setText(_translate("Form", "Frecuencia [Hz]"))
-        self.label_14.setText(_translate("Form", "Ganancia [%]"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Form", "Sintetizador"))
-        self.comboBox_tipo.setItemText(0, _translate("Form", "Rectangular"))
-        self.comboBox_tipo.setItemText(1, _translate("Form", "Triangular"))
-        self.label.setText(_translate("Form", "Tiempo Inicial"))
-        self.label_2.setText(_translate("Form", "Duración"))
-        self.pushButton_graficar.setText(_translate("Form", "GRAFICAR"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Form", "Espectograma"))
-
-
+        Menu.setWindowTitle(_translate("Menu", "Form"))
+        self.pushButton_Upload.setText(_translate("Menu", "UPLOAD"))
+        self.pushButton_Save.setText(_translate("Menu", "SAVE"))
+        self.label_track0.setText(_translate("Menu", "Track 0"))
+        self.pushButton_mute_track0.setText(_translate("Menu", "Mute"))
+        self.pushButton_Sintetizar.setText(_translate("Menu", "SINTETIZAR"))
+        self.checkBox_Reverb.setText(_translate("Menu", "Reverb"))
+        self.label_15.setText(_translate("Menu", "Retraso [ms]"))
+        self.label_16.setText(_translate("Menu", "Ganancia [%]"))
+        self.checkBox_Echo.setText(_translate("Menu", "Echo"))
+        self.label_10.setText(_translate("Menu", "Retraso [ms]"))
+        self.label_11.setText(_translate("Menu", "Ganancia [%]"))
+        self.checkBox_Flanger.setText(_translate("Menu", "Flanger"))
+        self.label_12.setText(_translate("Menu", "Retraso [ms]"))
+        self.label_13.setText(_translate("Menu", "Frecuencia [Hz]"))
+        self.label_14.setText(_translate("Menu", "Ganancia [%]"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Menu", "Sintetizador"))
+        self.comboBox_tipo.setItemText(0, _translate("Menu", "Rectangular"))
+        self.comboBox_tipo.setItemText(1, _translate("Menu", "Triangular"))
+        self.label.setText(_translate("Menu", "Tiempo Inicial"))
+        self.label_2.setText(_translate("Menu", "Duración"))
+        self.pushButton_graficar.setText(_translate("Menu", "GRAFICAR"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Menu", "Espectograma"))
 from Frontend.scr.Espectrograma import MplWidget
 
 
@@ -846,8 +839,8 @@ from Frontend.scr.Espectrograma import MplWidget
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
+    Menu = QtWidgets.QWidget()
+    ui = Ui_Menu()
+    ui.setupUi(Menu)
+    Menu.show()
     sys.exit(app.exec_())
