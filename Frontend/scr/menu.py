@@ -103,24 +103,19 @@ class MenuWindow (QWidget, Ui_Menu):
         self.counter.start()
 
 
-
     def Reverb_check_state(self, value):
         print("REVERB BOX")
-        #if value != 0:
-            #self.verticalSlider_Reverb_Retraso.value()
-            #self.verticalSlider_Reverb_Ganancia.value()
+        if value != 0:
+            self.back.all_pass_effect(self.verticalSlider_Reverb_Ganancia.value(), self.verticalSlider_Reverb_Retraso.value())
 
 
     def Echo_check_state(self, value):
         print("ECHO BOX")
-        # if value != 0:
-            #self.verticalSlider_Echo_Retraso.value()
-            #self.verticalSlider_Echo_Ganancia.value()
+        if value != 0:
+            self.back.echo_effect(self.verticalSlider_Echo_Ganancia.value(), self.verticalSlider_Echo_Retraso.value())
 
 
     def Flanger_check_state(self, value):
         print("FLANGER BOX")
-        # if value != 0:
-            #self.verticalSlider_Flanger_Retraso.value()
-            #self.verticalSlider_flanger_frecuencia_2.value()
-            #self.verticalSlider_Flanger_Ganancia.value()
+        if value != 0:
+            self.back.flanger_effect(self.verticalSlider_Flanger_Ganancia.value(), self.verticalSlider_Flanger_Retraso.value(), self.verticalSlider_flanger_frecuencia_2.value())

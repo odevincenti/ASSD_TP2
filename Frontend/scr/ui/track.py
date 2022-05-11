@@ -76,6 +76,7 @@ class Ui_Form(object):
 "QSlider::add-page:horizontal{\n"
 "    background-color: white;\n"
 "}")
+        self.horizontalSlider_track.setMaximum(127)
         self.horizontalSlider_track.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider_track.setObjectName("horizontalSlider_track")
         self.verticalLayout_10.addWidget(self.horizontalSlider_track)

@@ -147,6 +147,9 @@ QSlider::add-page:horizontal{
 	background-color: white;
 }</string>
             </property>
+            <property name="maximum">
+             <number>127</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
