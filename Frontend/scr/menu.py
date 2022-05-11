@@ -17,6 +17,7 @@ class MenuWindow (QWidget, Ui_Menu):
         self.first_time = 0
         self.pausa = False
         self.play = True
+        self.pause = True
 
         #TRACK 0
         self.label_track0.hide()
@@ -88,6 +89,7 @@ class MenuWindow (QWidget, Ui_Menu):
             self.back.play_song()
         else:
             if(self.play):
+                self.pause = True
                 self.counter.pause_loop = False
                 self.back.resume_song(self.counter.play_seconds)
                 self.play = False
@@ -95,16 +97,19 @@ class MenuWindow (QWidget, Ui_Menu):
 
     def pause_song(self):
         print("PAUSA")
-        self.pausa = True
-        self.play = True
-        self.counter.pause_loop = True
-        self.back.pause_reproduction()
+        if(self.pause):
+            self.pausa = True
+            self.play = True
+            self.pause = False
+            self.counter.pause_loop = True
+            self.back.pause_reproduction()
 
 
     def reset_song(self):
         print("RESET")
         self.play = False
         self.pausa = False
+        self.pause = True
         self.counter.reset_loop = True
         self.counter.start()
         self.back.pause_reproduction()
