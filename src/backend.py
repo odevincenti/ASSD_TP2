@@ -1,15 +1,15 @@
 import numpy as np
 
-from SongClass import *
+from src.SongClass import *
 
 #import pyaudio
 import simpleaudio as sa
 
 from scipy.io import wavfile
 
-from Efecto_audio.Eco import effect
+from src.Efecto_audio.Eco import effect
 
-from ProcessedNote import ProcessedNote
+from src.ProcessedNote import ProcessedNote
 
 class backend():
 
@@ -149,12 +149,11 @@ class backend():
         signal = self.song.output_signal(32767 / np.max(np.abs(self.song.output_signal)))
         signal = signal.astype(np.int16)
         wavfile.write(filename, self.song.fs, signal)
-'''
-test = backend()
-test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\Undertale_-_Megalovania.mid")
 
-test.process_song()
+#test = backend()
+#test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\Undertale_-_Megalovania.mid")
+
+#test.process_song()
 #test.echo_effect(0.7 , 20)
-print(np.max(np.abs(test.song.output_signal)))
-test.play_song()
-'''
+#print(np.max(np.abs(test.song.output_signal)))
+#test.play_song()
