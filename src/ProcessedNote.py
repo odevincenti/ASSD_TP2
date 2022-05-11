@@ -28,17 +28,20 @@ class ProcessedNote:
         #          self.time_base = []
         #
         # instrument: F: flauta --> Additive
-        #             P: piano  --> Karpulus
+        #             P: piano  --> Additive
+        #             G: guitarra --> Karpulus
         ################################################################################################################
         # Crear la señal de salida (self.note_signal) del objeto nota que ingrese como parametro
 
         amplitude_array = None
-        instrument = 'F'
-     #   note.create_time_base()
 
         # ADDITIVE SYNTHESIS#######################################################################################
-        if instrument == 'F':
-            self.create_partial(note.note, "Flauta", note.freq)
+        if (instrument == 'F') or (instrument == 'P') :
+            if(instrument == 'F'):
+                self.create_partial(note.note, "Flauta", note.freq)
+
+            if(instrument == 'P'):
+                self.create_partial(note.note, "Piano", note.freq)
 
             # Para cada parcial...
             for partial in self.PartialNotes:

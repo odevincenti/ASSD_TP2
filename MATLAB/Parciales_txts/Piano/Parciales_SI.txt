@@ -1,0 +1,2 @@
+Parcial	Frecuencia	Amplitud	Fase	Start_time	D_time	D_amp	S_time	S_amp	R_time	R_amp	Off_time
+0	495.25	0.143897	0.288010593416343	0	0.021	1.648047	0.0535182	1.201414	0.277206	0.292168	0.370908

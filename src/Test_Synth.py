@@ -17,7 +17,7 @@ import matplotlib.pyplot as plot
 #########################################################
 # Suenan bien las notas notas de 36 a 83
 
-note = 130
+note = 59
 start_time = 4133521.625
 end_time = 5454544.0
 duration = 1321022.375
@@ -30,7 +30,7 @@ nota = Note(note, start_time, duration, end_time, velocity, fs)
 
 Synth = ProcessedNote()
 
-Synth.create_note(nota, "F")
+Synth.create_note(nota, "P")
 
 
 print(np.size(nota.time_base))
