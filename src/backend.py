@@ -145,6 +145,11 @@ class backend():
         else:
             return -1
 
+    def restart(self):
+        if self.song is not None:
+            self.synthesize_song()
+            self.play
+
     def save_wav_file(self, filename):
         signal = self.song.output_signal(32767 / np.max(np.abs(self.song.output_signal)))
         signal = signal.astype(np.int16)

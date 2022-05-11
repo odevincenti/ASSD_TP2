@@ -27,7 +27,7 @@ class effect:
                 self.signal_out[i] = self.comb(self.signal_in[i], self.signal_out[i- delay_paso])
             else:
                 self.signal_out[i] = self.signal_in[i]
-
+        print(self.signal_out)
     def all_pass(self, xin, xinold, yiold):
         out = (-self.g*xin)+xinold+(self.g*yiold)
         return out
@@ -64,6 +64,7 @@ class effect:
 
     def get_output_signal(self):
         out = self.signal_out
+        return out
 
 prueba = np.array([1, 2, 3, 4, 3, 2, 1, 0, 5])
 #prueba = np.zeros(4)
