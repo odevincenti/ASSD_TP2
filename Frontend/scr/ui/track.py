@@ -107,7 +107,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label_track.setText(_translate("Form", "Track"))
-        self.comboBox_track.setItemText(0, _translate("Form", "Piano"))
+        self.comboBox_track.setItemText(0, _translate("Form", "Teclado"))
         self.comboBox_track.setItemText(1, _translate("Form", "Flauta"))
         self.comboBox_track.setItemText(2, _translate("Form", "Guitarra Electrica"))
         self.comboBox_track.setItemText(3, _translate("Form", "Tambores"))
