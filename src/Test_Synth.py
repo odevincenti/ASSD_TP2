@@ -1,5 +1,5 @@
-from src.ProcessedNote import ProcessedNote
-from src.NoteClass import Note
+from ProcessedNote import ProcessedNote
+from NoteClass import Note
 import numpy as np
 import simpleaudio as sa
 import matplotlib.pyplot as plot

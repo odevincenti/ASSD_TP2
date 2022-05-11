@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Menu</class>
+ <widget class="QWidget" name="Menu">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -165,19 +165,10 @@ color:black;</string>
                               </spacer>
                              </item>
                              <item>
-                              <widget class="QPushButton" name="pushButton_instrument_track0">
-                               <property name="font">
-                                <font>
-                                 <weight>75</weight>
-                                 <bold>true</bold>
-                                </font>
-                               </property>
+                              <widget class="QComboBox" name="comboBox_track0">
                                <property name="styleSheet">
                                 <string notr="true">background:white;
 color:black;</string>
-                               </property>
-                               <property name="text">
-                                <string>Instrument</string>
                                </property>
                               </widget>
                              </item>

@@ -48,20 +48,38 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_instrument_track">
+           <widget class="QComboBox" name="comboBox_track">
             <property name="font">
              <font>
-              <weight>75</weight>
-              <bold>true</bold>
+              <pointsize>12</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
              </font>
             </property>
             <property name="styleSheet">
              <string notr="true">background:white;
 color:black;</string>
             </property>
-            <property name="text">
-             <string>Instrument</string>
-            </property>
+            <item>
+             <property name="text">
+              <string>Piano</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Tambores</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Guitarra Electrica</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Flauta</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item>
