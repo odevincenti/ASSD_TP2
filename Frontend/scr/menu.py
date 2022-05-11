@@ -67,7 +67,10 @@ class MenuWindow (QWidget, Ui_Menu):
 
     def save_file(self):
         print("save")
-        self.back.save_wav_file(self.path_name)
+        wav_path = Path(self.path)
+        wav_path = Path(str(wav_path.parent) + '/' + str(wav_path.stem) + '.wav')
+        print(wav_path)
+        self.back.save_wav_file(wav_path)
 
     def sintetizar(self):
         print("sintetizar")

@@ -94,7 +94,7 @@ class ProcessedNote:
 
         elif instrument == 'X':
             print('Sintesis por Samples')
-            #self.ssythn.gen_note(note,instrument)
+            self.ssythn.gen_note(note,instrument)
 
 
 
