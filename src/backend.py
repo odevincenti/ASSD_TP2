@@ -11,10 +11,6 @@ from Efecto_audio.Eco import effect
 
 from ProcessedNote import ProcessedNote
 
-
-
-
-
 class backend():
 
     def __init__(self):
@@ -36,22 +32,19 @@ class backend():
 
     def synthesize_track(self, track):
         if track.change == 1:
-            track.signal_out= np.zeros(int(self.song.fs*self.song.duration))
+            track.signal_out = np.zeros(int(self.song.fs*self.song.duration))
             print("sintetiza track")
             #print(self.song.duration)
 
             for i, note in enumerate(track.notes):
                 print("nota numero:", i, "\n")
                 self.synthesize_note(note, track.instrument)
-                z=0
+                z = 0
                 #print(int(note.end_time))
                 #print(int(note.end_time*1E-6*self.song.fs)-1)
-                for y in range(int(note.start_time*1E-6*self.song.fs), int(note.end_time*1E-6*self.song.fs)-1, 1):
-                    if y == 55078318-1:
-                        print(i)
+                for y in range(int(note.start_time*1E-6*self.song.fs), int(note.end_time*1E-6*self.song.fs) - 1, 1):
                     track.signal_out[y] = track.signal_out[y] + note.note_signal[z]
-
-                    z= z+1
+                    z = z + 1
                     #print("en el for pa ")
                 #print(np.abs(track.signal_out))
                 '''
@@ -149,10 +142,8 @@ class backend():
         signal = signal.astype(np.int16)
         wavfile.write(filename, self.song.fs, signal)
 
-
-
 test = backend()
-test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\Undertale_-_Megalovania.mid")
+test.update_path(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\Undertale_-_Megalovania.mid")
 
 test.process_song()
 print(np.max(np.abs(test.song.output_signal)))
