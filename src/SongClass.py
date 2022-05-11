@@ -1,6 +1,6 @@
 from mido import MidiFile
 import numpy as np
-from src.midi_handler import MIDIHandler
+from midi_handler import MIDIHandler
 #from TrackClass import Track
 
 class Song:

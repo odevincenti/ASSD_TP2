@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from src.Partials import PartialNote
+from Partials import PartialNote
 import os
 
 

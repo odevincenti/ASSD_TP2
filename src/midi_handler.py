@@ -1,6 +1,6 @@
 from mido import MidiFile
-from src.NoteClass import Note
-from src.TrackClass import Track
+from NoteClass import Note
+from TrackClass import Track
 
 ########################################################################################################################
 # ESTRUCTURA DE UN ARCHIVO MIDI

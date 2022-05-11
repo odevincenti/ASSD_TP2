@@ -1,10 +1,9 @@
-import numpy as np
-import sys
 from Frontend.scr.track import TrackWidget
 from Frontend.counter import Counter
 #from src.backend import *
 from PyQt5.QtWidgets import *
 from Frontend.scr.ui.menu import Ui_Form
+
 
 class MenuWindow (QWidget, Ui_Form):
 
@@ -13,15 +12,17 @@ class MenuWindow (QWidget, Ui_Form):
         self.setupUi(self)
 
         #self.back = backend()
-        self.counter = Counter(self, 20)
         self.track_array = []
         self.first_time = 0
 
+        #TRACK 0
         self.label_track0.hide()
         self.pushButton_instrument_track0.hide()
         self.horizontalSlider_track0.hide()
         self.pushButton_mute_track0.hide()
 
+
+        #BUTTONS
         self.pushButton_Upload.clicked.connect(self.get_mid_file)
         self.pushButton_Save.clicked.connect(self.save_file)
         self.pushButton_Sintetizar.clicked.connect(self.sintetizar)
@@ -31,7 +32,13 @@ class MenuWindow (QWidget, Ui_Form):
         self.pushButton_pausa.clicked.connect(self.pause_song)
         self.pushButton_rec.clicked.connect(self.reset_song)
 
+        #MPLWIDGET
+        self.MplWidget.show_toolbar(self.ToolBar)
 
+        #CHECKBOXES
+        self.checkBox_Reverb.stateChanged.connect(self.Reverb_check_state)
+        self.checkBox_Echo.stateChanged.connect(self.Echo_check_state)
+        self.checkBox_Flanger.stateChanged.connect(self.Flanger_check_state)
 
 
 
@@ -51,7 +58,9 @@ class MenuWindow (QWidget, Ui_Form):
             self.track_array.append(self.aux_track)
             self.Track_Widget.layout().addWidget(self.aux_track)
 
-        self.horizontalSlider_Track.setMaximum(200)
+        self.counter = Counter(self, self.back.song.duration)
+
+        #self.horizontalSlider_Track.setMaximum(self.back.song.duration)
         print(self.horizontalSlider_Track.value())
 
     def save_file(self):
@@ -65,7 +74,9 @@ class MenuWindow (QWidget, Ui_Form):
 
     def graficar_espectrograma(self):
         print("graficar espectrograma")
-
+        self.MplWidget.canvas.ax.clear()
+        self.MplWidget.graph_spectro(self.MplWidget.canvas.ax, self.MplWidget.figure)
+        self.MplWidget.canvas.draw()
 
     def play_song(self):
         print("PLAY")
@@ -86,3 +97,26 @@ class MenuWindow (QWidget, Ui_Form):
         print("RESET")
         self.counter.reset_loop = True
         self.counter.start()
+
+
+
+    def Reverb_check_state(self, value):
+        print("REVERB BOX")
+        #if value != 0:
+            #self.verticalSlider_Reverb_Retraso.value()
+            #self.verticalSlider_Reverb_Ganancia.value()
+
+
+    def Echo_check_state(self, value):
+        print("ECHO BOX")
+        # if value != 0:
+            #self.verticalSlider_Echo_Retraso.value()
+            #self.verticalSlider_Echo_Ganancia.value()
+
+
+    def Flanger_check_state(self, value):
+        print("FLANGER BOX")
+        # if value != 0:
+            #self.verticalSlider_Flanger_Retraso.value()
+            #self.verticalSlider_flanger_frecuencia_2.value()
+            #self.verticalSlider_Flanger_Ganancia.value()

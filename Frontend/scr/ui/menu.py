@@ -777,12 +777,23 @@ class Ui_Form(object):
         self.horizontalLayout_5.addLayout(self.verticalLayout_4)
         self.verticalLayout_6 = QtWidgets.QVBoxLayout()
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.Design_Graph_Widget = QtWidgets.QWidget(self.tab_2)
-        self.Design_Graph_Widget.setStyleSheet("background:blue;")
-        self.Design_Graph_Widget.setObjectName("Design_Graph_Widget")
-        self.verticalLayout_6.addWidget(self.Design_Graph_Widget)
-        spacerItem29 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.verticalLayout_6.addItem(spacerItem29)
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
+        self.MplWidget = MplWidget(self.tab_2)
+        self.MplWidget.setStyleSheet("background:blue;")
+        self.MplWidget.setObjectName("MplWidget")
+        self.horizontalLayout_10.addWidget(self.MplWidget)
+        self.horizontalLayout_6.addLayout(self.horizontalLayout_10)
+        spacerItem29 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.horizontalLayout_6.addItem(spacerItem29)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_6)
+        self.ToolBar = QtWidgets.QHBoxLayout()
+        self.ToolBar.setObjectName("ToolBar")
+        spacerItem30 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.ToolBar.addItem(spacerItem30)
+        self.verticalLayout_6.addLayout(self.ToolBar)
         self.horizontalLayout_5.addLayout(self.verticalLayout_6)
         self.verticalLayout_5.addLayout(self.horizontalLayout_5)
         self.tabWidget.addTab(self.tab_2, "")
@@ -790,7 +801,7 @@ class Ui_Form(object):
         self.verticalLayout_7.addLayout(self.verticalLayout)
 
         self.retranslateUi(Form)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.verticalSlider_Reverb_Retraso.valueChanged['int'].connect(self.lcdNumber_Reverb_Retraso.display) # type: ignore
         self.verticalSlider_Reverb_Ganancia.valueChanged['int'].connect(self.lcdNumber_Reverb_Ganancia.display) # type: ignore
         self.verticalSlider_Echo_Retraso.valueChanged['int'].connect(self.lcdNumber_Echo_Retraso.display) # type: ignore
@@ -826,6 +837,10 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", "Duración"))
         self.pushButton_graficar.setText(_translate("Form", "GRAFICAR"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Form", "Espectograma"))
+
+
+from Frontend.scr.Espectrograma import MplWidget
+
 
 
 if __name__ == "__main__":
