@@ -23,28 +23,28 @@ class backend():
         self.song.output_signal = np.zeros(int(self.song.fs*self.song.duration))
         for i in range(len(self.song.tracks)):
             if self.song.tracks[i].activate:
+                self.process_note.track_id = i
                 self.synthesize_track(self.song.tracks[i])
-                print("track numero", i)
+                # print("track numero", i)
                 self.song.output_signal += self.song.tracks[i].signal_out
 
     def synthesize_track(self, track):
         if track.change == 1:
             track.signal_out = np.zeros(int(self.song.fs*self.song.duration))
-            print("sintetiza track")
-            #print(self.song.duration)
+            # print("sintetiza track")
+            # print(self.song.duration)
 
             for i, note in enumerate(track.notes):
-                print("nota numero:", i, "\n")
+                print("Track:", self.process_note.track_id, "Note:", i, "Instrument:", track.instrument, "\n")
                 self.synthesize_note(note, track.instrument)
                 z = 0
-                #print(int(note.end_time))
-                #print(int(note.end_time*1E-6*self.song.fs)-1)
+                # print(int(note.end_time))
+                # print(int(note.end_time*1E-6*self.song.fs)-1)
                 for y in range(int(note.start_time*1E-6*self.song.fs), int(note.end_time*1E-6*self.song.fs) - 1, 1):
                     track.signal_out[y] = track.signal_out[y] + note.note_signal[z]
                     z = z + 1
-                    #print("en el for pa ")
-                #print(np.abs(track.signal_out))
-                '''
+                '''    # print("en el for pa ")
+                # print(np.abs(track.signal_out))
                 if  track.notes[i].start_time != 0:
                     diference = int(track.notes[i].start_time*track.notes[i].fs*1E-6)
                     track.notes[i].note_signal = np.concatenate( (np.zeros(diference), track.notes[i].note_signal) )
@@ -57,12 +57,12 @@ class backend():
                 track.signal_out += track.notes[i].note_signal
                 '''
     def synthesize_note(self, note, instrument):
-        #print("entre a synthesis")
-        self.process_note.create_note(note, 'F')
-        #print(note.note_signal)
+        # print("entre a synthesis")
+        self.process_note.create_note(note, instrument)
+        # print(note.note_signal)
 
         # llamar a create_note(self, note, instrument)
-            # En un futuro no muy lejano create_note recibe un parámetro metodo que diga cual metodo de sintetizar usa
+        # En un futuro no muy lejano create_note recibe un parámetro metodo que diga cual metodo de sintetizar usa
 
 
     # Suma las señales de track tomando en cuenta el tiempo que dura cada uno y formando la cancion entera
@@ -153,10 +153,8 @@ class backend():
         signal = signal.astype(np.int16)
         wavfile.write(filename, self.song.fs, signal)
 
-#test = backend()
-#test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\Undertale_-_Megalovania.mid")
+# test = backend()
+# test.update_path(r"C:\Users\odevi\PycharmProjects\ASSD_TP2\midi_samples\UndertaleMegalovania.mid")
 
-#test.process_song()
-#test.echo_effect(0.7 , 20)
-#print(np.max(np.abs(test.song.output_signal)))
-#test.play_song()
+# test.process_song()
+# test.play_song()

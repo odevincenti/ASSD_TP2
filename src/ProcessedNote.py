@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from src.Partials import PartialNote
 from pathlib import Path
+from src.KarplusStrong import KarplusStrong
 
 class ProcessedNote:
     def __init__(self):
@@ -11,6 +12,8 @@ class ProcessedNote:
         self.instrumento = None
         self.nota = None
         self.PartialNotes = []  # Arreglo de las parciales individuales (forma de notas)
+        self.ks = KarplusStrong()
+        self.track_id = 0
 
     def create_note(self, note, instrument):
         # En objeto note tengo que llenar self.node_signal solo el eje y.
@@ -84,7 +87,7 @@ class ProcessedNote:
 
         # KARPLUS STRONG############################################################################################
         elif instrument == 'G':
-            self.t_len = int(round(note.fs * note.duration * 1E-6))
+            '''self.t_len = int(round(note.fs * note.duration * 1E-6))
             self.sample_len = np.int(note.fs / note.freq)
             self.wavetable = (2 * np.random.randint(0, 2, self.sample_len + 2) - 1).astype(np.float)
             Y = []
@@ -92,10 +95,10 @@ class ProcessedNote:
                 if i <= self.sample_len:
                     Y.append((self.wavetable[i] + self.wavetable[i - 1]) / 2)
                 else:
-                    Y.append((Y[i - self.sample_len] + Y[i - self.sample_len - 1]) / 2)
-
-            note.note_signal = Y
-            print("En un futuro tendremos karpulus yo lo se")
+                    Y.append((Y[i - self.sample_len] + Y[i - self.sample_len - 1]) / 2)'''
+            self.ks.gen_note(note, instrument)
+            # note.note_signal = self.ks.instrument_switch.get(instrument, self.other)(self, note)
+            # print("En un futuro tendremos karpulus yo lo se")
 
 
     def create_partial(self, midi_note , instrument, frecuencia):
@@ -111,21 +114,21 @@ class ProcessedNote:
         #      IMPORTANTE!      # ======> # la variable instrumento va en minuscula y es un string
         #########################
 
-        #Primero preparo el path de la nota segun el instrumento
+        # Primero preparo el path de la nota segun el instrumento
         # path_a_data: Path al txt ( Ejemplo: "../MATLAB/Parciales_txts/Flauta/Parciales_DO.txt" )
 
         path_a_data = Path("../MATLAB/Parciales_txts/" + instrument + "/Parciales_" + NOTA + ".txt")
 
 
-        note_partials_file = pd.read_csv(path_a_data, sep='\t')  #Archivo con los componentes parciales de una nota
-        #print(note_partials_file)
+        note_partials_file = pd.read_csv(path_a_data, sep='\t')  # Archivo con los componentes parciales de una nota
+        # print(note_partials_file)
 
         column = note_partials_file["Amplitud"]
         frecuencia_samples_ix = column.idxmax()
-        frecuencia_samples = note_partials_file["Frecuencia"][frecuencia_samples_ix]   #Obtengo la frecuencia principal de la muestra
+        frecuencia_samples = note_partials_file["Frecuencia"][frecuencia_samples_ix]   # Obtengo la frecuencia principal de la muestra
         multiplier = frecuencia / frecuencia_samples  # Multiplicador para pasar la nota a diferentes octavas
 
-        for k in range(0,len(note_partials_file)):
+        for k in range(0, len(note_partials_file)):
             frec =          note_partials_file["Frecuencia"][k] * multiplier
             ampli =         note_partials_file["Amplitud"][k]
             fase =          note_partials_file["Fase"][k]
@@ -138,12 +141,12 @@ class ProcessedNote:
             R_amp =         note_partials_file["R_amp"][k]
             off_time =      note_partials_file["Off_time"][k]
 
-            #Con toda esta info creamos la informacion de cada parcial que compone a una nota
-            partial_aux = PartialNote(ampli,frec,fase,start_time,D_time,D_amp,S_time,S_amp,R_time,R_amp,off_time)
+            # Con toda esta info creamos la informacion de cada parcial que compone a una nota
+            partial_aux = PartialNote(ampli, frec, fase, start_time, D_time, D_amp, S_time, S_amp, R_time, R_amp, off_time)
             self.PartialNotes.append(partial_aux)
 
 
-    def convert_midinote(self , midi_note):
+    def convert_midinote(self, midi_note):
         note_str = ['DO', 'DO', 'RE', 'RE', 'MI', 'FA', 'FA', 'SOL', 'SOL', 'LA', 'LA', 'SI']
         note_id = midi_note % 12
 

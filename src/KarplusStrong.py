@@ -18,8 +18,8 @@ class KarplusStrong:
 
     def guitar(self, note):
         self.t_len = int(round(note.fs * note.duration * 1E-6))
-        self.sample_len = np.int(note.fs / note.frequency)
-        self.wavetable = (2 * np.random.randint(0, 2, self.sample_len + 2, float) - 1)
+        self.sample_len = np.int(note.fs / note.freq)
+        self.wavetable = (2 * np.random.randint(0, 2, self.sample_len + 2) - 1).astype(np.float)
 
         if note.freq < 200E3:       # 20E3
             Y = self.low_freq(0.99)
@@ -36,7 +36,7 @@ class KarplusStrong:
         Y = []
         for i in range(self.t_len):
             if i <= self.sample_len:
-                Y.append(ro * (self.wavetable[i] + self.wavetable[i-1]) / 2)
+                Y.append(ro * (self.wavetable[i] + self.wavetable[i - 1]) / 2)
             else:
                 Y.append(ro * (Y[i - self.sample_len] + Y[i - self.sample_len - 1]) / 2)
         return Y
@@ -57,7 +57,7 @@ class KarplusStrong:
         self.wavetable = (2 * np.random.randint(0, 2, self.sample_len + 2, float) - 1)
 
         if note.freq < 200E3:  # 20E3
-            Y = self.low_freq(0.99)
+            Y = self.low_freq(0.995)
         elif note.freq > 2E3:
             Y = self.high_freq()
         else:
@@ -74,8 +74,7 @@ class KarplusStrong:
         print("qué pusiste rey")
 
     instrument_switch = {
-        'Guitar': guitar,
-        'Electric Guitar': guitar,
-        'Drums': drums,
-        'Harp': harp
+        'G': guitar,
+        'D': drums,
+        'H': harp
     }
