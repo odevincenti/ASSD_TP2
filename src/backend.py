@@ -25,10 +25,7 @@ class backend():
             if self.song.tracks[i].activate:
                 self.synthesize_track(self.song.tracks[i])
                 print("track numero", i)
-                #print("track esta activado")
-            else:
-                self.song.tracks[i].signal_out = []
-            self.song.output_signal += self.song.tracks[i].signal_out
+                self.song.output_signal += self.song.tracks[i].signal_out
 
     def synthesize_track(self, track):
         if track.change == 1:
@@ -77,8 +74,8 @@ class backend():
         signal *= 32767 / np.max(np.abs(signal))
         signal = signal.astype(np.int16)
         self.play = sa.play_buffer(signal, 1, 2, int(self.song.fs))
-        self.play.wait_done()
-    ### Interfaz con el back
+        # self.play.wait_done()
+    # Interfaz con el back
 
     # una vez que desde el front se modifico la clase Song , llamando a track.update si es el mismo path anterior
     # para sintetizar la cancion
@@ -140,7 +137,8 @@ class backend():
         return -1
 
     def pause_reproduction(self):
-        if (self.play.isplaying()) and (self.play is not None):
+        # if self.play.isplaying() and self.play is not None:
+        if self.play is not None:
             self.play.stop()
         else:
             return -1

@@ -5,10 +5,15 @@ class KarplusStrong:
     def __init__(self):
         self.notes = []
         self.instrument = ''
+        self.t_len = 0
+        self.sample_len = 0
+        self.wavetable = []
 
     def gen_note(self, note, instrument):
-        note_signal = self.instrument_switch.get(instrument, self.other)(self, note)
-
+        self.t_len = 0
+        self.sample_len = 0
+        self.wavetable = []
+        self.instrument_switch.get(instrument, self.other)(self, note)
         return
 
     def guitar(self, note):

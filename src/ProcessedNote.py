@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from src.Partials import PartialNote
-import os
+from pathlib import Path
 
 class ProcessedNote:
     def __init__(self):
@@ -10,7 +10,7 @@ class ProcessedNote:
         self.ADSR = None
         self.instrumento = None
         self.nota = None
-        self.PartialNotes = []  #Arreglo de las parciales individuales (forma de notas)
+        self.PartialNotes = []  # Arreglo de las parciales individuales (forma de notas)
 
     def create_note(self, note, instrument):
         # En objeto note tengo que llenar self.node_signal solo el eje y.
@@ -36,11 +36,11 @@ class ProcessedNote:
         amplitude_array = None
 
         # ADDITIVE SYNTHESIS#######################################################################################
-        if (instrument == 'F') or (instrument == 'P') :
-            if(instrument == 'F'):
+        if instrument == 'F' or instrument == 'P':
+            if instrument == 'F':
                 self.create_partial(note.note, "Flauta", note.freq)
 
-            if(instrument == 'P'):
+            if instrument == 'P':
                 self.create_partial(note.note, "Piano", note.freq)
 
             # Para cada parcial...
@@ -53,12 +53,12 @@ class ProcessedNote:
                 # Obtengo el ADSR del parcial
                 partial.get_amplitude_array(note)
 
-                #Un arreglo que va de cero a el tiempo maximo del parcial
+                # Un arreglo que va de cero a el tiempo maximo del parcial
                 time_vals = note.time_base
-               # print("\n TAMAÑO TIME BASE: ",np.size(time_vals),"\n")
-               # print("\n TAMAÑO DE UN PARTIAL:" , np.size(self.PartialNotes[i].output_signal),"\n")
+                # print("\n TAMAÑO TIME BASE: ",np.size(time_vals),"\n")
+                # print("\n TAMAÑO DE UN PARTIAL:" , np.size(self.PartialNotes[i].output_signal),"\n")
 
-                #Multiplico la ADSR con el seno de cada parcial
+                # Multiplico la ADSR con el seno de cada parcial
                 output_sine = ampli_partial * partial.output_signal * np.sin(freq * 2 * np.pi * time_vals - 180 * phase / np.pi)
                 # print("\n TAMAÑO OUTPUT SINE: ", np.size(output_sine) ,"\n")
 
@@ -70,7 +70,7 @@ class ProcessedNote:
                 else:
                     difference = len(amplitude_array) - len(output_sine)    # Chequea diferencias de longitudes para poder sumar
                     zeros = np.zeros(abs(difference))                       # Crea un arreglo de ceros que permita igualar las longitudes
-                    if difference > 0:                                    # Dependiendo de cual sea mas grande, el arreglo de ceros se concatena a uno u otros
+                    if difference > 0:                                      # Dependiendo de cual sea mas grande, el arreglo de ceros se concatena a uno u otros
                         amplitude_array = np.add(amplitude_array, np.concatenate([output_sine, zeros]))  # Se concatena y se suma
 
                     elif difference < 0:
@@ -82,8 +82,8 @@ class ProcessedNote:
             note.set_note_signal(amplitude_array)
 
 
-        #KARPUTULS STRONG############################################################################################
-        elif instrument == 'F':
+        # KARPLUS STRONG############################################################################################
+        elif instrument == 'G':
             self.t_len = int(round(note.fs * note.duration * 1E-6))
             self.sample_len = np.int(note.fs / note.freq)
             self.wavetable = (2 * np.random.randint(0, 2, self.sample_len + 2) - 1).astype(np.float)
@@ -114,7 +114,7 @@ class ProcessedNote:
         #Primero preparo el path de la nota segun el instrumento
         # path_a_data: Path al txt ( Ejemplo: "../MATLAB/Parciales_txts/Flauta/Parciales_DO.txt" )
 
-        path_a_data = "../MATLAB/Parciales_txts/" + instrument + "/Parciales_" + NOTA + ".txt"
+        path_a_data = Path("../MATLAB/Parciales_txts/" + instrument + "/Parciales_" + NOTA + ".txt")
 
 
         note_partials_file = pd.read_csv(path_a_data, sep='\t')  #Archivo con los componentes parciales de una nota

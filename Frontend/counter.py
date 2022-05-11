@@ -20,9 +20,10 @@ class Counter():
 
     def start(self):
         self.pause_loop = False
+        self.reset_loop = False
         while self.play_seconds <= self.max_time and not self.reset_loop:
 
-            while self.pause_loop == True:
+            while self.pause_loop:
                 pass
 
             print(self.play_seconds)
@@ -31,7 +32,7 @@ class Counter():
             self.menu.horizontalSlider_Track.setValue(self.play_seconds)
 
 
-        if self.reset_loop == True:
+        if self.reset_loop:
             self.play_seconds = 0
             self.reset_loop = False
             self.menu.horizontalSlider_Track.setValue(0)
