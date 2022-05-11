@@ -65,9 +65,6 @@ class MIDIHandler:
             if self.notes: self.tracks.append(Track(self.notes))
             self.tempo.remove({'tempo': 0, 'time': self.duration * 1E6})
 
-        del self.tracks[1]
-        #del self.tracks[2]
-
         return
 
     def find_note(self, note):
@@ -123,26 +120,6 @@ class MIDIHandler:
 
     def other(self, msg, msg2):
         return
-
-    '''# polytouch(channel, note, value)
-    def polytouch(self, msg):
-        print("Polyphonic Aftertouch")
-
-    # control_change(controller, control, value)
-    def control_change(self, mido_message):
-        print("Control Change")
-
-    # program_change(channel, program)
-    def program_change(self, mido_message):
-        print("Program Change")
-
-    # aftertouch(channel, value)
-    def aftertouch(self, mido_message):
-        print("Channel Aftertouch")
-
-    # pitchwheel(channel, pitch)
-    def pitchwheel(self, mido_message):
-        print("Pitch Wheel")'''
 
     midi_message_switch = {
         'note_off': note_off,

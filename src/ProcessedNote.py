@@ -3,7 +3,6 @@ import numpy as np
 from Partials import PartialNote
 import os
 
-
 class ProcessedNote:
     def __init__(self):
         self.frecuencia = None
@@ -32,23 +31,24 @@ class ProcessedNote:
         #             P: piano  --> Karpulus
         ################################################################################################################
         # Crear la señal de salida (self.note_signal) del objeto nota que ingrese como parametro
-        amplitude_array = None
 
+        amplitude_array = None
+        instrument = 'F'
      #   note.create_time_base()
 
-        #ADDITIVE SYNTHESIS#######################################################################################
+        # ADDITIVE SYNTHESIS#######################################################################################
         if instrument == 'F':
-            self.create_partial(note.note,"Flauta",note.freq)
+            self.create_partial(note.note, "Flauta", note.freq)
 
             # Para cada parcial...
-            for i in range(0, len(self.PartialNotes)):
+            for partial in self.PartialNotes:
 
-                freq = self.PartialNotes[i].get_freq()
-                phase = self.PartialNotes[i].get_phase()
-                ampli_partial = self.PartialNotes[i].get_ampli()
+                freq = partial.get_freq()
+                phase = partial.get_phase()
+                ampli_partial = partial.get_ampli()
 
                 # Obtengo el ADSR del parcial
-                self.PartialNotes[i].get_amplitude_array(note)
+                partial.get_amplitude_array(note)
 
                 #Un arreglo que va de cero a el tiempo maximo del parcial
                 time_vals = note.time_base
@@ -56,31 +56,42 @@ class ProcessedNote:
                # print("\n TAMAÑO DE UN PARTIAL:" , np.size(self.PartialNotes[i].output_signal),"\n")
 
                 #Multiplico la ADSR con el seno de cada parcial
-                output_sine = ampli_partial * self.PartialNotes[i].output_signal * np.sin(freq * 2 * np.pi * time_vals - 180 * phase / np.pi)
-               # print("\n TAMAÑO OUTPUT SINE: ", np.size(output_sine) ,"\n")
+                output_sine = ampli_partial * partial.output_signal * np.sin(freq * 2 * np.pi * time_vals - 180 * phase / np.pi)
+                # print("\n TAMAÑO OUTPUT SINE: ", np.size(output_sine) ,"\n")
 
-                self.PartialNotes[i].output_signal = None  # Libero la memoria
+                partial.output_signal = None  # Libero la memoria
 
                 # Se suman las señales de cada parcial
-                if i == 0:
+                if partial == self.PartialNotes[0]:
                     amplitude_array = output_sine
                 else:
                     difference = len(amplitude_array) - len(output_sine)    # Chequea diferencias de longitudes para poder sumar
                     zeros = np.zeros(abs(difference))                       # Crea un arreglo de ceros que permita igualar las longitudes
-                    if (difference > 0):                                    # Dependiendo de cual sea mas grande, el arreglo de ceros se concatena a uno u otros
-                        amplitude_array += np.concatenate([output_sine, zeros])  # Se concatena y se suma
+                    if difference > 0:                                    # Dependiendo de cual sea mas grande, el arreglo de ceros se concatena a uno u otros
+                        amplitude_array = np.add(amplitude_array, np.concatenate([output_sine, zeros]))  # Se concatena y se suma
 
-                    elif (difference < 0):
-                        amplitude_array = np.concatenate([amplitude_array, zeros]) + output_sine
+                    elif difference < 0:
+                        amplitude_array = np.add(np.concatenate([amplitude_array, zeros]), output_sine)
 
                     else:
-                        amplitude_array += output_sine
+                        amplitude_array = np.add(amplitude_array, output_sine)
 
             note.set_note_signal(amplitude_array)
 
 
         #KARPUTULS STRONG############################################################################################
-        elif instrument == 'P':
+        elif instrument == 'F':
+            self.t_len = int(round(note.fs * note.duration * 1E-6))
+            self.sample_len = np.int(note.fs / note.freq)
+            self.wavetable = (2 * np.random.randint(0, 2, self.sample_len + 2) - 1).astype(np.float)
+            Y = []
+            for i in range(self.t_len):
+                if i <= self.sample_len:
+                    Y.append((self.wavetable[i] + self.wavetable[i - 1]) / 2)
+                else:
+                    Y.append((Y[i - self.sample_len] + Y[i - self.sample_len - 1]) / 2)
+
+            note.note_signal = Y
             print("En un futuro tendremos karpulus yo lo se")
 
 
@@ -91,7 +102,7 @@ class ProcessedNote:
     # string frecuencia:   frecuencia de la nota que queremos sintetizar
     ##############################################################################################################
         NOTA = self.convert_midinote(midi_note)
-
+        self.PartialNotes = []
         #########################
         #      IMPORTANTE!      # ======> # LA VARIABLE NOTA TIENE QUE IR EN MAYUSCULA Y ES UN STRING!
         #      IMPORTANTE!      # ======> # la variable instrumento va en minuscula y es un string
