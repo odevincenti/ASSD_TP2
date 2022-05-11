@@ -99,11 +99,11 @@ class ProcessedNote:
 
 
     def create_partial(self, midi_note , instrument, frecuencia):
-    # Funcion que lee el txt con la tabla de informacion de los partials de una nota de un instrumento
-    # int    midinote:     numero midi que indica una nota. la parseamos para convertir a DO RE MI FA SOL LA SI
-    # string instrumento:  indice que indica el insturmento (por ahora solo flauta)
-    # string frecuencia:   frecuencia de la nota que queremos sintetizar
-    ##############################################################################################################
+        # Funcion que lee el txt con la tabla de informacion de los partials de una nota de un instrumento
+        # int    midinote:     numero midi que indica una nota. la parseamos para convertir a DO RE MI FA SOL LA SI
+        # string instrumento:  indice que indica el insturmento (por ahora solo flauta)
+        # string frecuencia:   frecuencia de la nota que queremos sintetizar
+        # #############################################################################################################
         NOTA = self.convert_midinote(midi_note)
         self.PartialNotes = []
         #########################
