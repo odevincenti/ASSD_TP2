@@ -45,9 +45,10 @@ class effect:
         self.signal_out = np.zeros(len(self.signal_in))
         for i, out in enumerate(self.signal_out):
             print(self.fd/self.fs)
-            print(math.cos(2*np.pi*i*self.fd/self.fs))
-            delay_paso= max( (i - int(self.delay/2*(1-math.cos(2*np.pi*i*self.fd/self.fs)))) , 0)
-            print(delay_paso)
+            print("coseno",math.cos(2*np.pi*i*self.fd/self.fs))
+            delay_paso = int((self.delay * 1E-3 * self.fs)*(1+(np.sin(2*np.pi*i*(self.fd/self.fs)))))
+            print("delay de paso", delay_paso)
+            print("indice", i, "\n")
             if (i - delay_paso) >= 0:
                 self.signal_out[i] = self.signal_in[i] + self.g*self.signal_in[i- delay_paso]
             else:
@@ -67,7 +68,7 @@ class effect:
 prueba = np.array([1, 2, 3, 4, 3, 2, 1, 0, 5])
 #prueba = np.zeros(4)
 obj = effect()
-obj.update_params(0.5, 1, prueba, 1*1E3, 700)
+obj.update_params(0.5, 5, prueba, 1*1E3, 400)
 obj.flanger()
 print(obj.signal_in)
 print(obj.signal_out)
