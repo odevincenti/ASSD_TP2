@@ -8,18 +8,18 @@ class TrackWidget (QWidget, Ui_Form):
         super().__init__(*args, **kwargs)
 
         self.setupUi(self)
-        self.color = 0
+        self.mute = 0
 
-        self.pushButton_instrument_track.clicked.connect(self.instrument_track)
+        self.comboBox_track.clicked.connect(self.instrument_track)
         self.pushButton_mute_track.clicked.connect(self.mute_track)
 
     def instrument_track(self):
         print("instrumento para oir")
 
     def mute_track(self):
-        if self.color == 0:
+        if self.mute == 0:
             self.pushButton_mute_track.setStyleSheet("background: red")
-            self.color = 1
+            self.mute = 1
         else:
             self.pushButton_mute_track.setStyleSheet("background: green")
-            self.color = 0
+            self.mute = 0
