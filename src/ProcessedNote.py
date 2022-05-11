@@ -33,6 +33,7 @@ class ProcessedNote:
         ################################################################################################################
         # Crear la señal de salida (self.note_signal) del objeto nota que ingrese como parametro
         amplitude_array = None
+
      #   note.create_time_base()
 
         #ADDITIVE SYNTHESIS#######################################################################################
@@ -50,16 +51,13 @@ class ProcessedNote:
                 self.PartialNotes[i].get_amplitude_array(note)
 
                 #Un arreglo que va de cero a el tiempo maximo del parcial
-                ###
-                ### SE ROMPE ACA
-                ####
                 time_vals = note.time_base
-                print("\n TAMAÑO TIME BASE: ",np.size(time_vals),"\n")
-                print("\n TAMAÑO DE UN PARTIAL:" , np.size(self.PartialNotes[i].output_signal),"\n")
+               # print("\n TAMAÑO TIME BASE: ",np.size(time_vals),"\n")
+               # print("\n TAMAÑO DE UN PARTIAL:" , np.size(self.PartialNotes[i].output_signal),"\n")
 
                 #Multiplico la ADSR con el seno de cada parcial
                 output_sine = ampli_partial * self.PartialNotes[i].output_signal * np.sin(freq * 2 * np.pi * time_vals - 180 * phase / np.pi)
-                print("\n TAMAÑO OUTPUT SINE: ", np.size(output_sine) ,"\n")
+               # print("\n TAMAÑO OUTPUT SINE: ", np.size(output_sine) ,"\n")
 
                 self.PartialNotes[i].output_signal = None  # Libero la memoria
 
@@ -93,6 +91,7 @@ class ProcessedNote:
     # string frecuencia:   frecuencia de la nota que queremos sintetizar
     ##############################################################################################################
         NOTA = self.convert_midinote(midi_note)
+
         #########################
         #      IMPORTANTE!      # ======> # LA VARIABLE NOTA TIENE QUE IR EN MAYUSCULA Y ES UN STRING!
         #      IMPORTANTE!      # ======> # la variable instrumento va en minuscula y es un string
@@ -103,15 +102,16 @@ class ProcessedNote:
 
         path_a_data = "../MATLAB/Parciales_txts/" + instrument + "/Parciales_" + NOTA + ".txt"
 
+
         note_partials_file = pd.read_csv(path_a_data, sep='\t')  #Archivo con los componentes parciales de una nota
-        print(note_partials_file)
+        #print(note_partials_file)
 
         column = note_partials_file["Amplitud"]
         frecuencia_samples_ix = column.idxmax()
         frecuencia_samples = note_partials_file["Frecuencia"][frecuencia_samples_ix]   #Obtengo la frecuencia principal de la muestra
+        multiplier = frecuencia / frecuencia_samples  # Multiplicador para pasar la nota a diferentes octavas
 
         for k in range(0,len(note_partials_file)):
-            multiplier = frecuencia/frecuencia_samples   #Multiplicador para pasar la nota a diferentes octavas
             frec =          note_partials_file["Frecuencia"][k] * multiplier
             ampli =         note_partials_file["Amplitud"][k]
             fase =          note_partials_file["Fase"][k]
@@ -133,4 +133,5 @@ class ProcessedNote:
         note_str = ['DO', 'DO', 'RE', 'RE', 'MI', 'FA', 'FA', 'SOL', 'SOL', 'LA', 'LA', 'SI']
         note_id = midi_note % 12
 
+        print("\n CONVERT MIDI NOTE \nMidinote % 12 :" , note_str[note_id])
         return note_str[note_id]

@@ -65,14 +65,15 @@ class MIDIHandler:
             if self.notes: self.tracks.append(Track(self.notes))
             self.tempo.remove({'tempo': 0, 'time': self.duration * 1E6})
 
+        del self.tracks[1]
+        #del self.tracks[2]
+
         return
 
     def find_note(self, note):
         r = None
         for idn, n in enumerate(self.aux_notes):
             if n.note != note.note:
-                pass
-            elif n.velocity != note.velocity:
                 pass
             else:
                 r = idn
