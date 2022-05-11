@@ -11,10 +11,11 @@ using namespace std;
 
 int main() {
 
+	int MUESTRAS = 1000;
 
 	/* Busco la señal f(n) con N muestras*/
 	ifstream f_n_txt;
-	f_n_txt.open("xn_200_muestras.txt", ios::in);
+	f_n_txt.open("xn_" + to_string(MUESTRAS) + "_muestras.txt", ios::in);
 	string line;
 
 
@@ -38,7 +39,7 @@ int main() {
 
 		ofstream F_f_txt;
 		int k;
-		F_f_txt.open("Xfourier.txt", ios::out);
+		F_f_txt.open("Xfourier_" + to_string(MUESTRAS) + ".txt", ios::out);
 		if (F_f_txt.is_open())
 		{
 			for (k = 0; k <= F.size()-1; k++)
