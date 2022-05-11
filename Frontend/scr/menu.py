@@ -27,14 +27,11 @@ class MenuWindow (QWidget, Ui_Menu):
         self.pushButton_Upload.clicked.connect(self.get_mid_file)
         self.pushButton_Save.clicked.connect(self.save_file)
         self.pushButton_Sintetizar.clicked.connect(self.sintetizar)
-        self.pushButton_graficar.clicked.connect(self.graficar_espectrograma)
 
         self.pushButton_play.clicked.connect(self.play_song)
         self.pushButton_pausa.clicked.connect(self.pause_song)
         self.pushButton_rec.clicked.connect(self.reset_song)
 
-        #MPLWIDGET
-        self.MplWidget.show_toolbar(self.ToolBar)
 
         #CHECKBOXES
         self.checkBox_Reverb.stateChanged.connect(self.Reverb_check_state)
@@ -73,16 +70,10 @@ class MenuWindow (QWidget, Ui_Menu):
         print("sintetizar")
         self.counter.reset_loop = True
         for i in range(1, self.ammount_of_tracks + 1):
-            self.back.update_track(i-1, self.track_array[i-1].instrument, self.track_array[i-1].mute, self.track_array[i-1].velocity)
+            self.back.update_track(i-1, self.track_array[i-1].get_instrument(), self.track_array[i-1].mute, self.track_array[i-1].get_velocity())
         self.counter.reset()
         self.back.process_song()
 
-
-    def graficar_espectrograma(self):
-        print("graficar espectrograma")
-        self.MplWidget.canvas.ax.clear()
-        self.MplWidget.graph_spectro(self.MplWidget.canvas.ax, self.MplWidget.figure)
-        self.MplWidget.canvas.draw()
 
     def play_song(self):
         print("PLAY")

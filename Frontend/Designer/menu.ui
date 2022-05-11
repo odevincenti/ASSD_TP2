@@ -35,7 +35,7 @@ color:black;
 </string>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
@@ -123,7 +123,7 @@ color:black;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>553</width>
+                    <width>422</width>
                     <height>513</height>
                    </rect>
                   </property>
@@ -1185,6 +1185,9 @@ QSlider::add-page:vertical{
 	border: 1px solid black;
 }</string>
                    </property>
+                   <property name="maximum">
+                    <number>500</number>
+                   </property>
                    <property name="orientation">
                     <enum>Qt::Vertical</enum>
                    </property>
@@ -1253,6 +1256,15 @@ QSlider::add-page:vertical{
 	background-color: cyan;
 	border: 1px solid black;
 }</string>
+                   </property>
+                   <property name="maximum">
+                    <number>10000</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>10</number>
+                   </property>
+                   <property name="pageStep">
+                    <number>1</number>
                    </property>
                    <property name="orientation">
                     <enum>Qt::Vertical</enum>
@@ -1386,221 +1398,32 @@ border-style: inset;</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <widget class="QComboBox" name="comboBox_tipo">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:white;</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Rectangular</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Triangular</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_7">
-               <item>
-                <widget class="QLabel" name="label">
-                 <property name="font">
-                  <font>
-                   <pointsize>12</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">color:white;</string>
-                 </property>
-                 <property name="text">
-                  <string>Tiempo Inicial</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_tiempo_incicial">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_8">
-               <item>
-                <widget class="QLabel" name="label_2">
-                 <property name="font">
-                  <font>
-                   <pointsize>12</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">color:white;</string>
-                 </property>
-                 <property name="text">
-                  <string>Duración</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_duracion">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_graficar">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;
-background:green;</string>
-               </property>
-               <property name="text">
-                <string>GRAFICAR</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_6">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_10">
-                 <item>
-                  <widget class="MplWidget" name="MplWidget" native="true">
-                   <property name="styleSheet">
-                    <string notr="true">background:blue;</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <spacer name="verticalSpacer_9">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="ToolBar">
-               <item>
-                <spacer name="horizontalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-          </layout>
+          <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <family>Segoe UI Symbol</family>
+             <pointsize>40</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background:rgb(30,30,30);
+color:white;</string>
+           </property>
+           <property name="text">
+            <string>ASSD - TP2 - GRUPO 1</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::AutoText</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -1610,14 +1433,6 @@ background:green;</string>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MplWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">mplwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="stop.qrc"/>
   <include location="pause.qrc"/>
@@ -1625,6 +1440,22 @@ background:green;</string>
   <include location="nota.qrc"/>
  </resources>
  <connections>
+  <connection>
+   <sender>verticalSlider_Flanger_Retraso</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lcdNumber_Flanger_Retraso</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>649</x>
+     <y>641</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>617</x>
+     <y>621</y>
+    </hint>
+   </hints>
+  </connection>
   <connection>
    <sender>verticalSlider_Reverb_Retraso</sender>
    <signal>valueChanged(int)</signal>
@@ -1638,6 +1469,22 @@ background:green;</string>
     <hint type="destinationlabel">
      <x>680</x>
      <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_flanger_frecuencia_2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lcdNumber_Flanger_Frecuencia</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>795</x>
+     <y>635</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>770</x>
+     <y>610</y>
     </hint>
    </hints>
   </connection>
@@ -1674,54 +1521,6 @@ background:green;</string>
    </hints>
   </connection>
   <connection>
-   <sender>verticalSlider_Echo_Ganancia</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>lcdNumber_Echo_Ganancia</receiver>
-   <slot>display(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>879</x>
-     <y>435</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>843</x>
-     <y>421</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>verticalSlider_Flanger_Retraso</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>lcdNumber_Flanger_Retraso</receiver>
-   <slot>display(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>649</x>
-     <y>641</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>617</x>
-     <y>621</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>verticalSlider_flanger_frecuencia_2</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>lcdNumber_Flanger_Frecuencia</receiver>
-   <slot>display(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>795</x>
-     <y>635</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>770</x>
-     <y>610</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>verticalSlider_Flanger_Ganancia</sender>
    <signal>valueChanged(int)</signal>
    <receiver>lcdNumber_Flanger_Ganancia</receiver>
@@ -1734,6 +1533,22 @@ background:green;</string>
     <hint type="destinationlabel">
      <x>917</x>
      <y>614</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSlider_Echo_Ganancia</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lcdNumber_Echo_Ganancia</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>879</x>
+     <y>435</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>843</x>
+     <y>421</y>
     </hint>
    </hints>
   </connection>

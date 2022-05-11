@@ -10,11 +10,11 @@ class TrackWidget (QWidget, Ui_Form):
         self.setupUi(self)
         self.mute = True
         self.velocity = 0
-        self.instrument = ''
+        self.instrument = 'P'
 
         self.pushButton_mute_track.clicked.connect(self.mute_track)
 
-    def instrument_track(self):
+    def get_instrument(self):
         if self.comboBox_track.currentIndex() == 0:
             self.instrument = 'P'
         elif self.comboBox_track.currentIndex() == 1:
@@ -23,6 +23,8 @@ class TrackWidget (QWidget, Ui_Form):
             self.instrument = 'G'
         else:
             self.instrument = 'T'
+
+        return self.instrument
 
     def mute_track(self):
         if self.mute == True:
@@ -36,3 +38,4 @@ class TrackWidget (QWidget, Ui_Form):
 
     def get_velocity(self):
         self.velocity = self.horizontalSlider_track.value()
+        return self.velocity
