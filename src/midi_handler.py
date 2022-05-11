@@ -51,8 +51,8 @@ class MIDIHandler:
         self.notes = []
         self.aux_notes = []
 
-        for track in midi.tracks:
-            # print('Track:', idt)
+        for idt, track in enumerate(midi.tracks):
+            print('Track:', idt)
             self.notes = []
             self.aux_notes = []
             self.time = 0
@@ -60,10 +60,12 @@ class MIDIHandler:
             self.tempo.append({'tempo': 0, 'time': self.duration * 1E6})
             if self.tempo:
                 self.tempo_idx = 0
-            for message in track:
+            for idm, message in enumerate(track):
+                if idm == 2158:
+                    print('acá')
                 self.midi_message_switch.get(message.type, self.other)(self, message)
                 if not message.is_meta:
-                    # print(idm)
+                    print(idm)
                     self.time = self.time + message.time
                 else:
                     self.meta_time = self.meta_time + message.time
@@ -87,6 +89,8 @@ class MIDIHandler:
         # print("Note OFF")
         r = True
         idn = self.find_note(msg)
+        if idn == 2162:
+            print('aqui')
         if idn is not None:
             while self.notes[idn].end_time == 0:
                 if self.notes[idn].start_time > self.duration * 1E6:
@@ -99,6 +103,10 @@ class MIDIHandler:
                     self.tempo_idx = self.tempo_idx + 1
                 else:
                     self.tempo_idx = self.tempo_idx - 1
+                if self.notes[idn].end_time >= self.duration * 1E6:
+                    self.notes[idn].end_time = self.duration * 1E6
+                    if self.notes[idn].start_time >= self.duration * 1E6:
+                        self.notes[idn].start_time = self.duration * 1E6 - 1
             self.notes[idn].duration = self.notes[idn].end_time - self.notes[idn].start_time
             self.aux_notes[idn].note = -1
         else:
