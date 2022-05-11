@@ -1,8 +1,9 @@
 from Frontend.scr.track import TrackWidget
 from Frontend.counter import Counter
-#from src.backend import *
+from src.backend import *
 from PyQt5.QtWidgets import *
 from Frontend.scr.ui.menu import Ui_Form
+from pathlib import Path
 
 
 class MenuWindow (QWidget, Ui_Form):
@@ -11,7 +12,7 @@ class MenuWindow (QWidget, Ui_Form):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
 
-        #self.back = backend()
+        self.back = backend()
         self.track_array = []
         self.first_time = 0
 
@@ -46,8 +47,9 @@ class MenuWindow (QWidget, Ui_Form):
         print("upload")
         filename = QFileDialog.getOpenFileNames()
         self.path = filename[0][0]
-        print(self.path)
-        #self.back.update_path(self.path)
+        self.path_name = Path(self.path)
+
+        self.back.update_path(self.path_name)
         self.ammount_of_tracks = self.back.quantity_of_tracks()
         print("cantidad de tracks:")
         print(self.ammount_of_tracks)
@@ -60,7 +62,7 @@ class MenuWindow (QWidget, Ui_Form):
 
         self.counter = Counter(self, self.back.song.duration)
 
-        #self.horizontalSlider_Track.setMaximum(self.back.song.duration)
+        self.horizontalSlider_Track.setMaximum(self.back.song.duration)
         print(self.horizontalSlider_Track.value())
 
     def save_file(self):
