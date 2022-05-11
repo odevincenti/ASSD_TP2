@@ -51,8 +51,8 @@ class MIDIHandler:
         self.notes = []
         self.aux_notes = []
 
-        for idt, track in enumerate(midi.tracks):
-            print('Track:', idt)
+        for track in midi.tracks:
+            # print('Track:', idt)
             self.notes = []
             self.aux_notes = []
             self.time = 0
@@ -60,10 +60,10 @@ class MIDIHandler:
             self.tempo.append({'tempo': 0, 'time': self.duration * 1E6})
             if self.tempo:
                 self.tempo_idx = 0
-            for idm, message in enumerate(track):
+            for message in track:
                 self.midi_message_switch.get(message.type, self.other)(self, message)
                 if not message.is_meta:
-                    print(idm)
+                    # print(idm)
                     self.time = self.time + message.time
                 else:
                     self.meta_time = self.meta_time + message.time
