@@ -74,6 +74,7 @@ class MenuWindow (QWidget, Ui_Menu):
         self.counter.reset_loop = True
         for i in range(1, self.ammount_of_tracks + 1):
             self.back.update_track(i-1, self.track_array[i-1].instrument, self.track_array[i-1].mute, self.track_array[i-1].velocity)
+        self.counter.reset()
         self.back.process_song()
 
 
