@@ -97,15 +97,14 @@ class PartialNote:
 
     def get_amplitude_array(self, note):
         # Se obtiene la ADSR del parcial y lo guarda en self.output_signal
+        if(note.duration == 0):
+            print("error la duración es cero")
 
-        final_ASDR_time = self.get_final_ASDR_time(note) * 1E-6  # Guardo el tiempo en el cual la ADSR del parcial se hará 0.
-        self.final_ASDR_time = final_ASDR_time
-
-        data = self.get_adsr(note, final_ASDR_time)
+        data = self.get_adsr(note)
 
         self.output_signal = data
 
-    def get_adsr(self, note, final_ASDR_time):
+    def get_adsr(self, note):
 
         ###################################################################
         # QUE ES UN ADSR? (Envolvente: Variación de la intensidad sonora)
@@ -115,64 +114,60 @@ class PartialNote:
         #  una de las partes durante la evolución temporal del sonido, desde su inicio hasta su final.
         # Paso la duracion de la nota que venia del objeto nota en microsegundos a segundos
         note_dur_seg = note.duration * 1E-6
+        #Se divide el arreglo en las etapas
+        #  stageA, stageD, stageS, stageR = np.split(note_out, [D_time_index, S_time_index, R_time_index])
+        #Spliteamos el tiempo de duracion de la nota entre las 4 etapas.
+        # #TIMPO TOTAL DE ADSR BASE HARDCODEADO DE LA FLAUTA
+        t_tot_ADSRn = self.off_time  # Offtime tiene el tiempo donde finaliza
 
-        # Si la duracion de la nota es mas grande que el tiempo total de las 4 etadpas
-        if (note_dur_seg >= self.S_time):
-
-            #Se divide el arreglo en las etapas
-            #  stageA, stageD, stageS, stageR = np.split(note_out, [D_time_index, S_time_index, R_time_index])
-            #Spliteamos el tiempo de duracion de la nota entre las 4 etapas.
-
-            #TIMPO TOTAL DE ADSR BASE HARDCODEADO DE LA FLAUTA
-            t_tot_ADSRn = self.off_time  # Offtime tiene el tiempo donde finaliza
-
-            #TIEMPO DE CADA ETAPA float
-            # Agarro la cantidad de elementos que tiene el time base de la nota y con la ADSR estandar y el porcentaje que
-            # correponde a cada etapa saco cuantos elementos tiene el time base de cada tapa. Es decir como se repaerte el time base
-            # en las diferentes etapas
-            ola = np.size(note.time_base)
-
-            stageA_elements = int((self.D_time / t_tot_ADSRn)                 * np.size(note.time_base))  # stageA% * time_base
-            stageD_elements = int(((self.S_time - self.D_time) / t_tot_ADSRn) * np.size(note.time_base))  # same
-            stageS_elements = int((self.R_time - self.S_time) / t_tot_ADSRn   * np.size(note.time_base))  # same
-            stageR_elements = int((t_tot_ADSRn - self.R_time) / t_tot_ADSRn   * np.size(note.time_base))  # same
-
-            #LINSPACE DE CADA ETAPA
-            stageA_x = np.linspace(0 , self.D_time, stageA_elements)
-            stageD_x = np.linspace(self.D_time, self.S_time, stageD_elements)
-            stageS_x = np.linspace(self.S_time, self.R_time, stageS_elements)
-            stageR_x = np.linspace(self.R_time, self.off_time , stageR_elements)
-
-            # Se calculan las etapas de la ADSR --> Son las rectas que hacen al envelope
-            stageA = stageA_x * self.A_pendiente
-            stageD = (stageD_x - self.D_time)  * self.D_pendiente + self.D_amp
-            stageS = (stageS_x - self.S_time)* self.S_pendiente + self.S_amp
-            stageR = (stageR_x - self.R_time) * self.R_pendiente + self.R_amp
-
-            ADSR_data = np.concatenate([stageA, stageD, stageS, stageR])  # Se concatenan las etapas
-
-            # IMPORTANTE ! ! !
-            # CHECK SIZE LINSPACE DE ADSR MATCHING EL LINSPACE DE NOTA note.timebase
-            difference = np.size(note.time_base) - np.size(ADSR_data)  # Chequea diferencias de longitudes para poder sumar
-            zeros = np.zeros(abs(difference))  # Crea un arreglo de ceros que permita igualar las longitudes
-            print("\n.................... CHECKING SIZE I...........................")
-            print("\nTIME BASE SIZE = " , np.size(note.time_base) )
-            print("\nADSR SIZE = " , np.size(ADSR_data))
-            print("\n diferencia = " , difference)
-
-            if (difference > 0):  # Si el timebase es mas grande que el ADSR envelope le agrego ceros :D
-                ADSR_data = np.concatenate([ADSR_data, zeros])  # Se concatena y se suma
-
-            elif (difference < 0):  # Si el ADSR envelope es mas grande que el timebase [D:] le sacamos a la etapa de sustain la diferencia
-                ADSR_data = ADSR_data[:difference]
+        #TIEMPO DE CADA ETAPA float
+        # Agarro la cantidad de elementos que tiene el time base de la nota y con la ADSR estandar y el porcentaje que
+        # correponde a cada etapa saco cuantos elementos tiene el time base de cada tapa. Es decir como se repaerte el time base
+        # en las diferentes
+        note.create_time_base()
 
 
-            difference = np.size(note.time_base) - np.size(ADSR_data)
+        stageA_elements = int((self.D_time / t_tot_ADSRn)                 * np.size(note.time_base))  # stageA% * time_base
+        stageD_elements = int(((self.S_time - self.D_time) / t_tot_ADSRn) * np.size(note.time_base))  # same
+        stageS_elements = int((self.R_time - self.S_time) / t_tot_ADSRn   * np.size(note.time_base))  # same
+        stageR_elements = int((t_tot_ADSRn - self.R_time) / t_tot_ADSRn   * np.size(note.time_base))  # same
 
-            print("\n..................... CHECKING SIZE II ...........................")
-            print("\nTIME BASE SIZE = " , np.size(note.time_base) )
-            print("\nADSR SIZE = " , np.size(ADSR_data))
-            print("\n diferencia = " , difference)
+        #LINSPACE DE CADA ETAPA
+        stageA_x = np.linspace(0 , self.D_time, stageA_elements)
+        stageD_x = np.linspace(self.D_time, self.S_time, stageD_elements)
+        stageS_x = np.linspace(self.S_time, self.R_time, stageS_elements)
+        stageR_x = np.linspace(self.R_time, self.off_time , stageR_elements)
+
+        # Se calculan las etapas de la ADSR --> Son las rectas que hacen al envelope
+        stageA = stageA_x * self.A_pendiente
+        stageD = (stageD_x - self.D_time)  * self.D_pendiente + self.D_amp
+        stageS = (stageS_x - self.S_time)* self.S_pendiente + self.S_amp
+        stageR = (stageR_x - self.R_time) * self.R_pendiente + self.R_amp
+
+        ADSR_data = np.concatenate([stageA, stageD, stageS, stageR])  # Se concatenan las etapas
+
+        # IMPORTANTE ! ! !
+        # CHECK SIZE LINSPACE DE ADSR MATCHING EL LINSPACE DE NOTA note.timebase
+        difference = np.size(note.time_base) - np.size(ADSR_data)  # Chequea diferencias de longitudes para poder sumar
+        zeros = np.zeros(abs(difference))  # Crea un arreglo de ceros que permita igualar las longitudes
+ #       print("\n.................... CHECKING SIZE I...........................")
+  #      print("\nTIME BASE SIZE = " , np.size(note.time_base) )
+   #     print("\nADSR SIZE = " , np.size(ADSR_data))
+    #    print("\n diferencia = " , difference)
+
+        if (difference > 0):  # Si el timebase es mas grande que el ADSR envelope le agrego ceros :D
+            ADSR_data = np.concatenate([ADSR_data, zeros])  # Se concatena y se suma
+
+        elif (difference < 0):  # Si el ADSR envelope es mas grande que el timebase [D:] le sacamos a la etapa de sustain la diferencia
+            ADSR_data = ADSR_data[:difference]
+
+
+        difference = np.size(note.time_base) - np.size(ADSR_data)
+
+ #       print("\n..................... CHECKING SIZE II ...........................")
+  #      print("\nTIME BASE SIZE = " , np.size(note.time_base) )
+   #     print("\nADSR SIZE = " , np.size(ADSR_data))
+    #    print("\n diferencia = " , difference)
 
         return ADSR_data
 

@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from src.Partials import PartialNote
+from Partials import PartialNote
 import os
 
 
@@ -33,6 +33,7 @@ class ProcessedNote:
         ################################################################################################################
         # Crear la señal de salida (self.note_signal) del objeto nota que ingrese como parametro
         amplitude_array = None
+
      #   note.create_time_base()
 
         #ADDITIVE SYNTHESIS#######################################################################################
@@ -51,12 +52,12 @@ class ProcessedNote:
 
                 #Un arreglo que va de cero a el tiempo maximo del parcial
                 time_vals = note.time_base
-                print("\n TAMAÑO TIME BASE: ",np.size(time_vals),"\n")
-                print("\n TAMAÑO DE UN PARTIAL:" , np.size(self.PartialNotes[i].output_signal),"\n")
+               # print("\n TAMAÑO TIME BASE: ",np.size(time_vals),"\n")
+               # print("\n TAMAÑO DE UN PARTIAL:" , np.size(self.PartialNotes[i].output_signal),"\n")
 
                 #Multiplico la ADSR con el seno de cada parcial
                 output_sine = ampli_partial * self.PartialNotes[i].output_signal * np.sin(freq * 2 * np.pi * time_vals - 180 * phase / np.pi)
-                print("\n TAMAÑO OUTPUT SINE: ", np.size(output_sine) ,"\n")
+               # print("\n TAMAÑO OUTPUT SINE: ", np.size(output_sine) ,"\n")
 
                 self.PartialNotes[i].output_signal = None  # Libero la memoria
 

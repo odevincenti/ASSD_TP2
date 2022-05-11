@@ -1,7 +1,7 @@
 import numpy as np
 
 class Note:
-    def __init__(self, note, start_time, duration, end_time, velocity, fs=100E3):
+    def __init__(self, note, start_time, duration, end_time, velocity, fs=44.1E3):
         self.note = note
         self.freq = self.note2freq(note)
         self.start_time = start_time            # Tiempo en microsegundos

@@ -1,13 +1,15 @@
 import numpy as np
 
-from src.SongClass import *
+from SongClass import *
 
 #import pyaudio
-import sounddevice as sa
+import simpleaudio as sa
 
 from scipy.io import wavfile
 
-from Eco.py import effect
+from Efecto_audio.Eco import effect
+
+from ProcessedNote import ProcessedNote
 
 
 
@@ -18,10 +20,11 @@ class backend():
     def __init__(self):
         self.song = Song()
         self.effect = effect()
+        self.process_note = ProcessedNote()
         #self.additive = Additive()
 
     def synthesize_song(self):
-        self.song.output_signal = []
+        self.song.output_signal = np.zeros(int(self.song.fs*self.song.duration))
         for i in range(len(self.song.tracks)):
             if self.song.tracks[i].activate:
                 self.synthesize_track(self.song.tracks[i])
@@ -37,16 +40,19 @@ class backend():
             print(self.song.duration)
 
             for i, note in enumerate(track.notes):
+                print("nota numero:", i, "\n")
                 self.synthesize_note(note, track.instrument)
                 z=0
-                print(int(note.end_time))
-                print(int(note.end_time*1E-6*self.song.fs)-1)
+                #print(int(note.end_time))
+                #print(int(note.end_time*1E-6*self.song.fs)-1)
                 for y in range(int(note.start_time*1E-6*self.song.fs), int(note.end_time*1E-6*self.song.fs)-1, 1):
                     if y == 55078318-1:
                         print(i)
                     track.signal_out[y] = track.signal_out[y] + note.note_signal[z]
+
                     z= z+1
                     #print("en el for pa ")
+                #print(np.abs(track.signal_out))
                 '''
                 if  track.notes[i].start_time != 0:
                     diference = int(track.notes[i].start_time*track.notes[i].fs*1E-6)
@@ -60,12 +66,11 @@ class backend():
                 track.signal_out += track.notes[i].note_signal
                 '''
     def synthesize_note(self, note, instrument):
-        print("xd")
-        note.note_signal = np.zeros(int(note.duration*note.fs*1E-6))
+        print("entre a synthesis")
+        self.process_note.create_note(note, 'F')
+        print(note.note_signal)
 
         # llamar a create_note(self, note, instrument)
-            # metodo: A - Additive
-            #         K - Karpulus Strong
             # En un futuro no muy lejano create_note recibe un parámetro metodo que diga cual metodo de sintetizar usa
 
 
@@ -77,7 +82,8 @@ class backend():
     def play_signal(self, signal):
         signal *= 32767 / np.max(np.abs(signal))
         signal = signal.astype(np.int16)
-        self.play = sa.play_buffer(signal, 1, 2, self.song.fs)
+        self.play = sa.play_buffer(signal, 1, 2, int(self.song.fs))
+        self.play.wait_done()
     ### Interfaz con el back
 
     # una vez que desde el front se modifico la clase Song , llamando a track.update si es el mismo path anterior
@@ -145,5 +151,8 @@ class backend():
 
 
 test = backend()
-test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\RodrigoAdagio.mid")
+test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\Undertale_-_Megalovania.mid")
+
 test.process_song()
+print(np.max(np.abs(test.song.output_signal)))
+test.play_song()
