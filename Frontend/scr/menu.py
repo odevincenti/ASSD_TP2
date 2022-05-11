@@ -71,11 +71,6 @@ class MenuWindow (QWidget, Ui_Menu):
 
     def sintetizar(self):
         print("sintetizar")
-        for i in range(1, 12):
-            self.aux_track = TrackWidget()
-            self.aux_track.label_track.setText("Track " + str(i))
-            self.track_array.append(self.aux_track)
-            self.Track_Widget.layout().addWidget(self.aux_track)
         #self.back.process_song()
 
 
