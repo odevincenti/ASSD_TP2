@@ -1,15 +1,15 @@
 import numpy as np
 
-from src.SongClass import *
+from SongClass import *
 
 #import pyaudio
 import simpleaudio as sa
 
 from scipy.io import wavfile
 
-from src.Efecto_audio.Eco import effect
+from Efecto_audio.Eco import effect
 
-from src.ProcessedNote import ProcessedNote
+from ProcessedNote import ProcessedNote
 
 class backend():
 
@@ -97,7 +97,7 @@ class backend():
 
     def echo_effect(self, g, delay):
         if self.song.output_signal is not None:
-            effect.update_params(g, delay, self.song.output_signal, self.song.fs)
+            effect.update_params(g, delay, self.song.output_signal, self.song.fs, 500)
             effect.filter_comb()
             self.song.output_signal = effect.get_output_signal()
         else:
@@ -149,10 +149,12 @@ class backend():
         signal = self.song.output_signal(32767 / np.max(np.abs(self.song.output_signal)))
         signal = signal.astype(np.int16)
         wavfile.write(filename, self.song.fs, signal)
+'''
+test = backend()
+test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\Undertale_-_Megalovania.mid")
 
-#test = backend()
-#test.update_path(r"C:\Users\User\Desktop\Universidad\3er año- 2do cuatri\ASSD\tp2\midi_samples\UndertaleMegalovania.mid")
-
-#test.process_song()
-#print(np.max(np.abs(test.song.output_signal)))
-#test.play_song()
+test.process_song()
+#test.echo_effect(0.7 , 20)
+print(np.max(np.abs(test.song.output_signal)))
+test.play_song()
+'''
