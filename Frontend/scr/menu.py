@@ -62,7 +62,7 @@ class MenuWindow (QWidget, Ui_Menu):
 
         self.counter = Counter(self, self.back.song.duration)
 
-        self.horizontalSlider_Track.setMaximum(self.back.song.duration)
+        self.horizontalSlider_Track.setMaximum(int(self.back.song.duration))
         print(self.horizontalSlider_Track.value())
 
     def save_file(self):
