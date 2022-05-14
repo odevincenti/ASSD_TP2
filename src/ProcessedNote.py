@@ -3,14 +3,12 @@ import numpy as np
 from src.Partials import PartialNote
 from pathlib import Path
 from src.KarplusStrong import KarplusStrong
-from src.SampleSynth import SampleSynth
 
 class ProcessedNote:
     def __init__(self):
         self.nota = None
         self.PartialNotes = []  # Arreglo de las parciales individuales (forma de notas)
         self.ks = KarplusStrong()
-        self.ssythn = SampleSynth()
         self.track_id = 0
 
     def create_note(self, note, instrument):
@@ -91,10 +89,6 @@ class ProcessedNote:
             self.ks.gen_note(note, instrument)
             # note.note_signal = self.ks.instrument_switch.get(instrument, self.other)(self, note)
             # print("En un futuro tendremos karpulus yo lo se")
-
-        elif instrument == 'X':
-            print('Sintesis por Samples')
-            self.ssythn.gen_note(note,instrument)
 
 
 
