@@ -40,5 +40,11 @@
     <Text Include="xn_1000_muestras.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Xfourier_1000.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Xfourier_200.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

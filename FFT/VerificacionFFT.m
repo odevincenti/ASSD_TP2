@@ -1,17 +1,16 @@
 % MUESTREAR SEÑAL 
-[n , f_n] = MuestrearSenial();
+F = 10; %Frecuencia de entrada
+Fs = 200; %Frecuencia de muestreo y cantidad de muestras
+[n , f_n] = MuestrearSenial(F,Fs);
 size(n,2);
 
 % HACER FFT CON MATLAB
 Matlab_F = Matlab_FFT(f_n, size(n,2));
 
 % LEER txt CON FFT de C++
-Mi_FFT(size(n,2));
+Mi_FFT(size(n,2),Fs);
 
-
-function [nT , xn] = MuestrearSenial()
-    F = 10; %Frecuencia de entrada
-    Fs = 200; %Frecuencia de muestreo y cantidad de muestras
+function [nT , xn] = MuestrearSenial(F,Fs)
     f = F/Fs; 
     A = 2;  %Amplitud
     Fase = 0;  %theta
@@ -58,9 +57,17 @@ function Matlab_F = Matlab_FFT(f_n, cantMuestras)
     grid
 end
 
-function Mi_FFT(cantMuestras)
-   %T = readtable('Xfourier.txt','ReadVariableNames',false);
-    misResults = fopen('Xfourier.txt','r');
+function Mi_FFT(cantMuestras, cantMuestrasID)
+    switch cantMuestrasID
+        case 45
+            path = 'Xfourier_45.txt';
+        case 200 
+            path = 'Xfourier_200.txt'
+        case 1000
+            path = 'Xfourier_1000.txt';
+    end
+    
+    misResults = fopen(path,'r');
     A = textscan(misResults,'%s');
     fclose(misResults);
     A = str2double(A{1});

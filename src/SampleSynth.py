@@ -67,8 +67,6 @@ class SampleSynth:
         transposed = input_data[indices.astype(int)]
         return transposed.astype(input_data.dtype)
 
-
-
     def stretch(self, Y , factor , nfft=2048):
         #strecheo a Y por un factor
         stft = librosa.core.stft(Y, n_fft=nfft).transpose()

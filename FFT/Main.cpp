@@ -11,9 +11,9 @@ using namespace std;
 
 int main() {
 
-	int MUESTRAS = 1000;
+	int MUESTRAS = 45;
 
-	/* Busco la señal f(n) con N muestras*/
+	/* Busco la seï¿½al f(n) con N muestras*/
 	ifstream f_n_txt;
 	f_n_txt.open("xn_" + to_string(MUESTRAS) + "_muestras.txt", ios::in);
 	string line;
